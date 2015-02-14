@@ -8,7 +8,7 @@ function preload() {
 	game.load.image('star', 'assets/star.png');
 	game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
 }
-
+// testing git
 function create() {
 	game.add.sprite(0,0,'sky');
 	game.add.sprite(0,0,'star');
