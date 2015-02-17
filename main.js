@@ -19,7 +19,8 @@ var score = 0;
 var scoreText;
 
 function create() {
-
+	//changes bounds of the world
+	game.world.setBounds(0,0,1000,game.world.height);
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -58,6 +59,9 @@ function create() {
     player.body.bounce.y = 0.2;
     player.body.gravity.y = 300;
     player.body.collideWorldBounds = true;
+    //sets camera to follow
+    game.camera.follow(player);
+
 
     //  Our two animations, walking left and right.
     player.animations.add('left', [0, 1, 2, 3], 10, true);
