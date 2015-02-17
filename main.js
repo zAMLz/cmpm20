@@ -7,6 +7,7 @@ function preload() {
     game.load.image('ground', 'assets/platform.png');
     game.load.image('star', 'assets/star.png');
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+    game.load.image('fulldome', 'assets/fulldome.png');
 
 }
 
@@ -20,12 +21,12 @@ var scoreText;
 
 function create() {
 	//changes bounds of the world
-	game.world.setBounds(0,0,1000,game.world.height);
+	game.world.setBounds(0,0,1400,game.world.height);
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //  A simple background for our game
-    game.add.sprite(0, 0, 'sky');
+    game.add.tileSprite(0, 0,1400,game.world.height, 'fulldome');
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = game.add.group();
@@ -37,7 +38,7 @@ function create() {
     var ground = platforms.create(0, game.world.height - 64, 'ground');
 
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    ground.scale.setTo(2, 2);
+    ground.scale.setTo(200, 2);
 
     //  This stops it from falling away when you jump on it
     ground.body.immovable = true;
