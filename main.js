@@ -92,6 +92,34 @@ function create() {
 
     //  Our controls.
     cursors = game.input.keyboard.createCursorKeys();
+	
+	//pause menu
+	pause_label = game.add.text(500 - 100, 20, 'Pause', { font: '24px Arial', fill: '#fff' });
+    pause_label.inputEnabled = true;
+    pause_label.events.onInputUp.add(function () {
+        // When the paus button is pressed, we pause the game
+        game.paused = true;
+		
+		// click on diamond to unpause
+		
+		diamond = game.add.sprite(game.world.width/2, game.world.height/2, 'diamond');
+		diamond.anchor.setTo(0.5,0.5);
+		});
+		
+	game.input.onDown.add(unpause, self);
+	
+	function unpause(event) {
+		if(game.paused) {
+		
+			var x1 = game.world.width/2 - 50, x2 = game.world.width/2 + 50;
+			var y1 = game.world.height/2 - 50, y2 = game.world.height/2 + 50;
+			
+			if(event.x > x1 && event.x < x2 && event.y > y1 && event.y < y2 ){
+				diamond.destroy();
+				game.paused = false;
+				}
+				}
+				};
     
 }
 
