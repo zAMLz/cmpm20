@@ -8,6 +8,7 @@ function preload() {
     game.load.image('star', 'assets/star.png');
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
     game.load.image('fulldome', 'assets/fulldome.png');
+    game.load.image('diamond','assets/diamond.png');
 
 }
 
@@ -94,7 +95,7 @@ function create() {
     cursors = game.input.keyboard.createCursorKeys();
 	
 	//pause menu
-	pause_label = game.add.text(500 - 100, 20, 'Pause', { font: '24px Arial', fill: '#fff' });
+	pause_label = game.add.text(400, 20, 'Pause', { font: '24px Arial', fill: '#fff' });
     pause_label.inputEnabled = true;
     pause_label.events.onInputUp.add(function () {
         // When the paus button is pressed, we pause the game
@@ -131,6 +132,13 @@ function update() {
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     game.physics.arcade.overlap(player, stars, collectStar, null, this);
+
+    //  To move the UI along with the camera 
+    console.log("X: "+game.camera.x+" Y:"+game.camera.y);
+    scoreText.x = game.camera.x+16;
+    scoreText.y = game.camera.y+16;
+    pause_label.x = game.camera.x+400;
+    pause_label.y = game.camera.y+20;
 
     //  Reset the players velocity (movement)
     player.body.velocity.x = 0;
