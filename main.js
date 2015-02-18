@@ -103,7 +103,7 @@ function create() {
 		
 		// click on diamond to unpause
 		
-		diamond = game.add.sprite(game.world.width/2, game.world.height/2, 'diamond');
+		diamond = game.add.sprite(game.camera.x+400, game.camera.y+300, 'diamond');
 		diamond.anchor.setTo(0.5,0.5);
 		});
 		
@@ -112,8 +112,8 @@ function create() {
 	function unpause(event) {
 		if(game.paused) {
 		
-			var x1 = game.world.width/2 - 50, x2 = game.world.width/2 + 50;
-			var y1 = game.world.height/2 - 50, y2 = game.world.height/2 + 50;
+			var x1 = game.camera.x+400 - 50, x2 = game.camera.x+400 + 50;
+			var y1 = game.camera.y+300 - 50, y2 = game.camera.y+300 + 50;
 			
 			if(event.x > x1 && event.x < x2 && event.y > y1 && event.y < y2 ){
 				diamond.destroy();
