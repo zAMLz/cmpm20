@@ -116,7 +116,7 @@ function create() {
     	//pause_label_help.events.onInputUp.add(exitgame, this);	//Exit Function takes the game back to the menu
 		});
 		
-	//game.input.onDown.add(unpause, self);
+	game.input.onDown.add(unpause, self);
 	
 	function unpause(event) {
 		if(game.paused) {
