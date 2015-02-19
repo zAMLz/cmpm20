@@ -89,39 +89,43 @@ function create() {
     }
 
     //  The score
-    scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+    scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });
 
     //  Our controls.
     cursors = game.input.keyboard.createCursorKeys();
 	
 	//pause menu
-	pause_label = game.add.text(400, 20, 'Pause', { font: '24px Arial', fill: '#fff' });
+	pause_label = game.add.text(700, 20, 'Pause', { font: '32px Arial', fill: '#fff' });
     pause_label.inputEnabled = true;
     pause_label.events.onInputUp.add(function () {
         // When the paus button is pressed, we pause the game
         game.paused = true;
-		
+		console.log("GAME PAUSED IN CAMERA>> X: "+game.camera.x+" Y:"+game.camera.y);
 		// click on diamond to unpause
 		
-		diamond = game.add.sprite(game.camera.x+400, game.camera.y+300, 'diamond');
-		diamond.anchor.setTo(0.5,0.5);
+		pause_label_continue = game.add.text(game.camera.x+400, game.camera.y+200, 'Continue',{ font: '32px Arial', fill: '#fff' });
+		pause_label_continue.anchor.setTo(0.5,0.5);
+		pause_label_continue.events.onInputUp.add(unpause, this);
+
+		pause_label_help = game.add.text(game.camera.x+400, game.camera.y+250, 'Help',{ font: '32px Arial', fill: '#fff' });
+    	pause_label_help.anchor.setTo(0.5,0.5);
+    	//pause_label_help.events.onInputUp.add(helpmenu, this);	//HELP FUNCTION LOADS THE HELP STUFF
+
+    	pause_label_exit = game.add.text(game.camera.x+400, game.camera.y+300, 'Exit',{ font: '32px Arial', fill: '#fff' });
+    	pause_label_exit.anchor.setTo(0.5,0.5);
+    	//pause_label_help.events.onInputUp.add(exitgame, this);	//Exit Function takes the game back to the menu
 		});
 		
-	game.input.onDown.add(unpause, self);
+	//game.input.onDown.add(unpause, self);
 	
 	function unpause(event) {
 		if(game.paused) {
-		
-			var x1 = game.camera.x+400 - 50, x2 = game.camera.x+400 + 50;
-			var y1 = game.camera.y+300 - 50, y2 = game.camera.y+300 + 50;
-			
-			if(event.x > x1 && event.x < x2 && event.y > y1 && event.y < y2 ){
-				diamond.destroy();
+				pause_label_continue.destroy();
+				pause_label_help.destroy();
+				pause_label_exit.destroy();
 				game.paused = false;
-				}
-				}
-				};
-    
+		}	
+	};
 }
 
 function update() {
@@ -134,10 +138,9 @@ function update() {
     game.physics.arcade.overlap(player, stars, collectStar, null, this);
 
     //  To move the UI along with the camera 
-    console.log("X: "+game.camera.x+" Y:"+game.camera.y);
     scoreText.x = game.camera.x+16;
     scoreText.y = game.camera.y+16;
-    pause_label.x = game.camera.x+400;
+    pause_label.x = game.camera.x+700;
     pause_label.y = game.camera.y+20;
 
     //  Reset the players velocity (movement)
