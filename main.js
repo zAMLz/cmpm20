@@ -103,7 +103,7 @@ function create() {
 		
 		// click on diamond to unpause
 		
-		diamond = game.add.sprite(game.camera.x+400, game.camera.y+300, 'diamond');
+		diamond = game.add.text(game.camera.x+400, game.camera.y+300, 'Continue',{ font: '24px Arial', fill: '#fff' });
 		diamond.anchor.setTo(0.5,0.5);
 		});
 		
@@ -118,10 +118,9 @@ function create() {
 			if(event.x > x1 && event.x < x2 && event.y > y1 && event.y < y2 ){
 				diamond.destroy();
 				game.paused = false;
-				}
-				}
-				};
-    
+			}
+		}	
+	};
 }
 
 function update() {
