@@ -59,8 +59,8 @@ create: function() {
     this.physics.arcade.enable(player);
 
     //  Player physics properties. Give the little guy a slight bounce.
-    player.body.bounce.y = 0.2;
-    player.body.gravity.y = 300;
+    player.body.bounce.y = 0.0;
+    player.body.gravity.y = 400;
     player.body.collideWorldBounds = true;
     //sets camera to follow
     this.camera.follow(player);
@@ -118,6 +118,7 @@ create: function() {
 		});
 		
 	//this.input.onDown.add(unpause, self);
+
 	
 	function unpause(event) {
 		if(this.paused) {
