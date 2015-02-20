@@ -1,4 +1,5 @@
 var Game = {}
+var menuText;
 Game.mainmenu = function (game){
 	this.playButton = null;
 };
@@ -11,6 +12,7 @@ Game.mainmenu.prototype = {
 
 	create: function(){
 		this.add.sprite(0,0,'sky');
+		menuText = this.add.text(380, 150, 'Main Menu', { fontSize: '32px', fill: '#fff' });
 		this.playButton=this.add.button(400,300, 'play',this.startGame,this);
 	},
 	startGame: function(pointer){
