@@ -3,10 +3,10 @@
 var player;
 var platforms;
 var cursors;
-
 var stars;
 var score = 0;
 var scoreText;
+var diamond;
 Game.main = function(game){}
 Game.main.prototype={
 preload: function () {
@@ -88,7 +88,9 @@ create: function() {
         //  This just gives each star a slightly random bounce value
         star.body.bounce.y = 0.7 + Math.random() * 0.2;
     }
-
+    diamond = this.add.sprite(300, this.world.height-150, 'diamond');
+    this.physics.arcade.enable(diamond);
+    diamond.body.gravity.y = 300;
     //  The score
     scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });
 
@@ -135,7 +137,8 @@ update: function() {
     //  Collide the player and the stars with the platforms
     this.physics.arcade.collide(player, platforms);
     this.physics.arcade.collide(stars, platforms);
-
+    this.physics.arcade.collide(diamond, platforms);
+  	this.physics.arcade.overlap(player, diamond, this.endGame, null, this)
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     this.physics.arcade.overlap(player, stars, collectStar, null, this);
 
@@ -176,6 +179,9 @@ update: function() {
         player.body.velocity.y = -350;
     }
 
+},
+endGame: function(player, diamond){
+	this.state.start('gameover');
 }
 }
 function collectStar(player, star) {
@@ -186,5 +192,5 @@ function collectStar(player, star) {
     //  Add and update the score
     score += 10;
     scoreText.text = 'Score: ' + score;
-
 };
+
