@@ -11,6 +11,7 @@
     </style>
     <script src="mainmenu.js" type="text/javascript"></script>
     <script src="main.js" type="text/javascript"></script>
+    <script src="gameover.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="gameCont"></div>
@@ -21,6 +22,7 @@ window.onload = function(){
 	//var Game = {};
 	game.state.add('mainmenu', Game.mainmenu);
 	game.state.add('main', Game.main);
+	game.state.add('gameover', Game.gameover);
 	game.state.start('mainmenu');
 
 }
