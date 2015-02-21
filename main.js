@@ -18,6 +18,9 @@ preload: function () {
     this.load.image('fulldome', 'assets/fulldome.png');
     this.load.image('diamond','assets/diamond.png');
 
+    this.load.image('check','assets/check.png');
+    this.load.physics('physicsdata','physics.json');
+
 },
 
 
@@ -25,13 +28,26 @@ create: function() {
 	//changes bounds of the world
 	this.world.setBounds(0,0,1400,this.world.height);
     //  We're going to be using physics, so enable the Arcade Physics system
-    this.physics.startSystem(Phaser.Physics.ARCADE);
+    this.physics.startSystem(Phaser.Physics.P2JS);
+    this.physics.p2.gravity.y = 400;
 
     //  A simple background for our this
     this.add.tileSprite(0, 0,1400,this.world.height, 'fulldome');
 
-    //  The platforms group contains the ground and the 2 ledges we can jump on
+    var ground = this.add.sprite(0, this.world.height - 64,'ground');
+    this.physics.p2.enableBody(ground,true);
+
+    var checkmark = this.add.sprite(400,128,'check');
+    this.physics.p2.enableBody(checkmark,true);
+    checkmark.body.clearShapes();
+    checkmark.body.loadPolygon('physicsdata','check');
+
     platforms = this.add.group();
+    platforms.add(ground);
+    platforms.add(checkmark);
+
+    //  The platforms group contains the ground and the 2 ledges we can jump on
+    /*platforms = this.add.group();
 
     //  We will enable physics for any object that is created in this group
     platforms.enableBody = true;
@@ -50,21 +66,18 @@ create: function() {
     ledge.body.immovable = true;
 
     ledge = platforms.create(-150, 250, 'ground');
-    ledge.body.immovable = true;
+    ledge.body.immovable = true;*/
 
     // The player and its settings
     player = this.add.sprite(32, this.world.height - 150, 'dude');
 
     //  We need to enable physics on the player
-    this.physics.arcade.enable(player);
+    this.physics.p2.enable(player);
 
-    //  Player physics properties. Give the little guy a slight bounce.
-    player.body.bounce.y = 0.0;
-    player.body.gravity.y = 400;
     player.body.collideWorldBounds = true;
     //sets camera to follow
-    this.camera.follow(player);
 
+    this.camera.follow(player);
 
     //  Our two animations, walking left and right.
     player.animations.add('left', [0, 1, 2, 3], 10, true);
@@ -133,8 +146,8 @@ create: function() {
 update: function() {
 
     //  Collide the player and the stars with the platforms
-    this.physics.arcade.collide(player, platforms);
-    this.physics.arcade.collide(stars, platforms);
+    this.physics.p2.collide(player, platforms);
+    this.physics.p2.collide(stars, platforms);
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     this.physics.arcade.overlap(player, stars, collectStar, null, this);
