@@ -7,10 +7,12 @@ var stars;
 var score = 0;
 var scoreText;
 var diamond;
-Game.main = function(game){}
+Game.main = function(game){
+    this.music=null;
+}
 Game.main.prototype={
 preload: function () {
-
+    this.load.audio('tutorialmusic', 'assets/Steve_Combs_22_Thank_You_Remix.mp3');
     this.load.image('sky', 'assets/sky.png');
     this.load.image('ground', 'assets/platform.png');
     this.load.image('star', 'assets/star.png');
@@ -22,6 +24,9 @@ preload: function () {
 
 
 create: function() {
+    //adds music
+    this.music = this.add.audio('tutorialmusic');
+    this.music.play();
 	//changes bounds of the world
 	this.world.setBounds(0,0,1400,this.world.height);
     //  We're going to be using physics, so enable the Arcade Physics system
@@ -181,6 +186,7 @@ update: function() {
 
 },
 endGame: function(player, diamond){
+    this.music.stop();
 	this.state.start('gameover');
 }
 }
