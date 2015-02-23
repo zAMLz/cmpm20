@@ -3,6 +3,8 @@
 var player;
 var platforms;
 var cursors;
+var facing = 'left';
+var jumpButton;
 
 var stars;
 var score = 0;
@@ -27,79 +29,51 @@ preload: function () {
 create: function() {
 	//changes bounds of the world
 	this.world.setBounds(0,0,1400,this.world.height);
+    //  A simple background for our this
+    this.add.tileSprite(0, 0,1400,this.world.height, 'fulldome');
+
     //  We're going to be using physics, so enable the Arcade Physics system
     this.physics.startSystem(Phaser.Physics.P2JS);
     this.physics.p2.gravity.y = 400;
 
-    //  A simple background for our this
-    this.add.tileSprite(0, 0,1400,this.world.height, 'fulldome');
+    var ground = this.add.sprite(0, this.world.height - 64,'ground'); //creates the sprite
+    ground.scale.setTo(200,2);//set the scale
+    this.physics.p2.enableBody(ground,true);    //enables physics on it
+    ground.body.static = true;                  //disables gravity 
+    ground.body.fixedRotation = true;           //fixes rotation?
 
-    var ground = this.add.sprite(0, this.world.height - 64,'ground');
-    this.physics.p2.enableBody(ground,true);
-
+    //TESING purposes -- added a checkmark for lols
     var checkmark = this.add.sprite(400,128,'check');
     this.physics.p2.enableBody(checkmark,true);
     checkmark.body.clearShapes();
     checkmark.body.loadPolygon('physicsdata','check');
 
-    platforms = this.add.group();
-    platforms.add(ground);
-    platforms.add(checkmark);
-
-    //  The platforms group contains the ground and the 2 ledges we can jump on
-    /*platforms = this.add.group();
-
-    //  We will enable physics for any object that is created in this group
-    platforms.enableBody = true;
-
-    // Here we create the ground.
-    var ground = platforms.create(0, this.world.height - 64, 'ground');
-
-    //  Scale it to fit the width of the this (the original sprite is 400x32 in size)
-    ground.scale.setTo(200, 2);
-
-    //  This stops it from falling away when you jump on it
-    ground.body.immovable = true;
-
-    //  Now let's create two ledges
-    var ledge = platforms.create(400, 400, 'ground');
-    ledge.body.immovable = true;
-
-    ledge = platforms.create(-150, 250, 'ground');
-    ledge.body.immovable = true;*/
-
     // The player and its settings
     player = this.add.sprite(32, this.world.height - 150, 'dude');
-
-    //  We need to enable physics on the player
-    this.physics.p2.enable(player);
-
-    player.body.collideWorldBounds = true;
-    //sets camera to follow
-
-    this.camera.follow(player);
-
-    //  Our two animations, walking left and right.
     player.animations.add('left', [0, 1, 2, 3], 10, true);
     player.animations.add('right', [5, 6, 7, 8], 10, true);
+    
+    //  We need to enable physics on the player
+    this.physics.p2.enable(player);
+    player.body.fixedRotation = true;
+    player.body.collideWorldBounds = true;
+   
+    //sets camera to follow
+    this.camera.follow(player);
+
+    jumpButton = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
     //  Finally some stars to collect
     stars = this.add.group();
 
     //  We will enable physics for any star that is created in this group
-    stars.enableBody = true;
+    this.physics.p2.enableBody(stars,true);
 
     //  Here we'll create 12 of them evenly spaced apart
     for (var i = 0; i < 12; i++)
     {
         //  Create a star inside of the 'stars' group
         var star = stars.create(i * 70, 0, 'star');
-
-        //  Let gravity do its thing
-        star.body.gravity.y = 300;
-
-        //  This just gives each star a slightly random bounce value
-        star.body.bounce.y = 0.7 + Math.random() * 0.2;
     }
 
     //  The score
@@ -146,8 +120,8 @@ create: function() {
 update: function() {
 
     //  Collide the player and the stars with the platforms
-    this.physics.p2.collide(player, platforms);
-    this.physics.p2.collide(stars, platforms);
+    //this.physics.p2.collide(player, platforms);
+    //this.physics.p2.collide(stars, platforms);
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     this.physics.arcade.overlap(player, stars, collectStar, null, this);
@@ -163,34 +137,54 @@ update: function() {
 
     if (cursors.left.isDown)
     {
-        //  Move to the left
-        player.body.velocity.x = -150;
+        player.body.moveLeft(200);
 
-        player.animations.play('left');
+        if (facing != 'left')
+        {
+            player.animations.play('left');
+            facing = 'left';
+        }
     }
     else if (cursors.right.isDown)
     {
-        //  Move to the right
-        player.body.velocity.x = 150;
+        player.body.moveRight(200);
 
-        player.animations.play('right');
+        if (facing != 'right')
+        {
+            player.animations.play('right');
+            facing = 'right';
+        }
     }
     else
     {
-        //  Stand still
-        player.animations.stop();
+        player.body.velocity.x = 0;
 
-        player.frame = 4;
+        if (facing != 'idle')
+        {
+            player.animations.stop();
+
+            if (facing == 'left')
+            {
+                player.frame = 0;
+            }
+            else
+            {
+                player.frame = 5;
+            }
+
+            facing = 'idle';
+        }
     }
     
-    //  Allow the player to jump if they are touching the ground.
-    if (cursors.up.isDown && player.body.touching.down)
+    if (jumpButton.isDown && checkIfCanJump)
     {
-        player.body.velocity.y = -350;
+        player.body.moveUp(300);
+
     }
 
 }
 }
+
 function collectStar(player, star) {
     
     // Removes the star from the screen
@@ -199,5 +193,11 @@ function collectStar(player, star) {
     //  Add and update the score
     score += 10;
     scoreText.text = 'Score: ' + score;
+
+};
+
+function checkIfCanJump() {
+
+    
 
 };
