@@ -38,7 +38,7 @@ Game.main.prototype={
         this.physics.startSystem(Phaser.Physics.P2JS);
         this.physics.p2.gravity.y = 400;
         this.physics.p2.setImpactEvents(true);
-        this.physics.p2.restitution = 0.8;
+        this.physics.p2.restitution = 0.0;
 
         //COLLISION GROUPS -- VERY IMPORTANT (Helps keep track of which platforms the player can jump on...)
         var playerCollisionGroup = this.physics.p2.createCollisionGroup();
