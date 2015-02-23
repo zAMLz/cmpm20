@@ -48,19 +48,16 @@ Game.main.prototype={
         this.physics.p2.updateBoundsCollisionGroup();
 
         //Create a group that will use this collision group.
-        var platforms = game.add.group();
-        platforms.enableBody = true;
-        platforms.physicsBodyType = Phaser.Physics.P2JS;
 
         //Add a ground for our world
-        var ground = platforms.create(0, this.world.height - 64,'ground'); //creates the sprite
+        var ground = this.add.sprite(0, this.world.height - 64,'ground'); //creates the sprite
         ground.scale.setTo(200,2);//set the scale
         this.physics.p2.enableBody(ground,isDebug);    //enables physics on it
         ground.body.static = true;                  //disables gravity for itself...
         ground.body.fixedRotation = true;           //fixes rotation?
-        //Tells the ground to be part of the jumpable collision group
+        //1.Tells the ground to be part of the jumpable collision group
+        //2.This effectively tells it that it collides with these collision groups.
         ground.body.setCollisionGroup(isJumpCollisionGroup);
-        //This effectively tells it that it collides with these collision groups.
         ground.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
 
         //TESING purposes -- added a checkmark for lols
@@ -68,6 +65,8 @@ Game.main.prototype={
         this.physics.p2.enableBody(checkmark,isDebug);
         checkmark.body.clearShapes();
         checkmark.body.loadPolygon('physicsdata','check');
+        checkmark.body.setCollisionGroup(isJumpCollisionGroup);
+        checkmark.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
 
         // The player aanimations and position
         player = this.add.sprite(32, this.world.height - 150, 'dude');
@@ -180,7 +179,9 @@ Game.main.prototype={
             }
         }
         
-        if (jumpButton.isDown && ifCanJump)
-            {player.body.moveUp(300);ifCanJump = false;}
+        if (jumpButton.isDown && ifCanJump){
+            player.body.moveUp(300);
+            ifCanJump = false;
+        }
     }
 }
