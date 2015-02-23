@@ -63,19 +63,6 @@ create: function() {
 
     jumpButton = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
-    //  Finally some stars to collect
-    stars = this.add.group();
-
-    //  We will enable physics for any star that is created in this group
-    this.physics.p2.enableBody(stars,true);
-
-    //  Here we'll create 12 of them evenly spaced apart
-    for (var i = 0; i < 12; i++)
-    {
-        //  Create a star inside of the 'stars' group
-        var star = stars.create(i * 70, 0, 'star');
-    }
-
     //  The score
     scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });
 
@@ -184,17 +171,6 @@ update: function() {
 
 }
 }
-
-function collectStar(player, star) {
-    
-    // Removes the star from the screen
-    star.kill();
-
-    //  Add and update the score
-    score += 10;
-    scoreText.text = 'Score: ' + score;
-
-};
 
 function checkIfCanJump() {
 
