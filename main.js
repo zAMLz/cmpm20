@@ -37,8 +37,8 @@ Game.main.prototype={
         this.music.play();
 
     	//changes bounds of the world and add a background for the world
-    	this.world.setBounds(0,0,1400,this.world.height);
-        this.add.tileSprite(0, 0,1400,this.world.height, 'fulldome');
+    	this.world.setBounds(0,0,2800,this.world.height);
+        this.add.tileSprite(0, 0,2800,this.world.height, 'fulldome');
 
         //  We're going to be using physics, so enable the Arcade Physics system
         this.physics.startSystem(Phaser.Physics.P2JS);
@@ -57,8 +57,8 @@ Game.main.prototype={
         //Create a group that will use this collision group.
 
         //Add a ground for our world
-        var ground = this.add.sprite(0, this.world.height - 64,'ground'); //creates the sprite
-        ground.scale.setTo(200,2);//set the scale
+        var ground = this.add.sprite(0, this.world.height - 32,'ground'); //creates the sprite
+        ground.scale.setTo(3,2);//set the scale
         this.physics.p2.enableBody(ground,isDebug);    //enables physics on it
         ground.body.static = true;                  //disables gravity for itself...
         ground.body.fixedRotation = true;           //fixes rotation?
@@ -66,6 +66,16 @@ Game.main.prototype={
         //2.This effectively tells it that it collides with these collision groups.
         ground.body.setCollisionGroup(isJumpCollisionGroup);
         ground.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+
+        var ground2 = this.add.sprite(1450, this.world.height - 32,'ground'); //creates the sprite
+        ground2.scale.setTo(3,2);//set the scale
+        this.physics.p2.enableBody(ground2,isDebug);    //enables physics on it
+        ground2.body.static = true;                  //disables gravity for itself...
+        ground2.body.fixedRotation = true;           //fixes rotation?
+        //1.Tells the ground to be part of the jumpable collision group
+        //2.This effectively tells it that it collides with these collision groups.
+        ground2.body.setCollisionGroup(isJumpCollisionGroup);
+        ground2.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
 
         //Add a forsure kill player object
         diamond = this.add.sprite(300, this.world.height-150, 'diamond');
@@ -199,6 +209,14 @@ Game.main.prototype={
         if (jumpButton.isDown && ifCanJump){
             player.body.moveUp(300);
             ifCanJump = false;
+        }
+        console.log(player.body.y);
+        console.log(this.world.height);
+        if (player.body.y >= this.world.height-32){
+       // player.body.gravity.y =9999
+            score = 0;
+            this.music.stop();
+            this.state.start('gameover');
         }
     },
 
