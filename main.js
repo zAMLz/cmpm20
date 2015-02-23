@@ -3,6 +3,11 @@
 var player;
 var platforms;
 var cursors;
+var facing = 'left';
+var jumpButton;
+var isDebug = false;
+var ifCanJump = true;
+
 var stars;
 var score = 0;
 var scoreText;
@@ -11,192 +16,196 @@ Game.main = function(game){
     this.music=null;
 }
 Game.main.prototype={
-preload: function () {
-    this.load.audio('tutorialmusic', 'assets/Steve_Combs_22_Thank_You_Remix.mp3');
-    this.load.image('sky', 'assets/sky.png');
-    this.load.image('ground', 'assets/platform.png');
-    this.load.image('star', 'assets/star.png');
-    this.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-    this.load.image('fulldome', 'assets/fulldome.png');
-    this.load.image('diamond','assets/diamond.png');
-
-},
-
-
-create: function() {
-    //adds music
-    this.music = this.add.audio('tutorialmusic');
-    this.music.play();
-	//changes bounds of the world
-	this.world.setBounds(0,0,1400,this.world.height);
-    //  We're going to be using physics, so enable the Arcade Physics system
-    this.physics.startSystem(Phaser.Physics.ARCADE);
-
-    //  A simple background for our this
-    this.add.tileSprite(0, 0,1400,this.world.height, 'fulldome');
-
-    //  The platforms group contains the ground and the 2 ledges we can jump on
-    platforms = this.add.group();
-
-    //  We will enable physics for any object that is created in this group
-    platforms.enableBody = true;
-
-    // Here we create the ground.
-    var ground = platforms.create(0, this.world.height - 64, 'ground');
-
-    //  Scale it to fit the width of the this (the original sprite is 400x32 in size)
-    ground.scale.setTo(200, 2);
-
-    //  This stops it from falling away when you jump on it
-    ground.body.immovable = true;
-
-    //  Now let's create two ledges
-    var ledge = platforms.create(400, 400, 'ground');
-    ledge.body.immovable = true;
-
-    ledge = platforms.create(-150, 250, 'ground');
-    ledge.body.immovable = true;
-
-    // The player and its settings
-    player = this.add.sprite(32, this.world.height - 150, 'dude');
-
-    //  We need to enable physics on the player
-    this.physics.arcade.enable(player);
-
-    //  Player physics properties. Give the little guy a slight bounce.
-    player.body.bounce.y = 0.0;
-    player.body.gravity.y = 400;
-    player.body.collideWorldBounds = true;
-    //sets camera to follow
-    this.camera.follow(player);
-
-
-    //  Our two animations, walking left and right.
-    player.animations.add('left', [0, 1, 2, 3], 10, true);
-    player.animations.add('right', [5, 6, 7, 8], 10, true);
-
-    //  Finally some stars to collect
-    stars = this.add.group();
-
-    //  We will enable physics for any star that is created in this group
-    stars.enableBody = true;
-
-    //  Here we'll create 12 of them evenly spaced apart
-    for (var i = 0; i < 12; i++)
-    {
-        //  Create a star inside of the 'stars' group
-        var star = stars.create(i * 70, 0, 'star');
-
-        //  Let gravity do its thing
-        star.body.gravity.y = 300;
-
-        //  This just gives each star a slightly random bounce value
-        star.body.bounce.y = 0.7 + Math.random() * 0.2;
-    }
-    diamond = this.add.sprite(300, this.world.height-150, 'diamond');
-    this.physics.arcade.enable(diamond);
-    diamond.body.gravity.y = 300;
-    //  The score
-    scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });
-
-    //  Our controls.
-    cursors = this.input.keyboard.createCursorKeys();
-	
-	//pause menu
-	pause_label = this.add.text(700, 20, 'Pause', { font: '32px Arial', fill: '#fff' });
-    pause_label.inputEnabled = true;
-    pause_label.events.onInputUp.add(function () {
-        // When the paus button is pressed, we pause the this
-        this.paused = true;
-		console.log("this PAUSED IN CAMERA>> X: "+this.camera.x+" Y:"+this.camera.y);
-		// click on diamond to unpause
-		
-		pause_label_continue = this.add.text(this.camera.x+400, this.camera.y+200, 'Continue',{ font: '32px Arial', fill: '#fff' });
-		pause_label_continue.anchor.setTo(0.5,0.5);
-		pause_label_continue.events.onInputUp.add(unpause, this);
-
-		pause_label_help = this.add.text(this.camera.x+400, this.camera.y+250, 'Help',{ font: '32px Arial', fill: '#fff' });
-    	pause_label_help.anchor.setTo(0.5,0.5);
-    	//pause_label_help.events.onInputUp.add(helpmenu, this);	//HELP FUNCTION LOADS THE HELP STUFF
-
-    	pause_label_exit = this.add.text(this.camera.x+400, this.camera.y+300, 'Exit',{ font: '32px Arial', fill: '#fff' });
-    	pause_label_exit.anchor.setTo(0.5,0.5);
-    	//pause_label_help.events.onInputUp.add(exitthis, this);	//Exit Function takes the this back to the menu
-		});
-		
-	//this.input.onDown.add(unpause, self);
-
-	
-	function unpause(event) {
-		if(this.paused) {
-				pause_label_continue.destroy();
-				pause_label_help.destroy();
-				pause_label_exit.destroy();
-				this.paused = false;
-		}	
-	};
-},
-
-update: function() {
-
-    //  Collide the player and the stars with the platforms
-    this.physics.arcade.collide(player, platforms);
-    this.physics.arcade.collide(stars, platforms);
-    this.physics.arcade.collide(diamond, platforms);
-  	this.physics.arcade.overlap(player, diamond, this.endGame, null, this)
-    //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-    this.physics.arcade.overlap(player, stars, collectStar, null, this);
-
-    //  To move the UI along with the camera 
-    scoreText.x = this.camera.x+16;
-    scoreText.y = this.camera.y+16;
-    pause_label.x = this.camera.x+700;
-    pause_label.y = this.camera.y+20;
-
-    //  Reset the players velocity (movement)
-    player.body.velocity.x = 0;
-
-    if (cursors.left.isDown)
-    {
-        //  Move to the left
-        player.body.velocity.x = -150;
-
-        player.animations.play('left');
-    }
-    else if (cursors.right.isDown)
-    {
-        //  Move to the right
-        player.body.velocity.x = 150;
-
-        player.animations.play('right');
-    }
-    else
-    {
-        //  Stand still
-        player.animations.stop();
-
-        player.frame = 4;
-    }
     
-    //  Allow the player to jump if they are touching the ground.
-    if (cursors.up.isDown && player.body.touching.down)
-    {
-        player.body.velocity.y = -350;
+    preload: function () {
+        this.load.audio('tutorialmusic', 'assets/Steve_Combs_22_Thank_You_Remix.mp3');
+        this.load.image('sky', 'assets/sky.png');
+        this.load.image('ground', 'assets/platform.png');
+        this.load.image('star', 'assets/star.png');
+        this.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+        this.load.image('fulldome', 'assets/fulldome.png');
+        this.load.image('diamond','assets/diamond.png');
+        this.load.image('check','assets/check.png');
+        this.load.physics('physicsdata','physics.json');
+
+    },
+
+
+    create: function() {
+        //adds music
+        this.music = this.add.audio('tutorialmusic');
+        this.music.play();
+
+    	//changes bounds of the world and add a background for the world
+    	this.world.setBounds(0,0,1400,this.world.height);
+        this.add.tileSprite(0, 0,1400,this.world.height, 'fulldome');
+
+        //  We're going to be using physics, so enable the Arcade Physics system
+        this.physics.startSystem(Phaser.Physics.P2JS);
+        this.physics.p2.gravity.y = 400;
+        this.physics.p2.setImpactEvents(true);
+        this.physics.p2.restitution = 0.0;
+
+        //COLLISION GROUPS -- VERY IMPORTANT (Helps keep track of which platforms the player can jump on...)
+        var playerCollisionGroup = this.physics.p2.createCollisionGroup();
+        var isJumpCollisionGroup = this.physics.p2.createCollisionGroup();
+        var killCollisionGroup = this.physics.p2.createCollisionGroup();
+        //  This part is vital if you want the objects with their own collision groups to still collide with the world bounds
+        //  (which we do) - what this does is adjust the bounds to use its own collision group.
+        this.physics.p2.updateBoundsCollisionGroup();
+
+        //Create a group that will use this collision group.
+
+        //Add a ground for our world
+        var ground = this.add.sprite(0, this.world.height - 64,'ground'); //creates the sprite
+        ground.scale.setTo(200,2);//set the scale
+        this.physics.p2.enableBody(ground,isDebug);    //enables physics on it
+        ground.body.static = true;                  //disables gravity for itself...
+        ground.body.fixedRotation = true;           //fixes rotation?
+        //1.Tells the ground to be part of the jumpable collision group
+        //2.This effectively tells it that it collides with these collision groups.
+        ground.body.setCollisionGroup(isJumpCollisionGroup);
+        ground.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+
+        //Add a forsure kill player object
+        diamond = this.add.sprite(300, this.world.height-150, 'diamond');
+        this.physics.p2.enableBody(diamond,isDebug);
+        diamond.body.static = true;
+        diamond.body.fixedRotation = true;
+        diamond.body.setCollisionGroup(killCollisionGroup);
+        diamond.body.collides([playerCollisionGroup]);
+
+
+        //TESING purposes -- added a checkmark for lols
+        var checkmark = this.add.sprite(400,128,'check');
+        this.physics.p2.enableBody(checkmark,isDebug);
+        checkmark.body.clearShapes();
+        checkmark.body.loadPolygon('physicsdata','check');
+        checkmark.body.setCollisionGroup(isJumpCollisionGroup);
+        checkmark.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+
+        // The player aanimations and position
+        player = this.add.sprite(32, this.world.height - 150, 'dude');
+        player.animations.add('left', [0, 1, 2, 3], 10, true);
+        player.animations.add('right', [5, 6, 7, 8], 10, true);
+        
+        //  We need to enable physics on the player
+        this.physics.p2.enable(player);
+        player.body.fixedRotation = true;
+        player.body.collideWorldBounds = true;
+
+        //Again we need to set the player to use the player collision group.
+        player.body.setCollisionGroup(playerCollisionGroup);
+        player.body.collides(isJumpCollisionGroup,function (){ifCanJump = true;},this);
+        player.body.collides(killCollisionGroup, this.endGame, this)
+
+        //sets camera to follow
+        this.camera.follow(player);
+
+        jumpButton = this.input.keyboard.addKey(Phaser.Keyboard.UP);
+
+        //  The score
+        scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });
+
+        //  Our controls.
+        cursors = this.input.keyboard.createCursorKeys();
+    	
+    	//pause menu
+    	pause_label = this.add.text(700, 20, 'Pause', { font: '32px Arial', fill: '#fff' });
+        pause_label.inputEnabled = true;
+        pause_label.events.onInputUp.add(function () {
+            // When the paus button is pressed, we pause the this
+            this.paused = true;
+    		console.log("this PAUSED IN CAMERA>> X: "+this.camera.x+" Y:"+this.camera.y);
+    		// click on diamond to unpause
+    		
+    		pause_label_continue = this.add.text(this.camera.x+400, this.camera.y+200, 'Continue',{ font: '32px Arial', fill: '#fff' });
+    		pause_label_continue.anchor.setTo(0.5,0.5);
+    		pause_label_continue.events.onInputUp.add(unpause, this);
+
+    		pause_label_help = this.add.text(this.camera.x+400, this.camera.y+250, 'Help',{ font: '32px Arial', fill: '#fff' });
+        	pause_label_help.anchor.setTo(0.5,0.5);
+        	//pause_label_help.events.onInputUp.add(helpmenu, this);	//HELP FUNCTION LOADS THE HELP STUFF
+
+        	pause_label_exit = this.add.text(this.camera.x+400, this.camera.y+300, 'Exit',{ font: '32px Arial', fill: '#fff' });
+        	pause_label_exit.anchor.setTo(0.5,0.5);
+        	//pause_label_help.events.onInputUp.add(exitthis, this);	//Exit Function takes the this back to the menu
+    	});
+    		
+    	//this.input.onDown.add(unpause, self);
+    	
+    	function unpause(event) {
+    		if(this.paused) {
+    				pause_label_continue.destroy();
+    				pause_label_help.destroy();
+    				pause_label_exit.destroy();
+    				this.paused = false;
+    		}	
+    	};
+    },
+
+    update: function() {
+
+        //  To move the UI along with the camera 
+        scoreText.x = this.camera.x+16;
+        scoreText.y = this.camera.y+16;
+        pause_label.x = this.camera.x+700;
+        pause_label.y = this.camera.y+20;
+
+        //  Reset the players velocity (movement)
+        player.body.velocity.x = 0;
+
+        if (cursors.left.isDown)
+        {
+            player.body.moveLeft(200);
+
+            if (facing != 'left')
+            {
+                player.animations.play('left');
+                facing = 'left';
+            }
+        }
+        else if (cursors.right.isDown)
+        {
+            player.body.moveRight(200);
+
+            if (facing != 'right')
+            {
+                player.animations.play('right');
+                facing = 'right';
+            }
+        }
+        else
+        {
+            player.body.velocity.x = 0;
+
+            if (facing != 'idle')
+            {
+                player.animations.stop();
+
+                if (facing == 'left')
+                {
+                    player.frame = 0;
+                }
+                else
+                {
+                    player.frame = 5;
+                }
+
+                facing = 'idle';
+            }
+        }
+        
+        if (jumpButton.isDown && ifCanJump){
+            player.body.moveUp(300);
+            ifCanJump = false;
+        }
+    },
+
+    endGame: function(player, diamond){
+        this.music.stop();
+        this.state.start('gameover');
     }
 
-},
-endGame: function(player, diamond){
-    this.music.stop();
-	this.state.start('gameover');
 }
-}
-function collectStar(player, star) {
-    
-    // Removes the star from the screen
-    star.kill();
-
-    //  Add and update the score
-    score += 10;
-    scoreText.text = 'Score: ' + score;
-};
 
