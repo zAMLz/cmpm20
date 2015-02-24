@@ -13,11 +13,8 @@ var isDebug = false;
 var ifCanJump = true;
 
 //----------Pause Control-----------
-var pause_label;
-var pause_help;
-var Pause_exit;
-var Pause_continue;
-var pause_restart;
+var paused;
+var pausePanel;
 
 //---------Other Variables---------
 var score = 0;
@@ -40,6 +37,11 @@ Game.main.prototype={
         this.load.image('fulldome', 'assets/fulldome.png');
         this.load.image('diamond','assets/diamond.png');
         this.load.image('check','assets/check.png');
+        this.load.image('continue','assets/UI/continue.png');
+        this.load.image('help','assets/UI/help.png');
+        this.load.image('pause','assets/UI/pause.png');
+        this.load.image('quit','assets/UI/quit.png');
+        this.load.image('restart','assets/UI/restart.png');
         this.load.physics('physicsdata','physics.json');
 
     },
@@ -112,8 +114,7 @@ Game.main.prototype={
         player = this.add.sprite(32, this.world.height - 150, 'dude');
         player.animations.add('left', [0, 1, 2, 3], 10, true);
         player.animations.add('right', [5, 6, 7, 8], 10, true);
-        
-        //  We need to enable physics on the player
+
         this.physics.p2.enable(player);
         player.body.fixedRotation = true;
         player.body.collideWorldBounds = true;
@@ -122,20 +123,44 @@ Game.main.prototype={
         player.body.setCollisionGroup(playerCollisionGroup);
         player.body.collides(isJumpCollisionGroup,function (){ifCanJump = true;},this);
         player.body.collides(killCollisionGroup, this.endGame, this)
+        
 
         //sets camera to follow
         this.camera.follow(player);
 
+        //Sets the jump button to up
         jumpButton = this.input.keyboard.addKey(Phaser.Keyboard.UP);
 
         //  The score
         scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });
 
-        //  Our controls.
+        //  Our controls.(left/up/down/right)
         cursors = this.input.keyboard.createCursorKeys();
     	
     	//pause menu
-    	
+        this.btnPause = this.game.add.button(675,20,'pause',this.pauseGame,this);
+
+        //Build the Pause Panel
+        this.pausePanel = new PausePanel(this.game);
+        this.game.add.existing(this.pausePanel);
+
+        //Enter Play Mode
+        this.playGame();
+
+    },
+
+    pauseGame: function(){
+        if(!paused){
+            paused = true;
+            this.pausePanel.show();
+        }
+    },
+
+    playGame: function(){
+        if(paused){
+            paused = false;
+            this.pausePanel.hide();
+        }
     },
 
     update: function() {
@@ -143,8 +168,10 @@ Game.main.prototype={
         //  To move the UI along with the camera 
         scoreText.x = this.camera.x+16;
         scoreText.y = this.camera.y+16;
-        pause_label.x = this.camera.x+700;
-        pause_label.y = this.camera.y+20;
+        this.btnPause.x = this.camera.x+675;
+        this.btnPause.y = this.camera.y+20;
+        this.pausePanel.x = this.camera.x+655;
+
 
         //  Reset the players velocity (movement)
         player.body.velocity.x = 0;
@@ -194,8 +221,8 @@ Game.main.prototype={
             player.body.moveUp(300);
             ifCanJump = false;
         }
-        console.log(player.body.y);
-        console.log(this.world.height);
+        //console.log(player.body.y);
+        //console.log(this.world.height);
         if (player.body.y >= this.world.height-32){
        // player.body.gravity.y =9999
             score = 0;
@@ -207,7 +234,31 @@ Game.main.prototype={
     endGame: function(player, diamond){
         this.music.stop();
         this.state.start('gameover');
-    }
+    },
 
-}
+};
+
+var PausePanel = function(game, parent){
+    //Super call to Phaser.group
+    Phaser.Group.call(this, game, parent);
+
+    this.btnPlay = this.game.add.button(20,20,'continue',function(){
+        this.game.state.getCurrentState().playGame()
+    },this);
+    this.add(this.btnPlay);
+
+    //place it out of bounds
+    this.x = 655;
+    this.y = -100;
+};
+
+PausePanel.prototype = Object.create(Phaser.Group.prototype);
+PausePanel.constructor = PausePanel;
+
+PausePanel.prototype.show = function(){
+    this.game.add.tween(this).to({y:0}, 500, Phaser.Easing.Bounce.Out, true);
+};
+PausePanel.prototype.hide = function(){
+    this.game.add.tween(this).to({y:-100}, 200, Phaser.Easing.Linear.NONE, true);
+};
 
