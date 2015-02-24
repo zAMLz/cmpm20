@@ -1,17 +1,31 @@
 // Phaser this File
 //var this = new Phaser.this(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+//-----------Game Variables---------
 var player;
 var platforms;
 var cursors;
+
+//----------Player Control Variables---
 var facing = 'left';
 var jumpButton;
 var isDebug = false;
 var ifCanJump = true;
 
-var stars;
+//----------Pause Control-----------
+var pause_label;
+var pause_help;
+var Pause_exit;
+var Pause_continue;
+var pause_restart;
+
+//---------Other Variables---------
 var score = 0;
 var scoreText;
 var diamond;
+
+
+
 Game.main = function(game){
     this.music=null;
 }
@@ -121,37 +135,7 @@ Game.main.prototype={
         cursors = this.input.keyboard.createCursorKeys();
     	
     	//pause menu
-    	pause_label = this.add.text(700, 20, 'Pause', { font: '32px Arial', fill: '#fff' });
-        pause_label.inputEnabled = true;
-        pause_label.events.onInputUp.add(function () {
-            // When the paus button is pressed, we pause the this
-            this.paused = true;
-    		console.log("this PAUSED IN CAMERA>> X: "+this.camera.x+" Y:"+this.camera.y);
-    		// click on diamond to unpause
-    		
-    		pause_label_continue = this.add.text(this.camera.x+400, this.camera.y+200, 'Continue',{ font: '32px Arial', fill: '#fff' });
-    		pause_label_continue.anchor.setTo(0.5,0.5);
-    		pause_label_continue.events.onInputUp.add(unpause, this);
-
-    		pause_label_help = this.add.text(this.camera.x+400, this.camera.y+250, 'Help',{ font: '32px Arial', fill: '#fff' });
-        	pause_label_help.anchor.setTo(0.5,0.5);
-        	//pause_label_help.events.onInputUp.add(helpmenu, this);	//HELP FUNCTION LOADS THE HELP STUFF
-
-        	pause_label_exit = this.add.text(this.camera.x+400, this.camera.y+300, 'Exit',{ font: '32px Arial', fill: '#fff' });
-        	pause_label_exit.anchor.setTo(0.5,0.5);
-        	//pause_label_help.events.onInputUp.add(exitthis, this);	//Exit Function takes the this back to the menu
-    	});
-    		
-    	//this.input.onDown.add(unpause, self);
     	
-    	function unpause(event) {
-    		if(this.paused) {
-    				pause_label_continue.destroy();
-    				pause_label_help.destroy();
-    				pause_label_exit.destroy();
-    				this.paused = false;
-    		}	
-    	};
     },
 
     update: function() {
