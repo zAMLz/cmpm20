@@ -11,7 +11,7 @@ var checkmark;
 //----------Player Control Variables---
 var facing = 'left';
 var jumpButton;
-var isDebug = true;
+var isDebug = false;
 var ifCanJump = true;
 
 //----------Pause Control-----------
@@ -194,9 +194,13 @@ Game.main.prototype={
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
+        this.pausePanel.btnRestart.body.x = this.camera.x+350;
+        this.pausePanel.btnHelp.body.x = this.camera.x+350;
+        this.pausePanel.btnQuit.body.x = this.camera.x+350;
 
         if(!paused){
                 this.pausePanel.y = this.camera.y-100;
+                this.pausePanel.update();
         }
 
 
@@ -283,7 +287,7 @@ var PausePanel = function(game, parent){
     this.x = 655;
     this.y = -100;
     
-    btnRestart = this.game.add.button(350,-250,'restart',function(){
+    btnRestart = this.game.add.button(350,-225,'restart',function(){
         this.game.state.start('main');
     },this);
 
@@ -291,9 +295,8 @@ var PausePanel = function(game, parent){
         //game code to tween help image....
     },this);
 
-    btnQuit = this.game.add.button(350,-50,'quit',function(){
-        this.music.stop();
-        this.state.start('mainmenu');
+    btnQuit = this.game.add.button(350,-75,'quit',function(){
+        this.game.state.start('mainmenu');
     },this);
 };
 
@@ -302,14 +305,20 @@ PausePanel.constructor = PausePanel;
 
 PausePanel.prototype.show = function(){
     this.game.add.tween(this).to({y:0}, 500, Phaser.Easing.Bounce.Out, true);
-    this.game.add.tween(btnRestart).to({y:200}, 500, Phaser.Easing.Bounce.Out, true);
-    this.game.add.tween(btnHelp).to({y:200}, 500, Phaser.Easing.Bounce.Out, true);
-    this.game.add.tween(btnQuit).to({y:200}, 500, Phaser.Easing.Bounce.Out, true);
+    this.game.add.tween(btnRestart).to({y:175}, 500, Phaser.Easing.Bounce.Out, true);
+    this.game.add.tween(btnHelp).to({y:250}, 500, Phaser.Easing.Bounce.Out, true);
+    this.game.add.tween(btnQuit).to({y:325}, 500, Phaser.Easing.Bounce.Out, true);
 };
+PausePanel.prototype.update = function(){
+    this.game.add.tween(btnRestart).to({x:-225}, 200, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnHelp).to({x:-150}, 200, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnQuit).to({x:-75}, 200, Phaser.Easing.Linear.NONE, true);
+}
+
 PausePanel.prototype.hide = function(){
     this.game.add.tween(this).to({y:-100}, 200, Phaser.Easing.Linear.NONE, true);
-    this.game.add.tween(btnRestart).to({y:-350}, 200, Phaser.Easing.Linear.NONE, true);
-    this.game.add.tween(btnHelp).to({y:-350}, 200, Phaser.Easing.Linear.NONE, true);
-    this.game.add.tween(btnQuit).to({y:-350}, 200, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnRestart).to({y:-225}, 200, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnHelp).to({y:-150}, 200, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnQuit).to({y:-75}, 200, Phaser.Easing.Linear.NONE, true);
 };
 
