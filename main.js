@@ -292,3 +292,4 @@ PausePanel.prototype.hide = function(){
     this.game.add.tween(this).to({y:-100}, 200, Phaser.Easing.Linear.NONE, true);
 };
 
+//http://www.loopeex.com/handle-a-pause-screen-with-phaser/
