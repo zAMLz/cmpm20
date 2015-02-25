@@ -11,7 +11,7 @@ var checkmark;
 //----------Player Control Variables---
 var facing = 'left';
 var jumpButton;
-var isDebug = false;
+var isDebug = true;
 var ifCanJump = true;
 
 //----------Pause Control-----------
@@ -194,8 +194,10 @@ Game.main.prototype={
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
-        if(!paused)
-            this.pausePanel.y = this.camera.y-100;
+
+        if(!paused){
+                this.pausePanel.y = this.camera.y-100;
+        }
 
 
         //  Reset the players velocity (movement)
@@ -280,6 +282,19 @@ var PausePanel = function(game, parent){
     //place it out of bounds
     this.x = 655;
     this.y = -100;
+    
+    btnRestart = this.game.add.button(350,-250,'restart',function(){
+        this.game.state.start('main');
+    },this);
+
+    btnHelp = this.game.add.button(350,-150,'help',function(){
+        //game code to tween help image....
+    },this);
+
+    btnQuit = this.game.add.button(350,-50,'quit',function(){
+        this.music.stop();
+        this.state.start('mainmenu');
+    },this);
 };
 
 PausePanel.prototype = Object.create(Phaser.Group.prototype);
@@ -287,9 +302,14 @@ PausePanel.constructor = PausePanel;
 
 PausePanel.prototype.show = function(){
     this.game.add.tween(this).to({y:0}, 500, Phaser.Easing.Bounce.Out, true);
+    this.game.add.tween(btnRestart).to({y:200}, 500, Phaser.Easing.Bounce.Out, true);
+    this.game.add.tween(btnHelp).to({y:200}, 500, Phaser.Easing.Bounce.Out, true);
+    this.game.add.tween(btnQuit).to({y:200}, 500, Phaser.Easing.Bounce.Out, true);
 };
 PausePanel.prototype.hide = function(){
     this.game.add.tween(this).to({y:-100}, 200, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnRestart).to({y:-350}, 200, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnHelp).to({y:-350}, 200, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnQuit).to({y:-350}, 200, Phaser.Easing.Linear.NONE, true);
 };
 
-//http://www.loopeex.com/handle-a-pause-screen-with-phaser/
