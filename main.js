@@ -40,12 +40,14 @@ Game.main.prototype={
         this.load.image('fulldome', 'assets/fulldome.png');
         this.load.image('diamond','assets/diamond.png');
         this.load.image('check','assets/check.png');
+        this.load.physics('physicsdata','physics.json');
+        //UI
         this.load.image('continue','assets/UI/continue.png');
         this.load.image('help','assets/UI/help.png');
         this.load.image('pause','assets/UI/pause.png');
         this.load.image('quit','assets/UI/quit.png');
         this.load.image('restart','assets/UI/restart.png');
-        this.load.physics('physicsdata','physics.json');
+        this.load.image('helpscn','assets/UI/helpscreen.png');
 
     },
 
@@ -284,11 +286,23 @@ var PausePanel = function(game, parent){
     this.y = -100;
     
     btnRestart = this.game.add.button(350,-225,'restart',function(){
-        this.game.state.start('main');
+        this.game.state.restart(true,true);
+    },this);
+
+    btnHelpScreen = this.game.add.button(150,-500,'helpscn',function(){
+        this.game.add.tween(btnHelpScreen).to({y:-500}, 200, Phaser.Easing.Linear.NONE, true);
+        //this.game.add.tween(this).to({y:0}, 500, Phaser.Easing.Bounce.Out, true);
+        this.game.add.tween(btnRestart).to({y:175}, 500, Phaser.Easing.Bounce.Out, true);
+        this.game.add.tween(btnHelp).to({y:250}, 500, Phaser.Easing.Bounce.Out, true);
+        this.game.add.tween(btnQuit).to({y:325}, 500, Phaser.Easing.Bounce.Out, true);
     },this);
 
     btnHelp = this.game.add.button(350,-150,'help',function(){
-        //game code to tween help image....
+        this.game.add.tween(btnHelpScreen).to({y:50}, 500, Phaser.Easing.Bounce.Out, true);
+        //this.game.add.tween(this).to({y:-100}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(btnRestart).to({y:-225}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(btnHelp).to({y:-150}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(btnQuit).to({y:-75}, 200, Phaser.Easing.Linear.NONE, true);
     },this);
 
     btnQuit = this.game.add.button(350,-75,'quit',function(){
@@ -309,9 +323,11 @@ PausePanel.prototype.update = function(){
     this.game.add.tween(btnRestart).to({x:this.game.camera.x+350}, 200, Phaser.Easing.Linear.NONE, true);
     this.game.add.tween(btnHelp).to({x:this.game.camera.x+350}, 200, Phaser.Easing.Linear.NONE, true);
     this.game.add.tween(btnQuit).to({x:this.game.camera.x+350}, 200, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnHelpScreen).to({x:this.game.camera.x+150}, 200, Phaser.Easing.Linear.NONE, true);
 }
 
 PausePanel.prototype.hide = function(){
+    this.game.add.tween(btnHelpScreen).to({y:-500}, 200, Phaser.Easing.Linear.NONE, true);
     this.game.add.tween(this).to({y:-100}, 200, Phaser.Easing.Linear.NONE, true);
     this.game.add.tween(btnRestart).to({y:-225}, 200, Phaser.Easing.Linear.NONE, true);
     this.game.add.tween(btnHelp).to({y:-150}, 200, Phaser.Easing.Linear.NONE, true);
