@@ -194,10 +194,6 @@ Game.main.prototype={
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
-        this.pausePanel.btnRestart.body.x = this.camera.x+350;
-        this.pausePanel.btnHelp.body.x = this.camera.x+350;
-        this.pausePanel.btnQuit.body.x = this.camera.x+350;
-
         if(!paused){
                 this.pausePanel.y = this.camera.y-100;
                 this.pausePanel.update();
@@ -310,9 +306,9 @@ PausePanel.prototype.show = function(){
     this.game.add.tween(btnQuit).to({y:325}, 500, Phaser.Easing.Bounce.Out, true);
 };
 PausePanel.prototype.update = function(){
-    this.game.add.tween(btnRestart).to({x:-225}, 200, Phaser.Easing.Linear.NONE, true);
-    this.game.add.tween(btnHelp).to({x:-150}, 200, Phaser.Easing.Linear.NONE, true);
-    this.game.add.tween(btnQuit).to({x:-75}, 200, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnRestart).to({x:this.game.camera.x+350}, 200, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnHelp).to({x:this.game.camera.x+350}, 200, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnQuit).to({x:this.game.camera.x+350}, 200, Phaser.Easing.Linear.NONE, true);
 }
 
 PausePanel.prototype.hide = function(){
