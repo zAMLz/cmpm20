@@ -3,8 +3,10 @@
 
 //-----------Game Variables---------
 var player;
-var platforms;
 var cursors;
+
+//-------------OBJECTS---------------
+var checkmark;
 
 //----------Player Control Variables---
 var facing = 'left';
@@ -15,6 +17,7 @@ var ifCanJump = true;
 //----------Pause Control-----------
 var paused;
 var pausePanel;
+var mehSpeed;
 
 //---------Other Variables---------
 var score = 0;
@@ -58,7 +61,7 @@ Game.main.prototype={
 
         //  We're going to be using physics, so enable the Arcade Physics system
         this.physics.startSystem(Phaser.Physics.P2JS);
-        this.physics.p2.gravity.y = 400;
+        this.physics.p2.gravity.y = 500;
         this.physics.p2.setImpactEvents(true);
         this.physics.p2.restitution = 0.0;
 
@@ -103,7 +106,7 @@ Game.main.prototype={
 
 
         //TESING purposes -- added a checkmark for lols
-        var checkmark = this.add.sprite(400,128,'check');
+        checkmark = this.add.sprite(400,128,'check');
         this.physics.p2.enableBody(checkmark,isDebug);
         checkmark.body.clearShapes();
         checkmark.body.loadPolygon('physicsdata','check');
@@ -123,7 +126,6 @@ Game.main.prototype={
         player.body.setCollisionGroup(playerCollisionGroup);
         player.body.collides(isJumpCollisionGroup,function (){ifCanJump = true;},this);
         player.body.collides(killCollisionGroup, this.endGame, this)
-        
 
         //sets camera to follow
         this.camera.follow(player);
@@ -145,6 +147,7 @@ Game.main.prototype={
         this.game.add.existing(this.pausePanel);
 
         //Enter Play Mode
+        mehSpeed = new Array();
         this.playGame();
 
     },
@@ -153,6 +156,18 @@ Game.main.prototype={
         if(!paused){
             paused = true;
             this.pausePanel.show();
+            this.physics.p2.gravity.y = 0;
+            
+            //add any object that is affected by gravity here.
+            mehSpeed.push(checkmark.body.velocity.x);
+            mehSpeed.push(checkmark.body.velocity.y);
+            
+            //Set the vbelocities to zero to make sure they dont move anymore.
+            checkmark.body.velocity.x = 0;
+            checkmark.body.velocity.y = 0;
+            
+            //fix the objects from rotating and make them static
+            checkmark.body.fixedRotation = true;
         }
     },
 
@@ -160,6 +175,14 @@ Game.main.prototype={
         if(paused){
             paused = false;
             this.pausePanel.hide();
+            this.physics.p2.gravity.y = 500;
+            
+            //Push out velocties affected by gravity for objects here.
+            checkmark.body.velocity.y = mehSpeed.pop();
+            checkmark.body.velocity.x = mehSpeed.pop();
+            
+            //allow for totations and disable static.
+            checkmark.body.fixedRotation = false;
         }
     },
 
@@ -171,55 +194,62 @@ Game.main.prototype={
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
+        if(!paused)
+            this.pausePanel.y = this.camera.y-100;
 
 
         //  Reset the players velocity (movement)
         player.body.velocity.x = 0;
+        if(paused)
+            player.body.velocity.y = 0;
 
-        if (cursors.left.isDown)
-        {
-            player.body.moveLeft(200);
-
-            if (facing != 'left')
+        //Control Player Movement;
+        if (!paused){
+            if (cursors.left.isDown)
             {
-                player.animations.play('left');
-                facing = 'left';
-            }
-        }
-        else if (cursors.right.isDown)
-        {
-            player.body.moveRight(200);
+                player.body.moveLeft(200);
 
-            if (facing != 'right')
-            {
-                player.animations.play('right');
-                facing = 'right';
-            }
-        }
-        else
-        {
-            player.body.velocity.x = 0;
-
-            if (facing != 'idle')
-            {
-                player.animations.stop();
-
-                if (facing == 'left')
+                if (facing != 'left')
                 {
-                    player.frame = 0;
+                    player.animations.play('left');
+                    facing = 'left';
                 }
-                else
-                {
-                    player.frame = 5;
-                }
-
-                facing = 'idle';
             }
-        }
-        
-        if (jumpButton.isDown && ifCanJump){
-            player.body.moveUp(300);
-            ifCanJump = false;
+            else if (cursors.right.isDown)
+            {
+                player.body.moveRight(200);
+
+                if (facing != 'right')
+                {
+                    player.animations.play('right');
+                    facing = 'right';
+                }
+            }
+            else if(ifCanJump)
+            {
+                player.body.velocity.x = 0;
+
+                if (facing != 'idle')
+                {
+                    player.animations.stop();
+
+                    if (facing == 'left')
+                    {
+                        player.frame = 0;
+                    }
+                    else
+                    {
+                        player.frame = 5;
+                    }
+
+                    facing = 'idle';
+                }
+            }
+            
+            if (jumpButton.isDown && ifCanJump){
+                player.body.moveUp(300);
+                ifCanJump = false;
+            }
         }
         //console.log(player.body.y);
         //console.log(this.world.height);
