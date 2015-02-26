@@ -59,8 +59,8 @@ Game.main.prototype={
         this.music = this.add.audio('tutorialmusic');
         this.music.play();
 
-    	//changes bounds of the world and add a background for the world
-    	this.world.setBounds(0,0,2800,this.world.height);
+        //changes bounds of the world and add a background for the world
+        this.world.setBounds(0,0,2800,this.world.height);
         this.add.tileSprite(0, 0,2800,this.world.height, 'fulldome');
 
         //  We're going to be using physics, so enable the Arcade Physics system
@@ -143,8 +143,8 @@ Game.main.prototype={
 
         //  Our controls.(left/up/down/right)
         cursors = this.input.keyboard.createCursorKeys();
-    	
-    	//pause menu
+        
+        //pause menu
         this.btnPause = this.game.add.button(675,20,'pause',this.pauseGame,this);
 
         //Build the Pause Panel
