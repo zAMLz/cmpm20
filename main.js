@@ -40,7 +40,9 @@ Game.main.prototype={
         this.load.image('fulldome', 'assets/fulldome.png');
         this.load.image('diamond','assets/diamond.png');
         this.load.image('check','assets/check.png');
+        //Terrain details
         this.load.physics('physicsdata','assets/world/forest/physics.json');
+        this.load.image('terr1','assets/world/forest/terr1.png');
         //UI
         this.load.image('continue','assets/UI/continue.png');
         this.load.image('help','assets/UI/help.png');
@@ -78,15 +80,16 @@ Game.main.prototype={
         //Create a group that will use this collision group.
 
         //Add a ground for our world
-        var ground = this.add.sprite(0, this.world.height - 32,'ground'); //creates the sprite
-        ground.scale.setTo(3,2);//set the scale
-        this.physics.p2.enableBody(ground,isDebug);    //enables physics on it
-        ground.body.static = true;                  //disables gravity for itself...
-        ground.body.fixedRotation = true;           //fixes rotation?
+        var terrain1 = this.add.sprite(0, 0,'terr1'); //creates the sprite
+        this.physics.p2.enableBody(terrain1,isDebug);    //enables physics on it
+        terrain1.body.clearShapes();
+        terrain1.body.loadPolygon('physicsdata','terr1');
+        terrain1.body.static = true;                  //disables gravity for itself...
+        terrain1.body.fixedRotation = true;           //fixes rotation?
         //1.Tells the ground to be part of the jumpable collision group
         //2.This effectively tells it that it collides with these collision groups.
-        ground.body.setCollisionGroup(isJumpCollisionGroup);
-        ground.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+        terrain1.body.setCollisionGroup(isJumpCollisionGroup);
+        terrain1.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
 
         var ground2 = this.add.sprite(1450, this.world.height - 32,'ground'); //creates the sprite
         ground2.scale.setTo(3,2);//set the scale
