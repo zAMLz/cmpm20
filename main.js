@@ -78,7 +78,7 @@ Game.main.prototype={
         this.physics.p2.updateBoundsCollisionGroup();
 
         //Create a group that will use this collision group.
-
+        
         //Add a ground for our world
         var terrain1 = this.add.sprite(0, 0,'terr1-1'); //creates the sprite
         this.physics.p2.enableBody(terrain1,isDebug);    //enables physics on it
@@ -90,7 +90,7 @@ Game.main.prototype={
         //2.This effectively tells it that it collides with these collision groups.
         terrain1.body.setCollisionGroup(isJumpCollisionGroup);
         terrain1.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
-
+        
         var ground2 = this.add.sprite(1450, this.world.height - 32,'ground'); //creates the sprite
         ground2.scale.setTo(3,2);//set the scale
         this.physics.p2.enableBody(ground2,isDebug);    //enables physics on it
@@ -100,7 +100,7 @@ Game.main.prototype={
         //2.This effectively tells it that it collides with these collision groups.
         ground2.body.setCollisionGroup(isJumpCollisionGroup);
         ground2.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
-
+        
         //Add a forsure kill player object
         diamond = this.add.sprite(300, this.world.height-150, 'diamond');
         this.physics.p2.enableBody(diamond,isDebug);
@@ -108,7 +108,7 @@ Game.main.prototype={
         diamond.body.fixedRotation = true;
         diamond.body.setCollisionGroup(killCollisionGroup);
         diamond.body.collides([playerCollisionGroup]);
-
+        
 
         //TESING purposes -- added a checkmark for lols
         checkmark = this.add.sprite(400,128,'check');
@@ -117,7 +117,7 @@ Game.main.prototype={
         checkmark.body.loadPolygon('physicsdata','check');
         checkmark.body.setCollisionGroup(isJumpCollisionGroup);
         checkmark.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
-
+        
         // The player aanimations and position
         player = this.add.sprite(32, this.world.height - 150, 'dude');
         player.animations.add('left', [0, 1, 2, 3], 10, true);
