@@ -42,7 +42,7 @@ Game.main.prototype={
         this.load.image('check','assets/check.png');
         //Terrain details
         this.load.physics('physicsdata','assets/world/forest/physics.json');
-        this.load.image('terr1','assets/world/forest/terr1.png');
+        this.load.image('terr1-1','assets/world/forest/terr1-1.png');
         //UI
         this.load.image('continue','assets/UI/continue.png');
         this.load.image('help','assets/UI/help.png');
@@ -63,13 +63,13 @@ Game.main.prototype={
         this.world.setBounds(0,0,2800,this.world.height);
         this.add.tileSprite(0, 0,2800,this.world.height, 'fulldome');
 
-        //  We're going to be using physics, so enable the Arcade Physics system
+        //  We're going to be using physics, so enable the P2 Physics system
         this.physics.startSystem(Phaser.Physics.P2JS);
         this.physics.p2.gravity.y = 500;
         this.physics.p2.setImpactEvents(true);
         this.physics.p2.restitution = 0.0;
 
-        //COLLISION GROUPS -- VERY IMPORTANT (Helps keep track of which platforms the player can jump on...)
+        //COLLISION GROUPS -- VERY IMPORTANT (Helps keep track of which platforms the player can jump on...etc...)
         var playerCollisionGroup = this.physics.p2.createCollisionGroup();
         var isJumpCollisionGroup = this.physics.p2.createCollisionGroup();
         var killCollisionGroup = this.physics.p2.createCollisionGroup();
@@ -80,10 +80,10 @@ Game.main.prototype={
         //Create a group that will use this collision group.
 
         //Add a ground for our world
-        var terrain1 = this.add.sprite(0, 0,'terr1'); //creates the sprite
+        var terrain1 = this.add.sprite(0, 0,'terr1-1'); //creates the sprite
         this.physics.p2.enableBody(terrain1,isDebug);    //enables physics on it
         terrain1.body.clearShapes();
-        terrain1.body.loadPolygon('physicsdata','terr1');
+        terrain1.body.loadPolygon('physicsdata','terr1-1');
         terrain1.body.static = true;                  //disables gravity for itself...
         terrain1.body.fixedRotation = true;           //fixes rotation?
         //1.Tells the ground to be part of the jumpable collision group

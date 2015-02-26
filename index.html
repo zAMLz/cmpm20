@@ -1,4 +1,5 @@
-<html> 
+<!doctype html> 
+<html lang="en"> 
 <head> 
 	<meta charset="UTF-8" />
 	<title>Phaser - GAMETITLE</title>
@@ -15,7 +16,6 @@
 <body>
 <div id="gameCont"></div>
 <script type="text/javascript">
-
 window.onload = function(){
 	var game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameCont');
 	//var Game = {};
@@ -23,7 +23,6 @@ window.onload = function(){
 	game.state.add('main', Game.main);
 	game.state.add('gameover', Game.gameover);
 	game.state.start('mainmenu');
-
 }
 </script>
 </body>
