@@ -11,7 +11,7 @@ var checkmark;
 //----------Player Control Variables---
 var facing = 'left';
 var jumpButton;
-var isDebug = true;
+var isDebug = false;
 var ifCanJump = true;
 
 //----------Pause Control-----------
