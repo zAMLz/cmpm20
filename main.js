@@ -11,7 +11,7 @@ var checkmark;
 //----------Player Control Variables---
 var facing = 'left';
 var jumpButton;
-var isDebug = false;
+var isDebug = true;
 var ifCanJump = true;
 
 //----------Pause Control-----------
@@ -102,7 +102,7 @@ Game.main.prototype={
         ground2.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
         
         //Add a forsure kill player object
-        diamond = this.add.sprite(300, this.world.height-150, 'diamond');
+        diamond = this.add.sprite(300, this.world.height-175, 'diamond');
         this.physics.p2.enableBody(diamond,isDebug);
         diamond.body.static = true;
         diamond.body.fixedRotation = true;
