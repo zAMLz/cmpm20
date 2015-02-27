@@ -41,7 +41,7 @@ Game.main.prototype={
         this.load.image('diamond','assets/diamond.png');
         this.load.image('check','assets/check.png');
         //Terrain details
-        this.load.physics('physicsdata','assets/world/forest/physics.json');
+        this.load.physics('physicsdata','forest.json');
         this.load.image('terr1-1','assets/world/forest/terr1-1.png');
         //UI
         this.load.image('continue','assets/UI/continue.png');
@@ -82,8 +82,8 @@ Game.main.prototype={
         //Add a ground for our world
         var terrain1 = this.add.sprite(0, 0,'terr1-1'); //creates the sprite
         this.physics.p2.enableBody(terrain1,isDebug);    //enables physics on it
-        terrain1.body.clearShapes();
-        terrain1.body.loadPolygon('physicsdata','terr1-1');
+        //terrain1.body.clearShapes();
+        //terrain1.body.loadPolygon('physicsdata','terr1-1');
         terrain1.body.static = true;                  //disables gravity for itself...
         terrain1.body.fixedRotation = true;           //fixes rotation?
         //1.Tells the ground to be part of the jumpable collision group
