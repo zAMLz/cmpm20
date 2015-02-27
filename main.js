@@ -109,7 +109,7 @@ Game.main.prototype={
         diamond.body.setCollisionGroup(killCollisionGroup);
         diamond.body.collides([playerCollisionGroup]);
         
-
+        /*
         //TESING purposes -- added a checkmark for lols
         checkmark = this.add.sprite(400,128,'check');
         this.physics.p2.enableBody(checkmark,isDebug);
@@ -117,7 +117,7 @@ Game.main.prototype={
         checkmark.body.loadPolygon('physicsdata','check');
         checkmark.body.setCollisionGroup(isJumpCollisionGroup);
         checkmark.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
-        
+        */
         // The player aanimations and position
         player = this.add.sprite(32, this.world.height - 150, 'dude');
         player.animations.add('left', [0, 1, 2, 3], 10, true);
@@ -164,12 +164,12 @@ Game.main.prototype={
             this.physics.p2.gravity.y = 0;
             
             //add any object that is affected by gravity here.
-            mehSpeed.push(checkmark.body.velocity.x);
-            mehSpeed.push(checkmark.body.velocity.y);
+            //mehSpeed.push(checkmark.body.velocity.x);
+            //mehSpeed.push(checkmark.body.velocity.y);
             
             //Set the vbelocities to zero to make sure they dont move anymore.
-            checkmark.body.velocity.x = 0;
-            checkmark.body.velocity.y = 0;
+            //checkmark.body.velocity.x = 0;
+            //checkmark.body.velocity.y = 0;
             
             //fix the objects from rotating and make them static
             checkmark.body.fixedRotation = true;
@@ -183,8 +183,8 @@ Game.main.prototype={
             this.physics.p2.gravity.y = 500;
             
             //Push out velocties affected by gravity for objects here.
-            checkmark.body.velocity.y = mehSpeed.pop();
-            checkmark.body.velocity.x = mehSpeed.pop();
+            //checkmark.body.velocity.y = mehSpeed.pop();
+            //checkmark.body.velocity.x = mehSpeed.pop();
             
             //allow for totations and disable static.
             checkmark.body.fixedRotation = false;
