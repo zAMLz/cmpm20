@@ -109,7 +109,7 @@ Game.main.prototype={
         diamond.body.setCollisionGroup(killCollisionGroup);
         diamond.body.collides([playerCollisionGroup]);
         
-        /*
+        
         //TESING purposes -- added a checkmark for lols
         checkmark = this.add.sprite(400,128,'check');
         this.physics.p2.enableBody(checkmark,isDebug);
@@ -117,7 +117,7 @@ Game.main.prototype={
         checkmark.body.loadPolygon('physicsdata','check');
         checkmark.body.setCollisionGroup(isJumpCollisionGroup);
         checkmark.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
-        */
+        
         // The player aanimations and position
         player = this.add.sprite(32, this.world.height - 150, 'dude');
         player.animations.add('left', [0, 1, 2, 3], 10, true);
