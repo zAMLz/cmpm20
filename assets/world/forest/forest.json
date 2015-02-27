@@ -1,24 +1,118 @@
 { 
 	"terr1-1": [
 			{
-				"density": 2, "friction": 0, "bounce": 0, 
+				"density": 200, "friction": 0, "bounce": 0, 
 				"filter": { "categoryBits": 1, "maskBits": 65535 },
-				"shape": [-1,407 , 92,405 , 139,425 , 139,600 , -1,600 ]
-			} ,
-			{
-				"density": 2, "friction": 0, "bounce": 0, 
-				"filter": { "categoryBits": 1, "maskBits": 65535 },
-				"shape": [139,400 , 410,369 , 410,600 , 139,600]
-			} , 
-			{
-				"density": 2, "friction": 0, "bounce": 0, 
-				"filter": { "categoryBits": 1, "maskBits": 65535 },
-				"shape": [410,369 , 483,363 , 584,375 , 584,600 , 410,600]
-			} ,
-			{
-				"density": 2, "friction": 0, "bounce": 0, 
-				"filter": { "categoryBits": 1, "maskBits": 65535 },
-				"shape": [584,375 , 622,296 , 623,124 , 659,113 , 800,127 , 800,600 , 584,600 ]
+				"shape": [-1,409 , 31,402 , 31,600 , -1,600]
 			}
+			,
+			{
+				"density": 200, "friction": 0, "bounce": 0, 
+				"filter": { "categoryBits": 1, "maskBits": 65535 },
+				"shape": [31,402 , 85,402, 85,600 , 31,600]
+			}
+			,
+			{
+				"density": 200, "friction": 0, "bounce": 0, 
+				"filter": { "categoryBits": 1, "maskBits": 65535 },
+				"shape": [85,402 , 103,406 , 103,600 , 85,600]
+			}
+			,
+			{
+				"density": 200, "friction": 0, "bounce": 0, 
+				"filter": { "categoryBits": 1, "maskBits": 65535 },
+				"shape": [103,406 , 141,422 , 141,600 , 103,600]
+			}
+			,
+			{
+				"density": 200, "friction": 0, "bounce": 0, 
+				"filter": { "categoryBits": 1, "maskBits": 65535 },
+				"shape": [141,422 , 178,419 , 178,600 , 141,600]
+			}
+			,
+			{
+				"density": 200, "friction": 0, "bounce": 0, 
+				"filter": { "categoryBits": 1, "maskBits": 65535 },
+				"shape": [178,419 , 245,416 , 245,600 , 178,600]
+			}
+			,
+			{
+				"density": 200, "friction": 0, "bounce": 0, 
+				"filter": { "categoryBits": 1, "maskBits": 65535 },
+				"shape": [245,416 , 402,395 , 402,600 , 245,600]
+			}
+			,
+			{
+				"density": 200, "friction": 0, "bounce": 0, 
+				"filter": { "categoryBits": 1, "maskBits": 65535 },
+				"shape": [402,395 , 470,362 , 470,600 , 402,600]
+			}
+			,
+			{
+				"density": 200, "friction": 0, "bounce": 0, 
+				"filter": { "categoryBits": 1, "maskBits": 65535 },
+				"shape": [470,362 , 499,351 , 499,600 , 470,600]
+			}
+			,
+			{
+				"density": 200, "friction": 0, "bounce": 0, 
+				"filter": { "categoryBits": 1, "maskBits": 65535 },
+				"shape": [499,351 , 534,271 , 534,600 , 499,600]
+			}
+			,
+			{
+				"density": 200, "friction": 0, "bounce": 0, 
+				"filter": { "categoryBits": 1, "maskBits": 65535 },
+				"shape": [534,271 , 578,372 , 578,600 , 534,600]
+			}
+			,
+			{
+				"density": 200, "friction": 0, "bounce": 0, 
+				"filter": { "categoryBits": 1, "maskBits": 65535 },
+				"shape": [578,372 , 595,366 , 595,600 , 578,600]
+			}
+			,
+			{
+				"density": 200, "friction": 0, "bounce": 0, 
+				"filter": { "categoryBits": 1, "maskBits": 65535 },
+				"shape": [595,366 , 618,304, 618,600 , 595,600] 
+			}
+			,
+			{
+				"density": 200, "friction": 0, "bounce": 0, 
+				"filter": { "categoryBits": 1, "maskBits": 65535 },
+				"shape": [618,304, 620,140 , 620,600 , 618,600]
+			}
+			,
+			{
+				"density": 200, "friction": 0, "bounce": 0, 
+				"filter": { "categoryBits": 1, "maskBits": 65535 },
+				"shape": [620,140 , 625,124 , 625,600, 620,600]
+			}
+			,
+			{
+				"density": 200, "friction": 0, "bounce": 0, 
+				"filter": { "categoryBits": 1, "maskBits": 65535 },
+				"shape": [625,124 , 651,110 , 651,600 , 625,600]
+			}
+			,
+			{
+				"density": 200, "friction": 0, "bounce": 0, 
+				"filter": { "categoryBits": 1, "maskBits": 65535 },
+				"shape": [651,110 , 733,117 , 733,600 , 651,600]
+			}
+			,
+			{
+				"density": 200, "friction": 0, "bounce": 0, 
+				"filter": { "categoryBits": 1, "maskBits": 65535 },
+				"shape": [733,117 , 751,112 , 751,600 , 733,600]
+			}
+			,
+			{
+				"density": 200, "friction": 0, "bounce": 0, 
+				"filter": { "categoryBits": 1, "maskBits": 65535 },
+				"shape": [751,112 , 801,123 , 801,600 , 751,600]
+			}
+
 	]
 }
