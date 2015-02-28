@@ -11,9 +11,9 @@ var checkmark;
 //----------Player Control Variables---
 var facing = 'left';
 var jumpButton;
-var isDebug = false;
+var isDebug = true;
 var ifCanJump = true;
-var godmode = 0;
+var godmode = 1000;
 
 //----------Pause Control-----------
 var paused;
@@ -45,6 +45,7 @@ Game.main.prototype={
         this.load.physics('physicsdata','assets/world/forest/forest.json');
         this.load.image('terr1-1','assets/world/forest/terr1-1.png');
         this.load.image('terr1-2','assets/world/forest/terr1-2.png');
+        this.load.image('terr1-3','assets/world/forest/terr1-3.png');
         //UI
         this.load.image('continue','assets/UI/continue.png');
         this.load.image('help','assets/UI/help.png');
@@ -62,7 +63,7 @@ Game.main.prototype={
         this.music.play();
 
         //changes bounds of the world and add a background for the world
-        this.world.setBounds(0,0,2800,1800);
+        this.world.setBounds(0,0,10000,2800);
         this.stage.backgroundColor = '#d0f4f7';
 
         //  We're going to be using physics, so enable the P2 Physics system
@@ -95,7 +96,7 @@ Game.main.prototype={
 
         var terrain2 = this.add.sprite(1200,1300,'terr1-2');
         this.physics.p2.enableBody(terrain2,isDebug);
-        terrain2.body.clearShapes();
+        //terrain2.body.clearShapes();
         //terrain2.body.loadPolygon('physicsdata','terr1-2');
         terrain2.body.static = true;                  //disables gravity for itself...
         terrain2.body.fixedRotation = true;           //fixes rotation?
@@ -103,19 +104,20 @@ Game.main.prototype={
         //2.This effectively tells it that it collides with these collision groups.
         terrain2.body.setCollisionGroup(isJumpCollisionGroup);
         terrain2.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
-        
-        var ground2 = this.add.sprite(1450, this.world.height - 32,'ground'); //creates the sprite
-        ground2.scale.setTo(3,2);//set the scale
-        this.physics.p2.enableBody(ground2,isDebug);    //enables physics on it
-        ground2.body.static = true;                  //disables gravity for itself...
-        ground2.body.fixedRotation = true;           //fixes rotation?
+
+        var terrain3 = this.add.sprite(2000,1527,'terr1-3');
+        this.physics.p2.enableBody(terrain3,isDebug);
+        terrain3.body.clearShapes();
+        terrain3.body.loadPolygon('physicsdata','terr1-3');
+        terrain3.body.static = true;                  //disables gravity for itself...
+        terrain3.body.fixedRotation = true;           //fixes rotation?
         //1.Tells the ground to be part of the jumpable collision group
         //2.This effectively tells it that it collides with these collision groups.
-        ground2.body.setCollisionGroup(isJumpCollisionGroup);
-        ground2.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+        terrain3.body.setCollisionGroup(isJumpCollisionGroup);
+        terrain3.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
         
         //Add a forsure kill player object
-        diamond = this.add.sprite(300, this.world.height-175, 'diamond');
+        diamond = this.add.sprite(300, 1600-175, 'diamond');
         this.physics.p2.enableBody(diamond,isDebug);
         diamond.body.static = true;
         diamond.body.fixedRotation = true;
@@ -132,7 +134,7 @@ Game.main.prototype={
         checkmark.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
         
         // The player aanimations and position
-        player = this.add.sprite(32, this.world.height - 150, 'dude');
+        player = this.add.sprite(32, 1600 - 150, 'dude');
         player.animations.add('left', [0, 1, 2, 3], 10, true);
         player.animations.add('right', [5, 6, 7, 8], 10, true);
 

@@ -116,6 +116,26 @@
 
 	]
 	,
+	"terr1-3":[
+			{
+				"density": 2, "friction": 0, "bounce": 0, 
+				"filter": { "categoryBits": 1, "maskBits": 65535 },
+				"shape": [ -1,207 , 279,495 , 279,600 , -1,600]
+			}
+			,
+			{
+				"density": 2, "friction": 0, "bounce": 0, 
+				"filter": { "categoryBits": 1, "maskBits": 65535 },
+				"shape": [ 279,495 , 488,495 , 488,600 , 279,600]
+			}
+			,
+			{
+				"density": 2, "friction": 0, "bounce": 0, 
+				"filter": { "categoryBits": 1, "maskBits": 65535 },
+				"shape": [ 488,357 , 800,357 , 800,600 , 488,600]
+			}
+	]
+	,
 	"check": [
 		
 			{
