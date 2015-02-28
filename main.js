@@ -286,7 +286,7 @@ var PausePanel = function(game, parent){
     },this);
 
     btnQuit = this.game.add.button(350,-75,'quit',function(){
-        this.game.state.start('mainmenu');
+        this.game.state.start('boot');
     },this);
 };
 
