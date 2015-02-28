@@ -4,10 +4,19 @@
 //-----------Game Variables---------
 var player;
 var cursors;
+var playerCollisionGroup;
+var isJumpCollisionGroup;
+var killCollisionGroup;
 
 //-------------OBJECTS---------------
 var checkmark;
+var index;
 
+//-------------Boxes------------------
+var checkCreated = 0;
+var Box;
+var boxX;
+var boxY;
 //----------Player Control Variables---
 var facing = 'left';
 var jumpButton;
@@ -23,6 +32,12 @@ var mehSpeed;
 var score = 0;
 var scoreText;
 var diamond;
+var diamond2;
+
+//----------frie-------------
+var sprite;
+var emitter;
+var emitter2;
 
 
 
@@ -31,7 +46,60 @@ Game.main = function(game){
 }
 Game.main.prototype={
     
-    
+
+    preload: function () {
+        this.load.audio('tutorialmusic', 'assets/Steve_Combs_22_Thank_You_Remix.mp3');
+        this.load.image('sky', 'assets/sky.png');
+        this.load.image('ground', 'assets/platform.png');
+        this.load.image('star', 'assets/star.png');
+        this.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+        this.load.image('fulldome', 'assets/fulldome.png');
+        this.load.image('diamond','assets/diamond.png');
+        this.load.image('check','assets/check.png');
+        this.load.physics('physicsdata','physics.json');
+        //UI
+        this.load.image('continue','assets/UI/continue.png');
+        this.load.image('help','assets/UI/help.png');
+        this.load.image('pause','assets/UI/pause.png');
+        this.load.image('quit','assets/UI/quit.png');
+        this.load.image('restart','assets/UI/restart.png');
+        this.load.image('helpscn','assets/UI/helpscreen.png');
+
+        //fire
+        this.load.image('fire1', 'assets/fire/fire1.png');
+        this.load.image('fire2', 'assets/fire/fire2.png');
+        this.load.image('fire3', 'assets/fire/fire3.png');
+        this.load.image('smoke', 'assets/fire/smoke-puff.png');
+
+        this.load.spritesheet('ball', 'assets/fire/plasmaball.png', 128, 128);
+
+    },
+
+    createGround: function (x, y, index, playerCollisionGroup, isJumpCollisionGroup, killCollisionGroup ){
+        var newElement = this.add.sprite(x, y, index); //creates the sprite
+        newElement.scale.setTo(3,2);
+        this.physics.p2.enableBody(newElement,isDebug);
+        newElement.body.static = true;  
+        newElement.body.fixedRotation = true;   
+        newElement.body.setCollisionGroup(isJumpCollisionGroup);
+        newElement.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+    },
+
+    createBox: function(x, y, index, playerCollisionGroup, isJumpCollisionGroup ){
+        boxX = x;
+        boxY = y;
+        Box = this.add.sprite(x, y, index);
+        this.physics.p2.enableBody(Box);
+        Box.body.friction = 100;
+        Box.body.restitution = 0.0;
+        Box.body.gravity = 500;
+        Box.body.static = false;
+        Box.body.fixedRotation = true;
+        Box.body.setCollisionGroup(isJumpCollisionGroup);
+        Box.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+
+    },
+
     create: function() {
         //adds music
         this.music = this.add.audio('tutorialmusic');
@@ -48,9 +116,9 @@ Game.main.prototype={
         this.physics.p2.restitution = 0.0;
 
         //COLLISION GROUPS -- VERY IMPORTANT (Helps keep track of which platforms the player can jump on...)
-        var playerCollisionGroup = this.physics.p2.createCollisionGroup();
-        var isJumpCollisionGroup = this.physics.p2.createCollisionGroup();
-        var killCollisionGroup = this.physics.p2.createCollisionGroup();
+        playerCollisionGroup = this.physics.p2.createCollisionGroup();
+        isJumpCollisionGroup = this.physics.p2.createCollisionGroup();
+        killCollisionGroup = this.physics.p2.createCollisionGroup();
         //  This part is vital if you want the objects with their own collision groups to still collide with the world bounds
         //  (which we do) - what this does is adjust the bounds to use its own collision group.
         this.physics.p2.updateBoundsCollisionGroup();
@@ -58,35 +126,21 @@ Game.main.prototype={
         //Create a group that will use this collision group.
 
         //Add a ground for our world
-        var ground = this.add.sprite(0, this.world.height - 32,'ground'); //creates the sprite
-        ground.scale.setTo(3,2);//set the scale
-        this.physics.p2.enableBody(ground,isDebug);    //enables physics on it
-        ground.body.static = true;                  //disables gravity for itself...
-        ground.body.fixedRotation = true;           //fixes rotation?
-        //1.Tells the ground to be part of the jumpable collision group
-        //2.This effectively tells it that it collides with these collision groups.
-        ground.body.setCollisionGroup(isJumpCollisionGroup);
-        ground.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+        this.createGround(0, this.world.height-32, 'ground',playerCollisionGroup, isJumpCollisionGroup, killCollisionGroup );
+        //ground 2
+        this.createGround(1450, this.world.height-32, 'ground',playerCollisionGroup, isJumpCollisionGroup, killCollisionGroup );
 
-        var ground2 = this.add.sprite(1450, this.world.height - 32,'ground'); //creates the sprite
-        ground2.scale.setTo(3,2);//set the scale
-        this.physics.p2.enableBody(ground2,isDebug);    //enables physics on it
-        ground2.body.static = true;                  //disables gravity for itself...
-        ground2.body.fixedRotation = true;           //fixes rotation?
-        //1.Tells the ground to be part of the jumpable collision group
-        //2.This effectively tells it that it collides with these collision groups.
-        ground2.body.setCollisionGroup(isJumpCollisionGroup);
-        ground2.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
 
         //Add a forsure kill player object
-        diamond = this.add.sprite(300, this.world.height-150, 'diamond');
+        diamond = this.add.sprite(100, this.world.height-150, 'diamond');
         this.physics.p2.enableBody(diamond,isDebug);
         diamond.body.static = true;
         diamond.body.fixedRotation = true;
         diamond.body.setCollisionGroup(killCollisionGroup);
         diamond.body.collides([playerCollisionGroup]);
-
-
+        //create a moveable Boxs
+        this.createBox(100, this.world.height-80, 'diamond',playerCollisionGroup, isJumpCollisionGroup);
+       
         //TESING purposes -- added a checkmark for lols
         checkmark = this.add.sprite(400,128,'check');
         this.physics.p2.enableBody(checkmark,isDebug);
@@ -115,6 +169,8 @@ Game.main.prototype={
         //Sets the jump button to up
         jumpButton = this.input.keyboard.addKey(Phaser.Keyboard.UP);
 
+        phshButton = this.input.keyboard.addKey(Phaser.Keyboard.A);
+
         //  The score
         scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });
 
@@ -132,6 +188,34 @@ Game.main.prototype={
         mehSpeed = new Array();
         this.playGame();
 
+        //fire
+        //this.physics.startSystem(Phaser.Physics.ARCADE);
+        emitter = this.add.emitter(this.world.centerX, this.world.centerY, 300);
+        //emitter = this.add.emitter(500, 300, 300);
+
+        emitter.makeParticles( [ 'fire1', 'fire2', 'fire3', 'smoke' ] );
+        emitter.gravity = 340;
+        emitter.setAlpha(1, 0, 3000);
+        emitter.setScale(0.5, 0, 0.5, 0, 3000);
+
+        emitter.start(false, 3000, 5);
+
+        sprite = this.add.sprite(500, 100, 'ball', 0);
+        //sprite = this.add.sprite(900, 200, 'ball', 0);
+        this.physics.arcade.enable(sprite);
+        //sprite.body.setSize(5, 5, 0, 0);
+
+        //fire 2
+        emitter2 = this.add.emitter(this.world.centerX, this.world.centerY, 300);
+        //emitter = this.add.emitter(500, 300, 300);
+
+        emitter2.makeParticles( [ 'fire1', 'fire2', 'fire3', 'smoke' ] );
+        emitter2.gravity = -30;
+        emitter2.setAlpha(1, 0, 2000);
+        emitter2.setScale(0.3, 0.3, 0.3, 0, 3000);
+
+        emitter2.start(false, 3000, 5);
+       
     },
 
     pauseGame: function(){
@@ -167,6 +251,7 @@ Game.main.prototype={
             checkmark.body.fixedRotation = false;
         }
     },
+
 
     update: function() {
 
@@ -229,23 +314,73 @@ Game.main.prototype={
                     facing = 'idle';
                 }
             }
-            
+
             if (jumpButton.isDown && ifCanJump){
                 player.body.moveUp(300);
                 ifCanJump = false;
             }
+            // moving a Box-----------------------------
+            if ((phshButton.isDown && cursors.left.isDown) || (phshButton.isDown && cursors.right.isDown)) {
+                if (checkCreated < 1){
+                    Box.body.destroy();
+                    Box.kill();
+                    this.createBox(boxX, boxY, 'diamond',playerCollisionGroup, isJumpCollisionGroup);
+                    checkCreated++;
+                }
+            }else if (phshButton.isUp){
+                Box.body.static = true;
+                boxX = Box.body.x;
+                boxY = Box.body.y;
+                checkCreated =0;
+            }
+
         }
-        //console.log(player.body.y);
-        //console.log(this.world.height);
+        //console.log("y=",player.body.y);
+        //console.log("x=",player.body.x);
         if (player.body.y >= this.world.height-32){
-       // player.body.gravity.y =9999
-            score = 0;
-            this.music.stop();
-            this.state.start('gameover');
+            this.endGame();
+        }
+
+
+        //fire---------------------------
+        var px = 0;
+        var py = 0;
+
+        px *= -1;
+        py *= -1;
+
+        emitter.minParticleSpeed.set(px, py);
+        emitter.maxParticleSpeed.set(px, py);
+
+        emitter.emitX = sprite.x;
+        emitter.emitY = sprite.y+58;
+
+        //fire2---------------------------
+        var px2 = 200;
+        var py2 = 0;
+
+        px2 *= -1;
+        py2 *= -1;
+
+        emitter2.minParticleSpeed.set(px2, py2);
+        emitter2.maxParticleSpeed.set(px2, py2);
+
+        emitter2.emitX = 400;
+        emitter2.emitY = this.world.height - 150;
+
+        // emitter.forEachExists(game.world.wrap, game.world);
+        //this.world.wrap(sprite, 64);
+        //console.log(px);
+        if (player.body.x >= 232 && player.body.x <= 431 
+                     && player.body.y <= 440 && player.body.y >= 434){
+            this.endGame();
         }
     },
 
-    endGame: function(player, diamond){
+
+// correct the endGame function
+    endGame: function(){
+        score = 0;
         this.music.stop();
         this.state.start('gameover');
     },
