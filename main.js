@@ -13,7 +13,7 @@ var facing = 'left';
 var jumpButton;
 var isDebug = false;
 var ifCanJump = true;
-var godmode = 900;
+var godmode = 0;
 
 //----------Pause Control-----------
 var paused;
@@ -44,6 +44,7 @@ Game.main.prototype={
         //Terrain details
         this.load.physics('physicsdata','assets/world/forest/forest.json');
         this.load.image('terr1-1','assets/world/forest/terr1-1.png');
+        this.load.image('terr1-2','assets/world/forest/terr1-2.png');
         //UI
         this.load.image('continue','assets/UI/continue.png');
         this.load.image('help','assets/UI/help.png');
@@ -91,6 +92,17 @@ Game.main.prototype={
         //2.This effectively tells it that it collides with these collision groups.
         terrain1.body.setCollisionGroup(isJumpCollisionGroup);
         terrain1.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+
+        var terrain2 = this.add.sprite(1200,1300,'terr1-2');
+        this.physics.p2.enableBody(terrain2,isDebug);
+        terrain2.body.clearShapes();
+        //terrain2.body.loadPolygon('physicsdata','terr1-2');
+        terrain2.body.static = true;                  //disables gravity for itself...
+        terrain2.body.fixedRotation = true;           //fixes rotation?
+        //1.Tells the ground to be part of the jumpable collision group
+        //2.This effectively tells it that it collides with these collision groups.
+        terrain2.body.setCollisionGroup(isJumpCollisionGroup);
+        terrain2.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
         
         var ground2 = this.add.sprite(1450, this.world.height - 32,'ground'); //creates the sprite
         ground2.scale.setTo(3,2);//set the scale
