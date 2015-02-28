@@ -13,7 +13,7 @@ var facing = 'left';
 var jumpButton;
 var isDebug = true;
 var ifCanJump = true;
-var godmode = 1000;
+var godmode = 0;
 
 //----------Pause Control-----------
 var paused;
@@ -96,8 +96,8 @@ Game.main.prototype={
 
         var terrain2 = this.add.sprite(1200,1300,'terr1-2');
         this.physics.p2.enableBody(terrain2,isDebug);
-        //terrain2.body.clearShapes();
-        //terrain2.body.loadPolygon('physicsdata','terr1-2');
+        terrain2.body.clearShapes();
+        terrain2.body.loadPolygon('physicsdata','terr1-2');
         terrain2.body.static = true;                  //disables gravity for itself...
         terrain2.body.fixedRotation = true;           //fixes rotation?
         //1.Tells the ground to be part of the jumpable collision group
