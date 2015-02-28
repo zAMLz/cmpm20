@@ -169,7 +169,7 @@ Game.main.prototype={
         //Sets the jump button to up
         jumpButton = this.input.keyboard.addKey(Phaser.Keyboard.UP);
 
-        phshButton = this.input.keyboard.addKey(Phaser.Keyboard.A);
+        pushButton = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
         //  The score
         scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });
@@ -320,14 +320,14 @@ Game.main.prototype={
                 ifCanJump = false;
             }
             // moving a Box-----------------------------
-            if ((phshButton.isDown && cursors.left.isDown) || (phshButton.isDown && cursors.right.isDown)) {
+            if ((pushButton.isDown && cursors.left.isDown) || (pushButton.isDown && cursors.right.isDown)) {
                 if (checkCreated < 1){
                     Box.body.destroy();
                     Box.kill();
                     this.createBox(boxX, boxY, 'diamond',playerCollisionGroup, isJumpCollisionGroup);
                     checkCreated++;
                 }
-            }else if (phshButton.isUp){
+            }else if (pushButton.isUp){
                 Box.body.static = true;
                 boxX = Box.body.x;
                 boxY = Box.body.y;
