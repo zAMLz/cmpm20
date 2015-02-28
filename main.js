@@ -62,7 +62,7 @@ Game.main.prototype={
 
         //changes bounds of the world and add a background for the world
         this.world.setBounds(0,0,2800,1800);
-        this.add.tileSprite(0, 0,2800,1800, 'fulldome');
+        this.stage.backgroundColor = '#d0f4f7';
 
         //  We're going to be using physics, so enable the P2 Physics system
         this.physics.startSystem(Phaser.Physics.P2JS);
@@ -194,6 +194,9 @@ Game.main.prototype={
 
     update: function() {
 
+        console.log("x:"+this.camera.x);
+        console.log("y:"+this.camera.y);
+
         //  To move the UI along with the camera 
         scoreText.x = this.camera.x+16;
         scoreText.y = this.camera.y+16;
@@ -294,19 +297,19 @@ var PausePanel = function(game, parent){
     },this);
 
     btnHelpScreen = this.game.add.button(150,-500,'helpscn',function(){
-        this.game.add.tween(btnHelpScreen).to({y:this.game.camera.y-500}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(btnHelpScreen).to({y:-500}, 200, Phaser.Easing.Linear.NONE, true);
         //this.game.add.tween(this).to({y:0}, 500, Phaser.Easing.Bounce.Out, true);
-        this.game.add.tween(btnRestart).to({y:this.game.camera.y+175}, 500, Phaser.Easing.Bounce.Out, true);
-        this.game.add.tween(btnHelp).to({y:this.game.camera.y+250}, 500, Phaser.Easing.Bounce.Out, true);
-        this.game.add.tween(btnQuit).to({y:this.game.camera.y+325}, 500, Phaser.Easing.Bounce.Out, true);
+        this.game.add.tween(btnRestart).to({y:175}, 500, Phaser.Easing.Bounce.Out, true);
+        this.game.add.tween(btnHelp).to({y:250}, 500, Phaser.Easing.Bounce.Out, true);
+        this.game.add.tween(btnQuit).to({y:325}, 500, Phaser.Easing.Bounce.Out, true);
     },this);
 
     btnHelp = this.game.add.button(350,-150,'help',function(){
-        this.game.add.tween(btnHelpScreen).to({y:this.game.camera.y+50}, 500, Phaser.Easing.Bounce.Out, true);
+        this.game.add.tween(btnHelpScreen).to({y:50}, 500, Phaser.Easing.Bounce.Out, true);
         //this.game.add.tween(this).to({y:-100}, 200, Phaser.Easing.Linear.NONE, true);
-        this.game.add.tween(btnRestart).to({y:this.game.camera.y-225}, 200, Phaser.Easing.Linear.NONE, true);
-        this.game.add.tween(btnHelp).to({y:this.game.camera.y-150}, 200, Phaser.Easing.Linear.NONE, true);
-        this.game.add.tween(btnQuit).to({y:this.game.camera.y-75}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(btnRestart).to({y:-225}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(btnHelp).to({y:-150}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(btnQuit).to({y:-75}, 200, Phaser.Easing.Linear.NONE, true);
     },this);
 
     btnQuit = this.game.add.button(350,-75,'quit',function(){
@@ -319,7 +322,7 @@ PausePanel.constructor = PausePanel;
 
 PausePanel.prototype.show = function(){
     this.game.add.tween(this).to({y:this.game.camera.y+0}, 500, Phaser.Easing.Bounce.Out, true);
-    this.game.add.tween(btnRestart).to({y:this.game.camera.y+775}, 500, Phaser.Easing.Bounce.Out, true);
+    this.game.add.tween(btnRestart).to({y:this.game.camera.y+175}, 500, Phaser.Easing.Bounce.Out, true);
     this.game.add.tween(btnHelp).to({y:this.game.camera.y+250}, 500, Phaser.Easing.Bounce.Out, true);
     this.game.add.tween(btnQuit).to({y:this.game.camera.y+325}, 500, Phaser.Easing.Bounce.Out, true);
 };
@@ -329,9 +332,9 @@ PausePanel.prototype.update = function(){
     this.game.add.tween(btnQuit).to({x:this.game.camera.x+350}, 200, Phaser.Easing.Linear.NONE, true);
     this.game.add.tween(btnHelpScreen).to({x:this.game.camera.x+150}, 200, Phaser.Easing.Linear.NONE, true);
     //for Y-axis
-    this.game.add.tween(btnRestart).to({y:this.game.camera.y-75}, 200, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnRestart).to({y:this.game.camera.y-225}, 200, Phaser.Easing.Linear.NONE, true);
     this.game.add.tween(btnHelp).to({y:this.game.camera.y-150}, 200, Phaser.Easing.Linear.NONE, true);
-    this.game.add.tween(btnQuit).to({y:this.game.camera.y-225}, 200, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnQuit).to({y:this.game.camera.y-75}, 200, Phaser.Easing.Linear.NONE, true);
     this.game.add.tween(btnHelpScreen).to({y:this.game.camera.y-500}, 200, Phaser.Easing.Linear.NONE, true);
 }
 
