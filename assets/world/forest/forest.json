@@ -136,6 +136,14 @@
 			}
 	]
 	,
+	"terr1-2":[
+			{
+				"density": 2, "friction": 0, "bounce": 0, 
+				"filter": { "categoryBits": 1, "maskBits": 65535 },
+				"shape": [ -1,421 , 800,421 , 800,600 , -1,600]
+			}
+	]
+	,
 	"check": [
 		
 			{
