@@ -31,27 +31,7 @@ Game.main = function(game){
 }
 Game.main.prototype={
     
-    preload: function () {
-        this.load.audio('tutorialmusic', 'assets/Steve_Combs_22_Thank_You_Remix.mp3');
-        this.load.image('sky', 'assets/sky.png');
-        this.load.image('ground', 'assets/platform.png');
-        this.load.image('star', 'assets/star.png');
-        this.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-        this.load.image('fulldome', 'assets/fulldome.png');
-        this.load.image('diamond','assets/diamond.png');
-        this.load.image('check','assets/check.png');
-        this.load.physics('physicsdata','physics.json');
-        //UI
-        this.load.image('continue','assets/UI/continue.png');
-        this.load.image('help','assets/UI/help.png');
-        this.load.image('pause','assets/UI/pause.png');
-        this.load.image('quit','assets/UI/quit.png');
-        this.load.image('restart','assets/UI/restart.png');
-        this.load.image('helpscn','assets/UI/helpscreen.png');
-
-    },
-
-
+    
     create: function() {
         //adds music
         this.music = this.add.audio('tutorialmusic');
@@ -306,7 +286,7 @@ var PausePanel = function(game, parent){
     },this);
 
     btnQuit = this.game.add.button(350,-75,'quit',function(){
-        this.game.state.start('mainmenu');
+        this.game.state.start('boot');
     },this);
 };
 
