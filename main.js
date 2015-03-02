@@ -56,6 +56,19 @@ Game.main.prototype={
 
     },
 
+    terraincreator: function(image,x,y,playerCollisionGroup,isJumpCollisionGroup){
+        var terrain = this.add.sprite(x, y,image); //creates the sprite
+        this.physics.p2.enableBody(terrain,isDebug);    //enables physics on it
+        terrain.body.clearShapes();
+        terrain.body.loadPolygon('physicsdata',image);
+        terrain.body.static = true;                  //disables gravity for itself...
+        terrain.body.fixedRotation = true;           //fixes rotation?
+        //1.Tells the ground to be part of the jumpable collision group
+        //2.This effectively tells it that it collides with these collision groups.
+        terrain.body.setCollisionGroup(isJumpCollisionGroup);
+        terrain.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+    },
+
 
     create: function() {
         //adds music
@@ -80,23 +93,9 @@ Game.main.prototype={
         //  (which we do) - what this does is adjust the bounds to use its own collision group.
         this.physics.p2.updateBoundsCollisionGroup();
 
-
-        var terraincreator = function(image,x,y){
-            var terrain = this.add.sprite(x, y,image); //creates the sprite
-            this.physics.p2.enableBody(terrain,isDebug);    //enables physics on it
-            terrain.body.clearShapes();
-            terrain.body.loadPolygon('physicsdata',image);
-            terrain.body.static = true;                  //disables gravity for itself...
-            terrain.body.fixedRotation = true;           //fixes rotation?
-            //1.Tells the ground to be part of the jumpable collision group
-            //2.This effectively tells it that it collides with these collision groups.
-            terrain.body.setCollisionGroup(isJumpCollisionGroup);
-            terrain.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
-        };
-
-        terraincreator('terr1-1',400,1600);
-        terraincreator('terr1-2',1200,1300);
-        terraincreator('terr1-3',2000,1527);
+        terraincreator('terr1-1',400,1600,playerCollisionGroup,isJumpCollisionGroup);
+        terraincreator('terr1-2',1200,1300,playerCollisionGroup,isJumpCollisionGroup);
+        terraincreator('terr1-3',2000,1527,playerCollisionGroup,isJumpCollisionGroup);
 
         //Create a group that will use this collision group.
         /*
