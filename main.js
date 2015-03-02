@@ -80,8 +80,26 @@ Game.main.prototype={
         //  (which we do) - what this does is adjust the bounds to use its own collision group.
         this.physics.p2.updateBoundsCollisionGroup();
 
+
+        var terraincreator = function(image,x,y){
+            var terrain = this.add.sprite(x, y,image); //creates the sprite
+            this.physics.p2.enableBody(terrain,isDebug);    //enables physics on it
+            terrain.body.clearShapes();
+            terrain.body.loadPolygon('physicsdata',image);
+            terrain.body.static = true;                  //disables gravity for itself...
+            terrain.body.fixedRotation = true;           //fixes rotation?
+            //1.Tells the ground to be part of the jumpable collision group
+            //2.This effectively tells it that it collides with these collision groups.
+            terrain.body.setCollisionGroup(isJumpCollisionGroup);
+            terrain.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+        };
+
+        terraincreator('terr1-1',400,1600);
+        terraincreator('terr1-2',1200,1300);
+        terraincreator('terr1-3',2000,1527);
+
         //Create a group that will use this collision group.
-        
+        /*
         //Add a ground for our world
         var terrain1 = this.add.sprite(400, 1600,'terr1-1'); //creates the sprite
         this.physics.p2.enableBody(terrain1,isDebug);    //enables physics on it
@@ -115,7 +133,7 @@ Game.main.prototype={
         //2.This effectively tells it that it collides with these collision groups.
         terrain3.body.setCollisionGroup(isJumpCollisionGroup);
         terrain3.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
-        
+        */
         //Add a forsure kill player object
         diamond = this.add.sprite(300, 1600-175, 'diamond');
         this.physics.p2.enableBody(diamond,isDebug);
