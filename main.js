@@ -13,7 +13,7 @@ var facing = 'left';
 var jumpButton;
 var isDebug = true;
 var ifCanJump = true;
-var godmode = 0;
+var godmode = 400;
 
 //----------Pause Control-----------
 var paused;
@@ -43,9 +43,14 @@ Game.main.prototype={
         this.load.image('check','assets/check.png');
         //Terrain details
         this.load.physics('physicsdata','assets/world/forest/forest.json');
+        this.load.image('terr-null','assets/world/forest/terr-null.png');
         this.load.image('terr1-1','assets/world/forest/terr1-1.png');
         this.load.image('terr1-2','assets/world/forest/terr1-2.png');
         this.load.image('terr1-3','assets/world/forest/terr1-3.png');
+        this.load.image('terr1-4','assets/world/forest/terr1-4.png');
+        this.load.image('terr1-5','assets/world/forest/terr1-5.png');
+        this.load.image('terr1-6','assets/world/forest/terr1-6.png');
+        this.load.image('terr1-7','assets/world/forest/terr1-7.png');
         //UI
         this.load.image('continue','assets/UI/continue.png');
         this.load.image('help','assets/UI/help.png');
@@ -56,17 +61,19 @@ Game.main.prototype={
 
     },
 
-    terraincreator: function(image,x,y,playerCollisionGroup,isJumpCollisionGroup){
+    terraincreator: function(image,x,y,playerCollisionGroup,isJumpCollisionGroup,realTerrain){
         var terrain = this.add.sprite(x, y,image); //creates the sprite
         this.physics.p2.enableBody(terrain,isDebug);    //enables physics on it
         terrain.body.clearShapes();
-        terrain.body.loadPolygon('physicsdata',image);
+        if(realTerrain){
+            terrain.body.loadPolygon('physicsdata',image);
+            //1.Tells the ground to be part of the jumpable collision group
+            //2.This effectively tells it that it collides with these collision groups.
+            terrain.body.setCollisionGroup(isJumpCollisionGroup);
+            terrain.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+        }
         terrain.body.static = true;                  //disables gravity for itself...
         terrain.body.fixedRotation = true;           //fixes rotation?
-        //1.Tells the ground to be part of the jumpable collision group
-        //2.This effectively tells it that it collides with these collision groups.
-        terrain.body.setCollisionGroup(isJumpCollisionGroup);
-        terrain.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
     },
 
 
@@ -93,9 +100,20 @@ Game.main.prototype={
         //  (which we do) - what this does is adjust the bounds to use its own collision group.
         this.physics.p2.updateBoundsCollisionGroup();
 
-        terraincreator('terr1-1',400,1600,playerCollisionGroup,isJumpCollisionGroup);
-        terraincreator('terr1-2',1200,1300,playerCollisionGroup,isJumpCollisionGroup);
-        terraincreator('terr1-3',2000,1527,playerCollisionGroup,isJumpCollisionGroup);
+        this.terraincreator('terr1-1',400,1600,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',400,2200,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-2',1200,1300,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',1200,1900,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-3',2000,1527,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',2000,2057,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-4',2800,1595,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr-null',2800,2195,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-5',4000,1527,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr-null',4000,2127,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-6',4800,1350,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr-null',4800,1950,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-7',5600,1470,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr-null',5600,2070,playerCollisionGroup,isJumpCollisionGroup,false);
 
         //Create a group that will use this collision group.
         /*
@@ -249,7 +267,7 @@ Game.main.prototype={
         if (!paused){
             if (cursors.left.isDown)
             {
-                player.body.moveLeft(200);
+                player.body.moveLeft(200+godmode);
 
                 if (facing != 'left')
                 {
@@ -259,7 +277,7 @@ Game.main.prototype={
             }
             else if (cursors.right.isDown)
             {
-                player.body.moveRight(200);
+                player.body.moveRight(200+godmode);
 
                 if (facing != 'right')
                 {
