@@ -1,0 +1,12 @@
+# Sample input
+# Pounds for comments
+# First readable line (that's not whitespace) should be the image height
+# Image height:
+1337 # Commenting should work anywhere
+
+# And then input the coordinate pairs:
+123.456, 456.789
+0.0, 1.1
+1.23, 2.34
+    3.45    ,  4.56 # White space like this won't be read.
+#if there's an error, it'll tell the line number that it occured on
