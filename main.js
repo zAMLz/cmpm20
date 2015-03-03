@@ -13,7 +13,7 @@ var facing = 'left';
 var jumpButton;
 var isDebug = true;
 var ifCanJump = true;
-var godmode = 400;
+var godmode = 0;
 
 //----------Pause Control-----------
 var paused;
