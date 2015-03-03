@@ -115,42 +115,6 @@ Game.main.prototype={
         this.terraincreator('terr1-7',5600,1470,playerCollisionGroup,isJumpCollisionGroup,false);
         this.terraincreator('terr-null',5600,2070,playerCollisionGroup,isJumpCollisionGroup,false);
 
-        //Create a group that will use this collision group.
-        /*
-        //Add a ground for our world
-        var terrain1 = this.add.sprite(400, 1600,'terr1-1'); //creates the sprite
-        this.physics.p2.enableBody(terrain1,isDebug);    //enables physics on it
-        terrain1.body.clearShapes();
-        terrain1.body.loadPolygon('physicsdata','terr1-1');
-        terrain1.body.static = true;                  //disables gravity for itself...
-        terrain1.body.fixedRotation = true;           //fixes rotation?
-        //1.Tells the ground to be part of the jumpable collision group
-        //2.This effectively tells it that it collides with these collision groups.
-        terrain1.body.setCollisionGroup(isJumpCollisionGroup);
-        terrain1.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
-
-        var terrain2 = this.add.sprite(1200,1300,'terr1-2');
-        this.physics.p2.enableBody(terrain2,isDebug);
-        terrain2.body.clearShapes();
-        terrain2.body.loadPolygon('physicsdata','terr1-2');
-        terrain2.body.static = true;                  //disables gravity for itself...
-        terrain2.body.fixedRotation = true;           //fixes rotation?
-        //1.Tells the ground to be part of the jumpable collision group
-        //2.This effectively tells it that it collides with these collision groups.
-        terrain2.body.setCollisionGroup(isJumpCollisionGroup);
-        terrain2.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
-
-        var terrain3 = this.add.sprite(2000,1527,'terr1-3');
-        this.physics.p2.enableBody(terrain3,isDebug);
-        terrain3.body.clearShapes();
-        terrain3.body.loadPolygon('physicsdata','terr1-3');
-        terrain3.body.static = true;                  //disables gravity for itself...
-        terrain3.body.fixedRotation = true;           //fixes rotation?
-        //1.Tells the ground to be part of the jumpable collision group
-        //2.This effectively tells it that it collides with these collision groups.
-        terrain3.body.setCollisionGroup(isJumpCollisionGroup);
-        terrain3.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
-        */
         //Add a forsure kill player object
         diamond = this.add.sprite(300, 1600-175, 'diamond');
         this.physics.p2.enableBody(diamond,isDebug);
@@ -214,12 +178,12 @@ Game.main.prototype={
             this.physics.p2.gravity.y = 0;
             
             //add any object that is affected by gravity here.
-            //mehSpeed.push(checkmark.body.velocity.x);
-            //mehSpeed.push(checkmark.body.velocity.y);
+            mehSpeed.push(checkmark.body.velocity.x);
+            mehSpeed.push(checkmark.body.velocity.y);
             
             //Set the vbelocities to zero to make sure they dont move anymore.
-            //checkmark.body.velocity.x = 0;
-            //checkmark.body.velocity.y = 0;
+            checkmark.body.velocity.x = 0;
+            checkmark.body.velocity.y = 0;
             
             //fix the objects from rotating and make them static
             checkmark.body.fixedRotation = true;
@@ -233,8 +197,8 @@ Game.main.prototype={
             this.physics.p2.gravity.y = 500;
             
             //Push out velocties affected by gravity for objects here.
-            //checkmark.body.velocity.y = mehSpeed.pop();
-            //checkmark.body.velocity.x = mehSpeed.pop();
+            checkmark.body.velocity.y = mehSpeed.pop();
+            checkmark.body.velocity.x = mehSpeed.pop();
             
             //allow for totations and disable static.
             checkmark.body.fixedRotation = false;
