@@ -20,8 +20,9 @@ var boxY;
 //----------Player Control Variables---
 var facing = 'left';
 var jumpButton;
-var isDebug = false;
+var isDebug = true;
 var ifCanJump = true;
+var godmode = 0;
 
 //----------Pause Control-----------
 var paused;
@@ -56,7 +57,16 @@ Game.main.prototype={
         this.load.image('fulldome', 'assets/fulldome.png');
         this.load.image('diamond','assets/diamond.png');
         this.load.image('check','assets/check.png');
-        this.load.physics('physicsdata','physics.json');
+        //Terrain details
+        this.load.physics('physicsdata','assets/world/forest/forest.json');
+        this.load.image('terr-null','assets/world/forest/terr-null.png');
+        this.load.image('terr1-1','assets/world/forest/terr1-1.png');
+        this.load.image('terr1-2','assets/world/forest/terr1-2.png');
+        this.load.image('terr1-3','assets/world/forest/terr1-3.png');
+        this.load.image('terr1-4','assets/world/forest/terr1-4.png');
+        this.load.image('terr1-5','assets/world/forest/terr1-5.png');
+        this.load.image('terr1-6','assets/world/forest/terr1-6.png');
+        this.load.image('terr1-7','assets/world/forest/terr1-7.png');
         //UI
         this.load.image('continue','assets/UI/continue.png');
         this.load.image('help','assets/UI/help.png');
@@ -75,16 +85,6 @@ Game.main.prototype={
 
     },
 
-    createGround: function (x, y, index, playerCollisionGroup, isJumpCollisionGroup, killCollisionGroup ){
-        var newElement = this.add.sprite(x, y, index); //creates the sprite
-        newElement.scale.setTo(3,2);
-        this.physics.p2.enableBody(newElement,isDebug);
-        newElement.body.static = true;  
-        newElement.body.fixedRotation = true;   
-        newElement.body.setCollisionGroup(isJumpCollisionGroup);
-        newElement.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
-    },
-
     createBox: function(x, y, index, playerCollisionGroup, isJumpCollisionGroup ){
         boxX = x;
         boxY = y;
@@ -100,16 +100,31 @@ Game.main.prototype={
 
     },
 
+    terraincreator: function(image,x,y,playerCollisionGroup,isJumpCollisionGroup,realTerrain){
+        var terrain = this.add.sprite(x, y,image); //creates the sprite
+        this.physics.p2.enableBody(terrain,isDebug);    //enables physics on it
+        terrain.body.clearShapes();
+        if(realTerrain){
+            terrain.body.loadPolygon('physicsdata',image);
+            //1.Tells the ground to be part of the jumpable collision group
+            //2.This effectively tells it that it collides with these collision groups.
+            terrain.body.setCollisionGroup(isJumpCollisionGroup);
+            terrain.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+        }
+        terrain.body.static = true;                  //disables gravity for itself...
+        terrain.body.fixedRotation = true;           //fixes rotation?
+    },
+
     create: function() {
         //adds music
         this.music = this.add.audio('tutorialmusic');
         this.music.play();
 
-    	//changes bounds of the world and add a background for the world
-    	this.world.setBounds(0,0,2800,this.world.height);
-        this.add.tileSprite(0, 0,2800,this.world.height, 'fulldome');
+        //changes bounds of the world and add a background for the world
+        this.world.setBounds(0,0,10000,2800);
+        this.stage.backgroundColor = '#d0f4f7';
 
-        //  We're going to be using physics, so enable the Arcade Physics system
+        //  We're going to be using physics, so enable the P2 Physics system
         this.physics.startSystem(Phaser.Physics.P2JS);
         this.physics.p2.gravity.y = 500;
         this.physics.p2.setImpactEvents(true);
@@ -119,28 +134,37 @@ Game.main.prototype={
         playerCollisionGroup = this.physics.p2.createCollisionGroup();
         isJumpCollisionGroup = this.physics.p2.createCollisionGroup();
         killCollisionGroup = this.physics.p2.createCollisionGroup();
+
         //  This part is vital if you want the objects with their own collision groups to still collide with the world bounds
         //  (which we do) - what this does is adjust the bounds to use its own collision group.
         this.physics.p2.updateBoundsCollisionGroup();
 
-        //Create a group that will use this collision group.
-
-        //Add a ground for our world
-        this.createGround(0, this.world.height-32, 'ground',playerCollisionGroup, isJumpCollisionGroup, killCollisionGroup );
-        //ground 2
-        this.createGround(1450, this.world.height-32, 'ground',playerCollisionGroup, isJumpCollisionGroup, killCollisionGroup );
-
+        this.terraincreator('terr1-1',400,1600,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',400,2200,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-2',1200,1300,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',1200,1900,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-3',2000,1527,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',2000,2057,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-4',2800,1595,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr-null',2800,2195,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-5',4000,1527,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr-null',4000,2127,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-6',4800,1350,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr-null',4800,1950,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-7',5600,1470,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr-null',5600,2070,playerCollisionGroup,isJumpCollisionGroup,false);
 
         //Add a forsure kill player object
-        diamond = this.add.sprite(100, this.world.height-150, 'diamond');
+        diamond = this.add.sprite(300, 1600-175, 'diamond');
         this.physics.p2.enableBody(diamond,isDebug);
         diamond.body.static = true;
         diamond.body.fixedRotation = true;
         diamond.body.setCollisionGroup(killCollisionGroup);
         diamond.body.collides([playerCollisionGroup]);
+
         //create a moveable Boxs
-        this.createBox(100, this.world.height-80, 'diamond',playerCollisionGroup, isJumpCollisionGroup);
-       
+        this.createBox(100, 1700, 'diamond',playerCollisionGroup, isJumpCollisionGroup);
+
         //TESING purposes -- added a checkmark for lols
         checkmark = this.add.sprite(400,128,'check');
         this.physics.p2.enableBody(checkmark,isDebug);
@@ -148,9 +172,9 @@ Game.main.prototype={
         checkmark.body.loadPolygon('physicsdata','check');
         checkmark.body.setCollisionGroup(isJumpCollisionGroup);
         checkmark.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
-
+        
         // The player aanimations and position
-        player = this.add.sprite(32, this.world.height - 150, 'dude');
+        player = this.add.sprite(32, 1600 - 150, 'dude');
         player.animations.add('left', [0, 1, 2, 3], 10, true);
         player.animations.add('right', [5, 6, 7, 8], 10, true);
 
@@ -176,8 +200,8 @@ Game.main.prototype={
 
         //  Our controls.(left/up/down/right)
         cursors = this.input.keyboard.createCursorKeys();
-    	
-    	//pause menu
+        
+        //pause menu
         this.btnPause = this.game.add.button(675,20,'pause',this.pauseGame,this);
 
         //Build the Pause Panel
@@ -255,6 +279,9 @@ Game.main.prototype={
 
     update: function() {
 
+        //console.log("x:"+this.camera.x);
+        //console.log("y:"+this.camera.y);
+
         //  To move the UI along with the camera 
         scoreText.x = this.camera.x+16;
         scoreText.y = this.camera.y+16;
@@ -276,7 +303,7 @@ Game.main.prototype={
         if (!paused){
             if (cursors.left.isDown)
             {
-                player.body.moveLeft(200);
+                player.body.moveLeft(200+godmode);
 
                 if (facing != 'left')
                 {
@@ -286,7 +313,7 @@ Game.main.prototype={
             }
             else if (cursors.right.isDown)
             {
-                player.body.moveRight(200);
+                player.body.moveRight(200+godmode);
 
                 if (facing != 'right')
                 {
@@ -316,7 +343,7 @@ Game.main.prototype={
             }
 
             if (jumpButton.isDown && ifCanJump){
-                player.body.moveUp(300);
+                player.body.moveUp(300+godmode);
                 ifCanJump = false;
             }
             // moving a Box-----------------------------
@@ -366,7 +393,7 @@ Game.main.prototype={
         emitter2.maxParticleSpeed.set(px2, py2);
 
         emitter2.emitX = 400;
-        emitter2.emitY = this.world.height - 150;
+        emitter2.emitY = 1600;
 
         // emitter.forEachExists(game.world.wrap, game.world);
         //this.world.wrap(sprite, 64);
@@ -405,23 +432,21 @@ var PausePanel = function(game, parent){
     },this);
 
     btnHelpScreen = this.game.add.button(150,-500,'helpscn',function(){
-        this.game.add.tween(btnHelpScreen).to({y:-500}, 200, Phaser.Easing.Linear.NONE, true);
-        //this.game.add.tween(this).to({y:0}, 500, Phaser.Easing.Bounce.Out, true);
-        this.game.add.tween(btnRestart).to({y:175}, 500, Phaser.Easing.Bounce.Out, true);
-        this.game.add.tween(btnHelp).to({y:250}, 500, Phaser.Easing.Bounce.Out, true);
-        this.game.add.tween(btnQuit).to({y:325}, 500, Phaser.Easing.Bounce.Out, true);
+        this.game.add.tween(btnHelpScreen).to({y:this.game.camera.y-600}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(btnRestart).to({y:this.game.camera.y+175}, 500, Phaser.Easing.Bounce.Out, true);
+        this.game.add.tween(btnHelp).to({y:this.game.camera.y+250}, 500, Phaser.Easing.Bounce.Out, true);
+        this.game.add.tween(btnQuit).to({y:this.game.camera.y+325}, 500, Phaser.Easing.Bounce.Out, true);
     },this);
 
     btnHelp = this.game.add.button(350,-150,'help',function(){
-        this.game.add.tween(btnHelpScreen).to({y:50}, 500, Phaser.Easing.Bounce.Out, true);
-        //this.game.add.tween(this).to({y:-100}, 200, Phaser.Easing.Linear.NONE, true);
-        this.game.add.tween(btnRestart).to({y:-225}, 200, Phaser.Easing.Linear.NONE, true);
-        this.game.add.tween(btnHelp).to({y:-150}, 200, Phaser.Easing.Linear.NONE, true);
-        this.game.add.tween(btnQuit).to({y:-75}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(btnHelpScreen).to({y:this.game.camera.y+50}, 500, Phaser.Easing.Bounce.Out, true);
+        this.game.add.tween(btnRestart).to({y:this.game.camera.y-225}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(btnHelp).to({y:this.game.camera.y-150}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(btnQuit).to({y:this.game.camera.y-75}, 200, Phaser.Easing.Linear.NONE, true);
     },this);
 
     btnQuit = this.game.add.button(350,-75,'quit',function(){
-        this.game.state.start('boot');
+        this.game.state.start('mainmenu');
     },this);
 };
 
@@ -429,23 +454,30 @@ PausePanel.prototype = Object.create(Phaser.Group.prototype);
 PausePanel.constructor = PausePanel;
 
 PausePanel.prototype.show = function(){
-    this.game.add.tween(this).to({y:0}, 500, Phaser.Easing.Bounce.Out, true);
-    this.game.add.tween(btnRestart).to({y:175}, 500, Phaser.Easing.Bounce.Out, true);
-    this.game.add.tween(btnHelp).to({y:250}, 500, Phaser.Easing.Bounce.Out, true);
-    this.game.add.tween(btnQuit).to({y:325}, 500, Phaser.Easing.Bounce.Out, true);
+    this.game.add.tween(this).to({y:this.game.camera.y+0}, 500, Phaser.Easing.Bounce.Out, true);
+    this.game.add.tween(btnRestart).to({y:this.game.camera.y+175}, 500, Phaser.Easing.Bounce.Out, true);
+    this.game.add.tween(btnHelp).to({y:this.game.camera.y+250}, 500, Phaser.Easing.Bounce.Out, true);
+    this.game.add.tween(btnQuit).to({y:this.game.camera.y+325}, 500, Phaser.Easing.Bounce.Out, true);
 };
 PausePanel.prototype.update = function(){
-    this.game.add.tween(btnRestart).to({x:this.game.camera.x+350}, 200, Phaser.Easing.Linear.NONE, true);
-    this.game.add.tween(btnHelp).to({x:this.game.camera.x+350}, 200, Phaser.Easing.Linear.NONE, true);
-    this.game.add.tween(btnQuit).to({x:this.game.camera.x+350}, 200, Phaser.Easing.Linear.NONE, true);
-    this.game.add.tween(btnHelpScreen).to({x:this.game.camera.x+150}, 200, Phaser.Easing.Linear.NONE, true);
+    if(!paused){
+        this.game.add.tween(btnRestart).to({x:this.game.camera.x+350}, 1, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(btnHelp).to({x:this.game.camera.x+350}, 1, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(btnQuit).to({x:this.game.camera.x+350}, 1, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(btnHelpScreen).to({x:this.game.camera.x+150}, 1, Phaser.Easing.Linear.NONE, true);
+        //for Y-axis
+        this.game.add.tween(btnRestart).to({y:this.game.camera.y-225}, 1, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(btnHelp).to({y:this.game.camera.y-150}, 1, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(btnQuit).to({y:this.game.camera.y-75}, 1, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(btnHelpScreen).to({y:this.game.camera.y-600}, 1, Phaser.Easing.Linear.NONE, true);
+    }
 }
 
 PausePanel.prototype.hide = function(){
-    this.game.add.tween(btnHelpScreen).to({y:-500}, 200, Phaser.Easing.Linear.NONE, true);
-    this.game.add.tween(this).to({y:-100}, 200, Phaser.Easing.Linear.NONE, true);
-    this.game.add.tween(btnRestart).to({y:-225}, 200, Phaser.Easing.Linear.NONE, true);
-    this.game.add.tween(btnHelp).to({y:-150}, 200, Phaser.Easing.Linear.NONE, true);
-    this.game.add.tween(btnQuit).to({y:-75}, 200, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnHelpScreen).to({y:this.game.camera.y-500}, 200, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(this).to({y:this.game.camera.y-100}, 200, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnRestart).to({y:this.game.camera.y-225}, 200, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnHelp).to({y:this.game.camera.y-150}, 200, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnQuit).to({y:this.game.camera.y-75}, 200, Phaser.Easing.Linear.NONE, true);
 };
 
