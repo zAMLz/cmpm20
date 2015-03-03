@@ -18,7 +18,6 @@
 <body>
 <div id="gameCont"></div>
 <script type="text/javascript">
-
 window.onload = function(){
 	var game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameCont');
 	game.state.add('mainmenu', Game.mainmenu);
@@ -27,7 +26,6 @@ window.onload = function(){
 	game.state.add('preloader', Game.preloader);
 	game.state.add('boot', Game.boot);
 	game.state.start('boot');
-
 }
 </script>
 </body>

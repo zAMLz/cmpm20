@@ -25,7 +25,6 @@ Game.preloader.prototype = {
     this.load.image('fulldome', 'assets/fulldome.png');
     this.load.image('diamond','assets/diamond.png');
     this.load.image('check','assets/check.png');
-    this.load.physics('physicsdata','physics.json');
     //UI
     this.load.image('continue','assets/UI/continue.png');
     this.load.image('help','assets/UI/help.png');
