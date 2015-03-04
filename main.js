@@ -4,9 +4,12 @@
 //-----------Game Variables---------
 var player;
 var cursors;
+var water;
+var inWater=false;
 var playerCollisionGroup;
 var isJumpCollisionGroup;
 var killCollisionGroup;
+var counter = 0;
 
 //-------------OBJECTS---------------
 var checkmark;
@@ -22,7 +25,7 @@ var facing = 'left';
 var jumpButton;
 var isDebug = false;
 var ifCanJump = true;
-var godmode = 0;
+var godmode = 400;
 
 //----------Pause Control-----------
 var paused;
@@ -35,7 +38,7 @@ var scoreText;
 var diamond;
 var diamond2;
 
-//----------frie-------------
+//----------fire-------------
 var sprite;
 var emitter;
 var emitter2;
@@ -67,6 +70,7 @@ Game.main.prototype={
         this.load.image('terr1-5','assets/world/forest/terr1-5.png');
         this.load.image('terr1-6','assets/world/forest/terr1-6.png');
         this.load.image('terr1-7','assets/world/forest/terr1-7.png');
+        this.load.image('water1-1','assets/world/forest/water1-1.png');
         //UI
         this.load.image('continue','assets/UI/continue.png');
         this.load.image('help','assets/UI/help.png');
@@ -126,7 +130,7 @@ Game.main.prototype={
 
         //  We're going to be using physics, so enable the P2 Physics system
         this.physics.startSystem(Phaser.Physics.P2JS);
-        this.physics.p2.gravity.y = 500;
+        this.physics.p2.gravity.y = -500;
         this.physics.p2.setImpactEvents(true);
         this.physics.p2.restitution = 0.0;
 
@@ -189,6 +193,10 @@ Game.main.prototype={
 
         //sets camera to follow
         this.camera.follow(player);
+
+        //Add water after adding the player so that way, water is layered ontop of the player
+        water = this.add.sprite(3200,1850,'water1-1'); //Note this has no interactions with the inWater function
+        this.add.tween(water).to({alpha:0.95}, 1, Phaser.Easing.Linear.NONE, true);//Transparency
 
         //Sets the jump button to up
         jumpButton = this.input.keyboard.addKey(Phaser.Keyboard.UP);
@@ -278,7 +286,6 @@ Game.main.prototype={
 
 
     update: function() {
-
         //console.log("x:"+this.camera.x);
         //console.log("y:"+this.camera.y);
 
@@ -293,14 +300,34 @@ Game.main.prototype={
                 this.pausePanel.update();
         }
 
+        //CHECK IF IN WATER -- This must be modified is water's position is modified...
+        if(player.body.x >= 3200 && player.body.x <= 3200+400 && player.body.y >= 1850 && player.body.y <= 1850+1000){
+            console.log("inwater");
+            inWater = true;
+            this.physics.p2.gravity.y = 200;
+            if(counter == 0){
+                player.body.velocity.y = 0;
+                player.body.velocity.y = 0;
+            }
+            counter++;
+            if(counter%100 == 0)
+                this.physics.p2.gravity.y*=-1;
+        }
+        else{
+            console.log("notinwater");
+            inWater = false;
+            this.physics.p2.gravity.y = 500;
+            counter = 0;
+        }
+
 
         //  Reset the players velocity (movement)
         player.body.velocity.x = 0;
-        if(paused)
+        if(paused || inWater)
             player.body.velocity.y = 0;
 
         //Control Player Movement;
-        if (!paused){
+        if (!paused && !inWater){
             if (cursors.left.isDown)
             {
                 player.body.moveLeft(200+godmode);
@@ -362,6 +389,36 @@ Game.main.prototype={
             }
 
         }
+
+        if (!paused && inWater){
+            if (cursors.left.isDown)
+            {
+                player.body.moveLeft(200+godmode);
+                if (facing != 'left')
+                {
+                    player.animations.play('left');
+                    facing = 'left';
+                }
+            }
+            else if (cursors.right.isDown)
+            {
+                player.body.moveRight(200+godmode);
+                if (facing != 'right')
+                {
+                    player.animations.play('right');
+                    facing = 'right';
+                }
+            }
+            if (cursors.up.isDown)
+            {
+                player.body.moveUp(200+godmode);
+            }
+            else if (cursors.down.isDown)
+            {
+                player.body.moveDown(200+godmode);
+            }
+        }
+
         //console.log("y=",player.body.y);
         //console.log("x=",player.body.x);
         if (player.body.y >= this.world.height-32){
@@ -398,8 +455,7 @@ Game.main.prototype={
         // emitter.forEachExists(game.world.wrap, game.world);
         //this.world.wrap(sprite, 64);
         //console.log(px);
-        if (player.body.x >= 232 && player.body.x <= 431 
-                     && player.body.y <= 440 && player.body.y >= 434){
+        if (player.body.x >= 232 && player.body.x <= 431 && player.body.y <= 440 && player.body.y >= 434){
             this.endGame();
         }
     },
