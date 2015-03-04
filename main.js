@@ -14,6 +14,7 @@ var counter = 0;
 //-------------OBJECTS---------------
 var checkmark;
 var index;
+var star;
 
 //-------------Boxes------------------
 var checkCreated = 0;
@@ -115,7 +116,7 @@ Game.main.prototype={
             //1.Tells the ground to be part of the jumpable collision group
             //2.This effectively tells it that it collides with these collision groups.
             terrain.body.setCollisionGroup(isJumpCollisionGroup);
-            terrain.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+            terrain.body.collides([isJumpCollisionGroup, playerCollisionGroup, winCollisionGroup]);
         }
         terrain.body.static = true;                  //disables gravity for itself...
         terrain.body.fixedRotation = true;           //fixes rotation?
@@ -140,6 +141,7 @@ Game.main.prototype={
         playerCollisionGroup = this.physics.p2.createCollisionGroup();
         isJumpCollisionGroup = this.physics.p2.createCollisionGroup();
         killCollisionGroup = this.physics.p2.createCollisionGroup();
+        winCollisionGroup = this.physics.p2.createCollisionGroup();
 
         //  This part is vital if you want the objects with their own collision groups to still collide with the world bounds
         //  (which we do) - what this does is adjust the bounds to use its own collision group.
@@ -178,6 +180,11 @@ Game.main.prototype={
         checkmark.body.loadPolygon('physicsdata','check');
         checkmark.body.setCollisionGroup(isJumpCollisionGroup);
         checkmark.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+        //if the player collides with the star next level starts
+        star = this.add.sprite(5800,100,'star');
+        this.physics.p2.enableBody(star, isDebug);
+        star.body.setCollisionGroup(winCollisionGroup);
+        star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
         
         // The player aanimations and position
         player = this.add.sprite(32, 1600 - 150, 'dude');
@@ -192,6 +199,7 @@ Game.main.prototype={
         player.body.setCollisionGroup(playerCollisionGroup);
         player.body.collides(isJumpCollisionGroup,function (){ifCanJump = true;},this);
         player.body.collides(killCollisionGroup, this.endGame, this)
+        player.body.collides(winCollisionGroup, this.nextLevel,this);
 
         //sets camera to follow
         this.camera.follow(player);
@@ -290,7 +298,6 @@ Game.main.prototype={
     update: function() {
         //console.log("x:"+this.camera.x);
         //console.log("y:"+this.camera.y);
-
         //  To move the UI along with the camera 
         scoreText.x = this.camera.x+16;
         scoreText.y = this.camera.y+16;
@@ -468,6 +475,10 @@ Game.main.prototype={
         this.music.stop();
         this.state.start('gameover');
     },
+    nextLevel: function(){
+        this.music.stop();
+        this.state.start('level1');
+    }
 
 };
 
