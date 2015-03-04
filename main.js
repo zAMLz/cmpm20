@@ -22,7 +22,7 @@ var facing = 'left';
 var jumpButton;
 var isDebug = true;
 var ifCanJump = true;
-var godmode = 0;
+var godmode = 400;
 
 //----------Pause Control-----------
 var paused;
@@ -145,13 +145,13 @@ Game.main.prototype={
         this.terraincreator('terr-null',1200,1900,playerCollisionGroup,isJumpCollisionGroup,false);
         this.terraincreator('terr1-3',2000,1527,playerCollisionGroup,isJumpCollisionGroup,true);
         this.terraincreator('terr-null',2000,2057,playerCollisionGroup,isJumpCollisionGroup,false);
-        this.terraincreator('terr1-4',2800,1595,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-4',2800,1595,playerCollisionGroup,isJumpCollisionGroup,true);
         this.terraincreator('terr-null',2800,2195,playerCollisionGroup,isJumpCollisionGroup,false);
-        this.terraincreator('terr1-5',4000,1527,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-5',4000,1527,playerCollisionGroup,isJumpCollisionGroup,true);
         this.terraincreator('terr-null',4000,2127,playerCollisionGroup,isJumpCollisionGroup,false);
-        this.terraincreator('terr1-6',4800,1350,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-6',4800,1350,playerCollisionGroup,isJumpCollisionGroup,true);
         this.terraincreator('terr-null',4800,1950,playerCollisionGroup,isJumpCollisionGroup,false);
-        this.terraincreator('terr1-7',5600,1470,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-7',5600,1470,playerCollisionGroup,isJumpCollisionGroup,true);
         this.terraincreator('terr-null',5600,2070,playerCollisionGroup,isJumpCollisionGroup,false);
 
         //Add a forsure kill player object
