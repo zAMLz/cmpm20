@@ -13,6 +13,7 @@
     <script src="preloader.js" type="text/javascript"></script>
     <script src="mainmenu.js" type="text/javascript"></script>
     <script src="main.js" type="text/javascript"></script>
+    <script src="level1.js" type="text/javascript"></script>
     <script src="gameover.js" type="text/javascript"></script>
 </head>
 <body>
@@ -25,6 +26,7 @@ window.onload = function(){
 	game.state.add('gameover', Game.gameover);
 	game.state.add('preloader', Game.preloader);
 	game.state.add('boot', Game.boot);
+	game.state.add('level1', Game.level1);
 	game.state.start('boot');
 }
 </script>
