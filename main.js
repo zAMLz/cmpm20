@@ -194,7 +194,7 @@ Game.main.prototype={
         player.body.collides(killCollisionGroup, this.endGame, this)
 
         //sets camera to follow
-        this.camera.follow(player);
+        this.camera.follow(player,this.camera.FOLLOW_PLATFORMER);
 
         //Add water after adding the player so that way, water is layered ontop of the player
         water = this.add.sprite(3200,1850,'water1-1'); //Note this has no interactions with the inWater function
@@ -256,7 +256,10 @@ Game.main.prototype={
         if(!paused){
             paused = true;
             this.pausePanel.show();
+            this.camera.unfollow();
             this.physics.p2.gravity.y = 0;
+            player.body.velocity.x=0;
+            player.body.velocity.y=0;
             
             //add any object that is affected by gravity here.
             mehSpeed.push(checkmark.body.velocity.x);
@@ -275,6 +278,7 @@ Game.main.prototype={
         if(paused){
             paused = false;
             this.pausePanel.hide();
+            this.camera.follow(player,this.camera.FOLLOW_PLATFORMER);
             this.physics.p2.gravity.y = 500;
             
             //Push out velocties affected by gravity for objects here.
