@@ -116,7 +116,7 @@ Game.main.prototype={
             //1.Tells the ground to be part of the jumpable collision group
             //2.This effectively tells it that it collides with these collision groups.
             terrain.body.setCollisionGroup(isJumpCollisionGroup);
-            terrain.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+            terrain.body.collides([isJumpCollisionGroup, playerCollisionGroup, winCollisionGroup]);
         }
         terrain.body.static = true;                  //disables gravity for itself...
         terrain.body.fixedRotation = true;           //fixes rotation?
@@ -181,7 +181,7 @@ Game.main.prototype={
         checkmark.body.setCollisionGroup(isJumpCollisionGroup);
         checkmark.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
         //if the player collides with the star next level starts
-        star = this.add.sprite(5800,1600,'star');
+        star = this.add.sprite(5800,100,'star');
         this.physics.p2.enableBody(star, isDebug);
         star.body.setCollisionGroup(winCollisionGroup);
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
@@ -298,10 +298,6 @@ Game.main.prototype={
     update: function() {
         //console.log("x:"+this.camera.x);
         //console.log("y:"+this.camera.y);
-        console.log("star x: "+star.body.x);
-        console.log("star y: "+star.body.y)
-        console.log("player x: "+player.body.x);
-        console.log("player y: "+player.body.y);
         //  To move the UI along with the camera 
         scoreText.x = this.camera.x+16;
         scoreText.y = this.camera.y+16;
@@ -435,10 +431,6 @@ Game.main.prototype={
         //-----------------------player Kill zone
         if (player.body.y >= 1850+200){
             this.endGame();
-        }
-        // player next level zone
-        if(player.body.x>= 5900){
-            this.nextLevel();
         }
 
 
