@@ -23,9 +23,11 @@ var boxY;
 //----------Player Control Variables---
 var facing = 'left';
 var jumpButton;
-var isDebug = false;
 var ifCanJump = true;
-var godmode = 400;
+
+//------------TESTING PURPOSES
+var isDebug = true;
+var godmode = 0;
 
 //----------Pause Control-----------
 var paused;
@@ -419,14 +421,13 @@ Game.main.prototype={
             }
         }
 
-        //console.log("y=",player.body.y);
-        //console.log("x=",player.body.x);
-        if (player.body.y >= this.world.height-32){
+        //-----------------------player Kill zone
+        if (player.body.y >= 1850+200){
             this.endGame();
         }
 
 
-        //fire---------------------------
+        //------------------ Fire EMitter
         var px = 0;
         var py = 0;
 
