@@ -55,7 +55,7 @@ Game.main.prototype={
     
 
     preload: function () {
-        this.load.audio('tutorialmusic', 'assets/Steve_Combs_22_Thank_You_Remix.mp3');
+        this.load.audio('tutorialmusic', 'assets/audio/Steve_Combs_22_Thank_You_Remix.mp3');
         this.load.image('sky', 'assets/sky.png');
         this.load.image('ground', 'assets/platform.png');
         this.load.image('star', 'assets/star.png');
@@ -313,7 +313,8 @@ Game.main.prototype={
         if(player.body.x >= 3200 && player.body.x <= 3200+400 && player.body.y >= 1850 && player.body.y <= 1850+1000){
             console.log("inwater");
             inWater = true;
-            this.physics.p2.gravity.y = 200;
+           // this.physics.p2.gravity.y = 200;
+          player.body.data.gravityScale=4;
             if(counter == 0){
                 player.body.velocity.y = 0;
                 player.body.velocity.y = 0;
@@ -323,6 +324,7 @@ Game.main.prototype={
                 this.physics.p2.gravity.y*=-1;
         }
         else{
+            player.body.data.gravityScale=1;
             console.log("notinwater");
             inWater = false;
             this.physics.p2.gravity.y = 500;
