@@ -27,8 +27,8 @@ var jumpButton;
 var ifCanJump = true;
 
 //------------TESTING PURPOSES
-var isDebug = true;
-var godmode = 0;
+var isDebug = false;
+var godmode = 400;
 
 //----------Pause Control-----------
 var paused;
@@ -73,6 +73,8 @@ Game.main.prototype={
         this.load.image('terr1-5','assets/world/forest/terr1-5.png');
         this.load.image('terr1-6','assets/world/forest/terr1-6.png');
         this.load.image('terr1-7','assets/world/forest/terr1-7.png');
+        this.load.image('terr1-b','assets/world/forest/terr1-b.png');
+        this.load.image('terr1-b2','assets/world/forest/terr1-b2.png');
         this.load.image('water1-1','assets/world/forest/water1-1.png');
         //UI
         this.load.image('continue','assets/UI/continue.png');
@@ -110,14 +112,14 @@ Game.main.prototype={
     terraincreator: function(image,x,y,playerCollisionGroup,isJumpCollisionGroup,realTerrain){
         var terrain = this.add.sprite(x, y,image); //creates the sprite
         this.physics.p2.enableBody(terrain,isDebug);    //enables physics on it
-        terrain.body.clearShapes();
         if(realTerrain){
+            terrain.body.clearShapes();
             terrain.body.loadPolygon('physicsdata',image);
-            //1.Tells the ground to be part of the jumpable collision group
-            //2.This effectively tells it that it collides with these collision groups.
-            terrain.body.setCollisionGroup(isJumpCollisionGroup);
-            terrain.body.collides([isJumpCollisionGroup, playerCollisionGroup, winCollisionGroup]);
         }
+        //1.Tells the ground to be part of the jumpable collision group
+        //2.This effectively tells it that it collides with these collision groups.
+        terrain.body.setCollisionGroup(isJumpCollisionGroup);
+        terrain.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
         terrain.body.static = true;                  //disables gravity for itself...
         terrain.body.fixedRotation = true;           //fixes rotation?
     },
@@ -155,12 +157,15 @@ Game.main.prototype={
         this.terraincreator('terr-null',2000,2057,playerCollisionGroup,isJumpCollisionGroup,false);
         this.terraincreator('terr1-4',2800,1595,playerCollisionGroup,isJumpCollisionGroup,true);
         this.terraincreator('terr-null',2800,2195,playerCollisionGroup,isJumpCollisionGroup,false);
-        this.terraincreator('terr1-5',4000,1527,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr1-b',3196,2195,playerCollisionGroup,isJumpCollisionGroup,false);
+        //water pool happens then more terrain
+        this.terraincreator('terr1-5',3950,1527,playerCollisionGroup,isJumpCollisionGroup,true);
         this.terraincreator('terr-null',4000,2127,playerCollisionGroup,isJumpCollisionGroup,false);
-        this.terraincreator('terr1-6',4800,1350,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('terr-null',4800,1950,playerCollisionGroup,isJumpCollisionGroup,false);
-        this.terraincreator('terr1-7',5600,1470,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('terr-null',5600,2070,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-b2',3605,2127,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-6',4750,1350,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',4750,1950,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-7',5550,1470,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',5550,2070,playerCollisionGroup,isJumpCollisionGroup,false);
 
         //Add a forsure kill player object
         diamond = this.add.sprite(300, 1600-175, 'diamond');
@@ -202,7 +207,7 @@ Game.main.prototype={
         player.body.collides(winCollisionGroup, this.nextLevel,this);
 
         //sets camera to follow
-        this.camera.follow(player);
+        this.camera.follow(player,this.camera.FOLLOW_PLATFORMER);
 
         //Add water after adding the player so that way, water is layered ontop of the player
         water = this.add.sprite(3200,1850,'water1-1'); //Note this has no interactions with the inWater function
@@ -264,7 +269,10 @@ Game.main.prototype={
         if(!paused){
             paused = true;
             this.pausePanel.show();
+            this.camera.unfollow();
             this.physics.p2.gravity.y = 0;
+            player.body.velocity.x=0;
+            player.body.velocity.y=0;
             
             //add any object that is affected by gravity here.
             mehSpeed.push(checkmark.body.velocity.x);
@@ -283,6 +291,7 @@ Game.main.prototype={
         if(paused){
             paused = false;
             this.pausePanel.hide();
+            this.camera.follow(player,this.camera.FOLLOW_PLATFORMER);
             this.physics.p2.gravity.y = 500;
             
             //Push out velocties affected by gravity for objects here.
