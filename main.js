@@ -27,7 +27,7 @@ var ifCanJump = true;
 
 //------------TESTING PURPOSES
 var isDebug = false;
-var godmode = 0;
+var godmode = 400;
 
 //----------Pause Control-----------
 var paused;
@@ -72,7 +72,8 @@ Game.main.prototype={
         this.load.image('terr1-5','assets/world/forest/terr1-5.png');
         this.load.image('terr1-6','assets/world/forest/terr1-6.png');
         this.load.image('terr1-7','assets/world/forest/terr1-7.png');
-        this.load.image('terr-border','assets/world/forest/terr-border.png');
+        this.load.image('terr1-b','assets/world/forest/terr1-b.png');
+        this.load.image('terr1-b2','assets/world/forest/terr1-b2.png');
         this.load.image('water1-1','assets/world/forest/water1-1.png');
         //UI
         this.load.image('continue','assets/UI/continue.png');
@@ -110,14 +111,14 @@ Game.main.prototype={
     terraincreator: function(image,x,y,playerCollisionGroup,isJumpCollisionGroup,realTerrain){
         var terrain = this.add.sprite(x, y,image); //creates the sprite
         this.physics.p2.enableBody(terrain,isDebug);    //enables physics on it
-        terrain.body.clearShapes();
         if(realTerrain){
+            terrain.body.clearShapes();
             terrain.body.loadPolygon('physicsdata',image);
-            //1.Tells the ground to be part of the jumpable collision group
-            //2.This effectively tells it that it collides with these collision groups.
-            terrain.body.setCollisionGroup(isJumpCollisionGroup);
-            terrain.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
         }
+        //1.Tells the ground to be part of the jumpable collision group
+        //2.This effectively tells it that it collides with these collision groups.
+        terrain.body.setCollisionGroup(isJumpCollisionGroup);
+        terrain.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
         terrain.body.static = true;                  //disables gravity for itself...
         terrain.body.fixedRotation = true;           //fixes rotation?
     },
@@ -154,14 +155,15 @@ Game.main.prototype={
         this.terraincreator('terr-null',2000,2057,playerCollisionGroup,isJumpCollisionGroup,false);
         this.terraincreator('terr1-4',2800,1595,playerCollisionGroup,isJumpCollisionGroup,true);
         this.terraincreator('terr-null',2800,2195,playerCollisionGroup,isJumpCollisionGroup,false);
-        this.terraincreator('terr-border',3196,2195,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-b',3196,2195,playerCollisionGroup,isJumpCollisionGroup,false);
         //water pool happens then more terrain
-        this.terraincreator('terr1-5',4000,1527,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr1-5',3950,1527,playerCollisionGroup,isJumpCollisionGroup,true);
         this.terraincreator('terr-null',4000,2127,playerCollisionGroup,isJumpCollisionGroup,false);
-        this.terraincreator('terr1-6',4800,1350,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('terr-null',4800,1950,playerCollisionGroup,isJumpCollisionGroup,false);
-        this.terraincreator('terr1-7',5600,1470,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('terr-null',5600,2070,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-b2',3605,2127,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-6',4750,1350,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',4750,1950,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-7',5550,1470,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',5550,2070,playerCollisionGroup,isJumpCollisionGroup,false);
 
         //Add a forsure kill player object
         diamond = this.add.sprite(300, 1600-175, 'diamond');
