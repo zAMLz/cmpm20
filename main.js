@@ -28,7 +28,7 @@ var ifCanJump = true;
 
 //------------TESTING PURPOSES
 var isDebug = false;
-var godmode = 400;
+var godmode = 0;
 
 //----------Pause Control-----------
 var paused;
