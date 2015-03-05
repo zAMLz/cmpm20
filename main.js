@@ -26,7 +26,7 @@ var jumpButton;
 var ifCanJump = true;
 
 //------------TESTING PURPOSES
-var isDebug = true;
+var isDebug = false;
 var godmode = 0;
 
 //----------Pause Control-----------
@@ -72,6 +72,7 @@ Game.main.prototype={
         this.load.image('terr1-5','assets/world/forest/terr1-5.png');
         this.load.image('terr1-6','assets/world/forest/terr1-6.png');
         this.load.image('terr1-7','assets/world/forest/terr1-7.png');
+        this.load.image('terr-border','assets/world/forest/terr-border.png');
         this.load.image('water1-1','assets/world/forest/water1-1.png');
         //UI
         this.load.image('continue','assets/UI/continue.png');
@@ -153,6 +154,8 @@ Game.main.prototype={
         this.terraincreator('terr-null',2000,2057,playerCollisionGroup,isJumpCollisionGroup,false);
         this.terraincreator('terr1-4',2800,1595,playerCollisionGroup,isJumpCollisionGroup,true);
         this.terraincreator('terr-null',2800,2195,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr-border',3196,2195,playerCollisionGroup,isJumpCollisionGroup,false);
+        //water pool happens then more terrain
         this.terraincreator('terr1-5',4000,1527,playerCollisionGroup,isJumpCollisionGroup,true);
         this.terraincreator('terr-null',4000,2127,playerCollisionGroup,isJumpCollisionGroup,false);
         this.terraincreator('terr1-6',4800,1350,playerCollisionGroup,isJumpCollisionGroup,true);
