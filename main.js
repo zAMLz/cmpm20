@@ -24,7 +24,7 @@ var boxY;
 //----------Player Control Variables---
 var facing = 'left';
 var jumpButton;
-var ifCanJump = true;
+var ifCanJump = false;
 
 //------------TESTING PURPOSES
 var isDebug = false;
@@ -323,17 +323,17 @@ Game.main.prototype={
             console.log("inwater");
             inWater = true;
            // this.physics.p2.gravity.y = 200;
-          player.body.data.gravityScale=4;
+          //player.body.data.gravityScale=20;
+          ifCanJump=false;
             if(counter == 0){
-                player.body.velocity.y = 0;
-                player.body.velocity.y = 0;
+                this.physics.p2.gravity.y = 150;
             }
             counter++;
-            if(counter%100 == 0)
-                this.physics.p2.gravity.y*=-1;
+            if(counter%10 == 0)
+                this.physics.p2.gravity.y*=1.2;
         }
         else{
-            player.body.data.gravityScale=1;
+           // player.body.data.gravityScale=1;
             console.log("notinwater");
             inWater = false;
             this.physics.p2.gravity.y = 500;
@@ -429,7 +429,7 @@ Game.main.prototype={
                     facing = 'right';
                 }
             }
-            if (cursors.up.isDown)
+            if (cursors.up.isDown&&!inWater)
             {
                 player.body.moveUp(200+godmode);
             }
