@@ -204,8 +204,8 @@ Game.main.prototype={
         ladder9 = this.add.sprite(3200, 1465, 'ladder');
         ladder10 = this.add.sprite(3125, 1375, 'ladder');
         ladder11 = this.add.sprite(1100, 1170, 'ladder');
-        ladder12 = this.add.sprite(2030, 1450, 'ladder');
-        ladder13 = this.add.sprite(2030, 1300, 'ladder');
+        ladder12 = this.add.sprite(2030, 1430, 'ladder');
+        ladder13 = this.add.sprite(2030, 1270, 'ladder');
         
         // The player aanimations and position
         player = this.add.sprite(32, 1600 - 150, 'dude');
@@ -278,7 +278,7 @@ Game.main.prototype={
         emitter2.makeParticles( [ 'fire1', 'fire2', 'fire3', 'smoke' ] );
         emitter2.gravity = -500;
         emitter2.setAlpha(1, 0, 2000);
-        emitter2.setScale(0.3, 0.3, 0.3, 0, 3000);
+        emitter2.setScale(0.2, 0.3, 0.2, 0, 3000);
 
         emitter2.start(false, 3000, 5);
        
@@ -369,8 +369,8 @@ Game.main.prototype={
             (player.body.x >= 3200 && player.body.x <= 3200+20 && player.body.y >= 1465 && player.body.y <= 1465+150) ||
             (player.body.x >= 3125 && player.body.x <= 3125+20 && player.body.y >= 1375 && player.body.y <= 1375+150) ||
             (player.body.x >= 1100 && player.body.x <= 1100+20 && player.body.y >= 1170 && player.body.y <= 1170+150) ||
-            (player.body.x >= 2030 && player.body.x <= 2030+20 && player.body.y >= 1450 && player.body.y <= 1450+150) ||
-            (player.body.x >= 2030 && player.body.x <= 2030+20 && player.body.y >= 1300 && player.body.y <= 1300+150) )){
+            (player.body.x >= 2030 && player.body.x <= 2030+20 && player.body.y >= 1420 && player.body.y <= 1420+150) ||
+            (player.body.x >= 2030 && player.body.x <= 2030+20 && player.body.y >= 1270 && player.body.y <= 1270+150) )){
             console.log("on ladder");
             player.body.data.gravityScale=0.05;
             onLadder=true;
