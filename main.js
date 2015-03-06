@@ -18,6 +18,8 @@ var checkmark;
 var index;
 var star;
 var ladder;
+var ladder1;
+var ladder2;
 
 //-------------Boxes------------------
 var checkCreated = 0;
@@ -157,7 +159,9 @@ Game.main.prototype={
         star.body.setCollisionGroup(winCollisionGroup);
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
         //climbable tree
-        ladder = this.add.sprite(200,1560,'ladder');
+        ladder = this.add.sprite(560,1520,'ladder');
+        ladder1 = this.add.sprite(500, 1400, 'ladder');
+        ladder2 = this.add.sprite(580, 1300, 'ladder');
         
         // The player aanimations and position
         player = this.add.sprite(32, 1600 - 150, 'dude');
@@ -287,7 +291,7 @@ Game.main.prototype={
                 this.pausePanel.update();
         }
         //check if in bounds of ladder
-        if(pushButton.isDown&&(player.body.x >= 200 && player.body.x <= 200+20 && player.body.y >= 1560 && player.body.y <= 1560+150)){
+        if(pushButton.isDown&&(player.body.x >= 300 && player.body.x <= 300+20 && player.body.y >= 1560 && player.body.y <= 1560+150)){
             console.log("on ladder");
             player.body.data.gravityScale=0.05;
             onLadder=true;
