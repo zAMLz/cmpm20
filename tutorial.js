@@ -93,7 +93,7 @@ Game.tutorial.prototype={
         //1.Tells the ground to be part of the jumpable collision group
         //2.This effectively tells it that it collides with these collision groups.
         ground.body.setCollisionGroup(isJumpCollisionGroup);
-        ground.body.collides([isJumpCollisionGroup, playerCollisionGroup, killCollisionGroup, winCollisionGroup]);
+        ground.body.collides([isJumpCollisionGroup, playerCollisionGroup, killCollisionGroup, winCollisionGroup, BoxCollisionGroup]);
 
         // The player aanimations and position
         player = this.add.sprite(32, this.world.height - 150, 'dude');
@@ -127,7 +127,7 @@ Game.tutorial.prototype={
 
         //ladder to pass traps
         ladder = this.add.sprite(620, 250, 'ladder');
-        this.createBox(100, 1700, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+        this.createBox(1200, 490, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
 
         //sets camera to follow
         this.camera.follow(player);
