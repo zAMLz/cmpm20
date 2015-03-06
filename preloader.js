@@ -39,6 +39,7 @@ Game.preloader.prototype = {
     this.load.image('terr1-b','assets/world/forest/terr1-b.png');
     this.load.image('terr1-b2','assets/world/forest/terr1-b2.png');
     this.load.image('water1-1','assets/world/forest/water1-1.png');
+    this.load.image('boulder','assets/world/forest/boulder.png');
     //UI
     this.load.image('continue','assets/UI/continue.png');
     this.load.image('help','assets/UI/help.png');
