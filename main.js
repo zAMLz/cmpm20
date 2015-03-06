@@ -6,6 +6,7 @@ var player;
 var cursors;
 var water;
 var inWater=false;
+var onLadder=false;
 var playerCollisionGroup;
 var isJumpCollisionGroup;
 var killCollisionGroup;
@@ -280,12 +281,18 @@ Game.main.prototype={
                 this.pausePanel.update();
         }
         //check if in bounds of ladder
-        if(player.body.x >= 200 && player.body.x <= 3200+20 && player.body.y >= 1560 && player.body.y <= 1560+150){
+        if(pushButton.isDown&&(player.body.x >= 200 && player.body.x <= 200+20 && player.body.y >= 1560 && player.body.y <= 1560+150)){
             console.log("on ladder");
+            player.body.data.gravityScale=0.05;
+            onLadder=true;
+        }
+        else{
+            player.body.data.gravityScale=1;
+            onLadder=false;
         }
         //CHECK IF IN WATER -- This must be modified is water's position is modified...
         if(player.body.x >= 3200 && player.body.x <= 3200+400 && player.body.y >= 1850 && player.body.y <= 1850+1000){
-            console.log("inwater");
+           // console.log("inwater");
             inWater = true;
            // this.physics.p2.gravity.y = 200;
           //player.body.data.gravityScale=20;
@@ -299,7 +306,7 @@ Game.main.prototype={
         }
         else{
            // player.body.data.gravityScale=1;
-            console.log("notinwater");
+           // console.log("notinwater");
             inWater = false;
             this.physics.p2.gravity.y = 500;
             counter = 0;
@@ -312,7 +319,7 @@ Game.main.prototype={
             player.body.velocity.y = 0;
 
         //Control Player Movement;
-        if (!paused && !inWater){
+        if (!paused && !inWater && !onLadder){
             if (cursors.left.isDown)
             {
                 player.body.moveLeft(200+godmode);
@@ -375,7 +382,7 @@ Game.main.prototype={
 
         }
 
-        if (!paused && inWater){
+        if (!paused && inWater && !onLadder){
             if (cursors.left.isDown)
             {
                 player.body.moveLeft(200+godmode);
@@ -401,6 +408,14 @@ Game.main.prototype={
             else if (cursors.down.isDown)
             {
                 player.body.moveDown(200+godmode);
+            }
+        }
+        if(!paused && !inWater && onLadder){
+            if(cursors.up.isDown){
+                player.body.moveUp(40);
+            }
+            else if(cursors.down.isDown){
+                player.body.moveDown(40);
             }
         }
 
