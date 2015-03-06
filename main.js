@@ -160,9 +160,8 @@ Game.main.prototype={
         this.terraincreator('terr-null',5550,2070,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
 
         //Add a forsure kill player object
-        this.createKillObj(300, 1600-100, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(2198, 1578, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(2233, 1578, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(2298, 1582, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(2333, 1582, 'diamond', playerCollisionGroup, killCollisionGroup);
 
         this.createKillObj(2530, 1657, 'diamond', playerCollisionGroup, killCollisionGroup);
         this.createKillObj(2555, 1685, 'diamond', playerCollisionGroup, killCollisionGroup);
@@ -277,7 +276,7 @@ Game.main.prototype={
         //emitter = this.add.emitter(500, 300, 300);
 
         emitter2.makeParticles( [ 'fire1', 'fire2', 'fire3', 'smoke' ] );
-        emitter2.gravity = -30;
+        emitter2.gravity = -500;
         emitter2.setAlpha(1, 0, 2000);
         emitter2.setScale(0.3, 0.3, 0.3, 0, 3000);
 
@@ -539,7 +538,7 @@ Game.main.prototype={
         emitter.emitY = sprite.y+58;
 
         //fire2---------------------------
-        var px2 = 200;
+        var px2 = 0;
         var py2 = 0;
 
         px2 *= -1;
@@ -548,13 +547,13 @@ Game.main.prototype={
         emitter2.minParticleSpeed.set(px2, py2);
         emitter2.maxParticleSpeed.set(px2, py2);
 
-        emitter2.emitX = 400;
-        emitter2.emitY = 1600;
+        emitter2.emitX = 2130;
+        emitter2.emitY = 1570;
 
         // emitter.forEachExists(game.world.wrap, game.world);
         //this.world.wrap(sprite, 64);
         //console.log(px);
-        if (player.body.x >= 232 && player.body.x <= 431 && player.body.y <= 440 && player.body.y >= 434){
+        if (player.body.x >= 2130 && player.body.x <= 2159 && player.body.y <= 1565 && player.body.y >= 1360){
             this.endGame();
         }
     },
