@@ -26,9 +26,6 @@ var boxY;
 var onGround = true;
 var playerbox = true;
 
-
-var score = 0;
-var scoreText;
 Game.tutorial = function(game){
     this.music=null;
 }
@@ -135,9 +132,6 @@ Game.tutorial.prototype={
         //sets camera to follow
         this.camera.follow(player);
 
-        //  The score
-        scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });
-
         //  Our controls.
         cursors = this.input.keyboard.createCursorKeys();
         jumpButton = this.input.keyboard.addKey(Phaser.Keyboard.UP);
@@ -185,8 +179,6 @@ Game.tutorial.prototype={
         console.log("x ",player.body.x)
         console.log("y ", player.body.y);
         //  To move the UI along with the camera 
-        scoreText.x = this.camera.x+16;
-        scoreText.y = this.camera.y+16;
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
@@ -318,7 +310,6 @@ Game.tutorial.prototype={
     },
 
      endGame: function(){
-        score = 0;
         this.music.stop();
         this.state.start('tutorialgg');
     },
