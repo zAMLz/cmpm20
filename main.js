@@ -177,9 +177,9 @@ Game.main.prototype={
         ladder3 = this.add.sprite(3250, 1600, 'ladder');
         ladder4 = this.add.sprite(3325, 1525, 'ladder');
         ladder5 = this.add.sprite(3400, 1450, 'ladder');
-        ladder6 = this.add.sprite(3540, 1430, 'ladder');
-        ladder7 = this.add.sprite(3570, 1300, 'ladder');
-        ladder8 = this.add.sprite(3450, 1275, 'ladder');
+        ladder6 = this.add.sprite(3565, 1430, 'ladder');
+        ladder7 = this.add.sprite(3575, 1300, 'ladder');
+        ladder8 = this.add.sprite(3450, 1310, 'ladder');
         ladder9 = this.add.sprite(3200, 1465, 'ladder');
         ladder10 = this.add.sprite(3125, 1375, 'ladder');
         ladder11 = this.add.sprite(1100, 1170, 'ladder');
@@ -321,9 +321,9 @@ Game.main.prototype={
             (player.body.x >= 3250 && player.body.x <= 3250+20 && player.body.y >= 1600 && player.body.y <= 1600+150) ||
             (player.body.x >= 3325 && player.body.x <= 3325+20 && player.body.y >= 1525 && player.body.y <= 1525+150) ||
             (player.body.x >= 3400 && player.body.x <= 3400+20 && player.body.y >= 1450 && player.body.y <= 1450+150) || 
-            (player.body.x >= 3540 && player.body.x <= 3540+20 && player.body.y >= 1430 && player.body.y <= 1430+150) ||
-            (player.body.x >= 3570 && player.body.x <= 3570+20 && player.body.y >= 1300 && player.body.y <= 1300+150) ||
-            (player.body.x >= 3450 && player.body.x <= 3450+20 && player.body.y >= 1275 && player.body.y <= 1275+150) ||
+            (player.body.x >= 3565 && player.body.x <= 3565+20 && player.body.y >= 1430 && player.body.y <= 1430+150) ||
+            (player.body.x >= 3575 && player.body.x <= 3575+20 && player.body.y >= 1300 && player.body.y <= 1300+150) ||
+            (player.body.x >= 3450 && player.body.x <= 3450+20 && player.body.y >= 1310 && player.body.y <= 1310+150) ||
             (player.body.x >= 3200 && player.body.x <= 3200+20 && player.body.y >= 1465 && player.body.y <= 1465+150) ||
             (player.body.x >= 3125 && player.body.x <= 3125+20 && player.body.y >= 1375 && player.body.y <= 1375+150) ||
             (player.body.x >= 1100 && player.body.x <= 1100+20 && player.body.y >= 1170 && player.body.y <= 1170+150) ||
