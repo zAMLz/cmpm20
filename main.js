@@ -371,7 +371,7 @@ Game.main.prototype={
             (player.body.x >= 3125 && player.body.x <= 3125+20 && player.body.y >= 1375 && player.body.y <= 1375+150) ||
             (player.body.x >= 1100 && player.body.x <= 1100+20 && player.body.y >= 1170 && player.body.y <= 1170+150) ||
             (player.body.x >= 2030 && player.body.x <= 2030+20 && player.body.y >= 1450 && player.body.y <= 1450+150) ||
-            (player.body.x >= 2030 && player.body.x <= 2030+20 && player.body.y >= 1300 && player.body.y <= 1300+150) )){
+            (player.body.x >= 2030 && player.body.x <= 2030+20 && player.body.y >= 1300 && player.body.y <= 1300+150))){
             console.log("on ladder");
             player.body.data.gravityScale=0.05;
             onLadder=true;
