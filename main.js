@@ -291,7 +291,9 @@ Game.main.prototype={
                 this.pausePanel.update();
         }
         //check if in bounds of ladder
-        if(pushButton.isDown&&(player.body.x >= 300 && player.body.x <= 300+20 && player.body.y >= 1560 && player.body.y <= 1560+150)){
+        if(pushButton.isDown && ((player.body.x >= 560 && player.body.x <= 560+20 && player.body.y >= 1520 && player.body.y <= 1520+150) || 
+            (player.body.x >= 500 && player.body.x <= 500+20 && player.body.y >= 1400 && player.body.y <= 1400+150) || 
+            (player.body.x >= 580 && player.body.x <= 580+20 && player.body.y >= 1300 && player.body.y <= 1300+150))){
             console.log("on ladder");
             player.body.data.gravityScale=0.05;
             onLadder=true;
