@@ -63,10 +63,11 @@ Game.level1.prototype = {
 
     terraincreator: function(image,x,y,playerCollisionGroup,isJumpCollisionGroup,realTerrain){
         var terrain = this.add.sprite(x, y,image); //creates the sprite
-        this.physics.p2.enableBody(terrain,isDebug);    //enables physics on it
+        this.physics.p2.enableBody(terrain,true);    //enables physics on it
         terrain.body.clearShapes();
         if(realTerrain){
             terrain.body.loadPolygon('physicsdatafactory',image);
+            console.log(image);
             //1.Tells the ground to be part of the jumpable collision group
             //2.This effectively tells it that it collides with these collision groups.
             terrain.body.setCollisionGroup(isJumpCollisionGroup);
@@ -102,17 +103,19 @@ Game.level1.prototype = {
         this.physics.p2.updateBoundsCollisionGroup();
 
         //ADD TERRAIN HERE
-        this.terraincreator('fact1-1',400,1600,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
+        this.terraincreator('fact1',200,1600,playerCollisionGroup,isJumpCollisionGroup,true);
         //this.terraincreator('terr-null',400,2200,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1-2',1200,1300,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
+        this.terraincreator('fact2',840,1600,playerCollisionGroup,isJumpCollisionGroup,true);
         //this.terraincreator('terr-null',1200,1900,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1-3',2000,1527,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
+        this.terraincreator('fact3',1480,1600,playerCollisionGroup,isJumpCollisionGroup,true);
 
         //if the player collides with the star next level starts
         star = this.add.sprite(5800,100,'star');
         this.physics.p2.enableBody(star, isDebug);
         star.body.setCollisionGroup(winCollisionGroup);
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+
+        this.createBox(-10, 0, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
         
         // The player aanimations and position
         player = this.add.sprite(32, 1600 - 150, 'dude');
