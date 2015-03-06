@@ -181,7 +181,7 @@ Game.main.prototype={
 
         //TESING purposes -- added a checkmark for lols
         boulder = this.add.sprite(400,128,'boulder');
-        this.physics.p2.enableBody(blouder,isDebug);
+        this.physics.p2.enableBody(boulder,isDebug);
         boulder.body.clearShapes();
         boulder.body.setCircle(50);
         boulder.body.setCollisionGroup(isJumpCollisionGroup);
