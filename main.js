@@ -32,6 +32,7 @@ var ladder9;
 var ladder10;
 var ladder11;
 var ladder12;
+var ladder13;
 
 
 
@@ -204,7 +205,8 @@ Game.main.prototype={
         ladder9 = this.add.sprite(3200, 1465, 'ladder');
         ladder10 = this.add.sprite(3125, 1375, 'ladder');
         ladder11 = this.add.sprite(1100, 1170, 'ladder');
-        ladder12 = this.add.sprite(2030, 1500, 'ladder');
+        ladder12 = this.add.sprite(2030, 1450, 'ladder');
+        ladder13 = this.add.sprite(2030, 1300, 'ladder');
         
         // The player aanimations and position
         player = this.add.sprite(32, 1600 - 150, 'dude');
@@ -368,7 +370,8 @@ Game.main.prototype={
             (player.body.x >= 3200 && player.body.x <= 3200+20 && player.body.y >= 1465 && player.body.y <= 1465+150) ||
             (player.body.x >= 3125 && player.body.x <= 3125+20 && player.body.y >= 1375 && player.body.y <= 1375+150) ||
             (player.body.x >= 1100 && player.body.x <= 1100+20 && player.body.y >= 1170 && player.body.y <= 1170+150) ||
-            (player.body.x >= 2030 && player.body.x <= 2030+20 && player.body.y >= 1500 && player.body.y <= 1500+150) )){
+            (player.body.x >= 2030 && player.body.x <= 2030+20 && player.body.y >= 1450 && player.body.y <= 1450+150) ||
+            (player.body.x >= 2030 && player.body.x <= 2030+20 && player.body.y >= 1300 && player.body.y <= 1300+150) )){
             console.log("on ladder");
             player.body.data.gravityScale=0.05;
             onLadder=true;
