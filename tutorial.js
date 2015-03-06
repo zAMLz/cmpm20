@@ -127,7 +127,7 @@ Game.tutorial.prototype={
 
         //ladder to pass traps
         ladder = this.add.sprite(620, 250, 'ladder');
-        this.createBox(1200, 490, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+        this.createBox(200, 490, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
 
         //sets camera to follow
         this.camera.follow(player);
