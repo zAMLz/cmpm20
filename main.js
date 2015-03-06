@@ -20,6 +20,9 @@ var star;
 var ladder;
 var ladder1;
 var ladder2;
+var ladder3;
+var ladder4;
+var ladder5;
 
 //-------------Boxes------------------
 var checkCreated = 0;
@@ -159,9 +162,12 @@ Game.main.prototype={
         star.body.setCollisionGroup(winCollisionGroup);
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
         //climbable tree
-        ladder = this.add.sprite(560,1520,'ladder');
+        ladder = this.add.sprite(560, 1520,'ladder');
         ladder1 = this.add.sprite(500, 1400, 'ladder');
         ladder2 = this.add.sprite(580, 1300, 'ladder');
+        ladder3 = this.add.sprite(3250, 1600, 'ladder');
+        ladder4 = this.add.sprite(3325, 1525, 'ladder');
+        ladder5 = this.add.sprite(3400, 1450, 'ladder');
         
         // The player aanimations and position
         player = this.add.sprite(32, 1600 - 150, 'dude');
@@ -281,6 +287,8 @@ Game.main.prototype={
         //console.log("x:"+this.camera.x);
         //console.log("y:"+this.camera.y);
         //  To move the UI along with the camera 
+        console.log("x: ", player.body.x);
+        console.log("y: ", player.body.y);
         scoreText.x = this.camera.x+16;
         scoreText.y = this.camera.y+16;
         this.btnPause.x = this.camera.x+675;
