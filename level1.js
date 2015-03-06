@@ -32,8 +32,6 @@ var pausePanel;
 var mehSpeed;
 
 //---------Other Variables---------
-var score = 0;
-var scoreText;
 var diamond;
 var diamond2;
 
@@ -205,9 +203,6 @@ Game.level1.prototype = {
 
         pushButton = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
-        //  The score
-        scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });
-
         //  Our controls.(left/up/down/right)
         cursors = this.input.keyboard.createCursorKeys();
         
@@ -291,8 +286,6 @@ Game.level1.prototype = {
         //console.log("x:"+this.camera.x);
         //console.log("y:"+this.camera.y);
         //  To move the UI along with the camera 
-        scoreText.x = this.camera.x+16;
-        scoreText.y = this.camera.y+16;
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
@@ -466,7 +459,6 @@ Game.level1.prototype = {
 
 // correct the endGame function
     endGame: function(){
-        score = 0;
         this.music.stop();
         this.state.start('gameover');
     },
