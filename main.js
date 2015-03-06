@@ -13,6 +13,8 @@ var counter = 0;
 
 //-------------OBJECTS---------------
 var boulder;
+var badboulder;
+var BBnotcreated = true;
 var index;
 var star;
 
@@ -27,7 +29,7 @@ var jumpButton;
 var ifCanJump = false;
 
 //------------TESTING PURPOSES
-var isDebug = true;
+var isDebug = false;
 var godmode = 0;
 
 //----------Pause Control-----------
@@ -120,7 +122,7 @@ Game.main.prototype={
         //1.Tells the ground to be part of the jumpable collision group
         //2.This effectively tells it that it collides with these collision groups.
         terrain.body.setCollisionGroup(isJumpCollisionGroup);
-        terrain.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+        terrain.body.collides([isJumpCollisionGroup, playerCollisionGroup, killCollisionGroup]);
         terrain.body.static = true;                  //disables gravity for itself...
         terrain.body.fixedRotation = true;           //fixes rotation?
     },
@@ -179,13 +181,15 @@ Game.main.prototype={
         //create a moveable Boxs
         this.createBox(100, 1700, 'diamond',playerCollisionGroup, isJumpCollisionGroup);
 
-        //TESING purposes -- added a checkmark for lols
-        boulder = this.add.sprite(400,128,'boulder');
+        //Safe Boulder, used for jumping off the ground.
+        boulder = this.add.sprite(1300,128,'boulder');
         this.physics.p2.enableBody(boulder,isDebug);
         boulder.body.clearShapes();
         boulder.body.setCircle(50);
+        boulder.body.data.gravityScale=4;
         boulder.body.setCollisionGroup(isJumpCollisionGroup);
         boulder.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+
         //if the player collides with the star next level starts
         star = this.add.sprite(5800,100,'star');
         this.physics.p2.enableBody(star, isDebug);
@@ -211,8 +215,6 @@ Game.main.prototype={
         this.camera.follow(player,this.camera.FOLLOW_PLATFORMER);
 
         //Add water after adding the player so that way, water is layered ontop of the player
-        water = this.add.sprite(3200,1850,'water1-1'); //Note this has no interactions with the inWater function
-        this.add.tween(water).to({alpha:0.95}, 1, Phaser.Easing.Linear.NONE, true);//Transparency
 
         //Sets the jump button to up
         jumpButton = this.input.keyboard.addKey(Phaser.Keyboard.UP);
@@ -266,6 +268,22 @@ Game.main.prototype={
        
     },
 
+    badbouldercreate: function(){
+        if(BBnotcreated){
+            BBnotcreated=false;
+            boulder = this.add.sprite(2064,1400,'boulder');
+            this.physics.p2.enableBody(boulder,isDebug);
+            boulder.body.clearShapes();
+            boulder.body.setCircle(50);
+            boulder.body.setCollisionGroup(killCollisionGroup);
+            boulder.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+            boulder.body.moveRight(200);
+            //Need to create water after this event, so that way the boulder happens to be behind the layer.
+            water = this.add.sprite(3200,1850,'water1-1'); //Note this has no interactions with the inWater function
+            this.add.tween(water).to({alpha:0.95}, 1, Phaser.Easing.Linear.NONE, true);//Transparency
+        }
+    },
+
     pauseGame: function(){
         if(!paused){
             paused = true;
@@ -306,8 +324,8 @@ Game.main.prototype={
 
 
     update: function() {
-        //console.log("x:"+this.camera.x);
-        //console.log("y:"+this.camera.y);
+        console.log("x:"+player.body.x);
+        console.log("y:"+player.body.y);
         //  To move the UI along with the camera 
         scoreText.x = this.camera.x+16;
         scoreText.y = this.camera.y+16;
@@ -318,6 +336,11 @@ Game.main.prototype={
                 this.pausePanel.y = this.camera.y-100;
                 this.pausePanel.update();
         }
+
+        //CHECK OTHER ING GAME EVENTS HERE
+        //1. DEATH BOULDER
+        if(player.body.x>2429)
+            this.badbouldercreate();
 
         //CHECK IF IN WATER -- This must be modified is water's position is modified...
         if(player.body.x >= 3200 && player.body.x <= 3200+400 && player.body.y >= 1850 && player.body.y <= 1850+1000){
