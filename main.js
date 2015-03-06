@@ -12,7 +12,7 @@ var killCollisionGroup;
 var counter = 0;
 
 //-------------OBJECTS---------------
-var checkmark;
+var boulder;
 var index;
 var star;
 
@@ -27,7 +27,7 @@ var jumpButton;
 var ifCanJump = false;
 
 //------------TESTING PURPOSES
-var isDebug = false;
+var isDebug = true;
 var godmode = 0;
 
 //----------Pause Control-----------
@@ -76,6 +76,7 @@ Game.main.prototype={
         this.load.image('terr1-b','assets/world/forest/terr1-b.png');
         this.load.image('terr1-b2','assets/world/forest/terr1-b2.png');
         this.load.image('water1-1','assets/world/forest/water1-1.png');
+        this.load.image('boulder','assets/world/forest/boulder.png');
         //UI
         this.load.image('continue','assets/UI/continue.png');
         this.load.image('help','assets/UI/help.png');
@@ -179,12 +180,12 @@ Game.main.prototype={
         this.createBox(100, 1700, 'diamond',playerCollisionGroup, isJumpCollisionGroup);
 
         //TESING purposes -- added a checkmark for lols
-        checkmark = this.add.sprite(400,128,'check');
-        this.physics.p2.enableBody(checkmark,isDebug);
-        checkmark.body.clearShapes();
-        checkmark.body.loadPolygon('physicsdata','check');
-        checkmark.body.setCollisionGroup(isJumpCollisionGroup);
-        checkmark.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+        boulder = this.add.sprite(400,128,'boulder');
+        this.physics.p2.enableBody(blouder,isDebug);
+        boulder.body.clearShapes();
+        boulder.body.setCircle(50);
+        boulder.body.setCollisionGroup(isJumpCollisionGroup);
+        boulder.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
         //if the player collides with the star next level starts
         star = this.add.sprite(5800,100,'star');
         this.physics.p2.enableBody(star, isDebug);
