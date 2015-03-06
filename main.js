@@ -22,6 +22,18 @@ var star;
 var ladder;
 var ladder1;
 var ladder2;
+var ladder3;
+var ladder4;
+var ladder5;
+var ladder6;
+var ladder7;
+var ladder8;
+var ladder9;
+var ladder10;
+var ladder11;
+var ladder12;
+
+
 
 //-------------Boxes------------------
 var checkCreated = 0;
@@ -163,9 +175,19 @@ Game.main.prototype={
         star.body.setCollisionGroup(winCollisionGroup);
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
         //climbable tree
-        ladder = this.add.sprite(560,1520,'ladder');
+        ladder = this.add.sprite(560, 1520,'ladder');
         ladder1 = this.add.sprite(500, 1400, 'ladder');
         ladder2 = this.add.sprite(580, 1300, 'ladder');
+        ladder3 = this.add.sprite(3250, 1600, 'ladder');
+        ladder4 = this.add.sprite(3325, 1525, 'ladder');
+        ladder5 = this.add.sprite(3400, 1450, 'ladder');
+        ladder6 = this.add.sprite(3565, 1430, 'ladder');
+        ladder7 = this.add.sprite(3575, 1300, 'ladder');
+        ladder8 = this.add.sprite(3450, 1310, 'ladder');
+        ladder9 = this.add.sprite(3200, 1465, 'ladder');
+        ladder10 = this.add.sprite(3125, 1375, 'ladder');
+        ladder11 = this.add.sprite(1100, 1170, 'ladder');
+        ladder12 = this.add.sprite(2030, 1500, 'ladder');
         
         // The player aanimations and position
         player = this.add.sprite(32, 1600 - 150, 'dude');
@@ -302,6 +324,8 @@ Game.main.prototype={
         console.log("x:"+player.body.x);
         console.log("y:"+player.body.y);
         //  To move the UI along with the camera 
+        console.log("x: ", player.body.x);
+        console.log("y: ", player.body.y);
         scoreText.x = this.camera.x+16;
         scoreText.y = this.camera.y+16;
         this.btnPause.x = this.camera.x+675;
@@ -315,7 +339,17 @@ Game.main.prototype={
         //check if in bounds of ladder
         if(pushButton.isDown && ((player.body.x >= 560 && player.body.x <= 560+20 && player.body.y >= 1520 && player.body.y <= 1520+150) || 
             (player.body.x >= 500 && player.body.x <= 500+20 && player.body.y >= 1400 && player.body.y <= 1400+150) || 
-            (player.body.x >= 580 && player.body.x <= 580+20 && player.body.y >= 1300 && player.body.y <= 1300+150))){
+            (player.body.x >= 580 && player.body.x <= 580+20 && player.body.y >= 1300 && player.body.y <= 1300+150) ||
+            (player.body.x >= 3250 && player.body.x <= 3250+20 && player.body.y >= 1600 && player.body.y <= 1600+150) ||
+            (player.body.x >= 3325 && player.body.x <= 3325+20 && player.body.y >= 1525 && player.body.y <= 1525+150) ||
+            (player.body.x >= 3400 && player.body.x <= 3400+20 && player.body.y >= 1450 && player.body.y <= 1450+150) || 
+            (player.body.x >= 3565 && player.body.x <= 3565+20 && player.body.y >= 1430 && player.body.y <= 1430+150) ||
+            (player.body.x >= 3575 && player.body.x <= 3575+20 && player.body.y >= 1300 && player.body.y <= 1300+150) ||
+            (player.body.x >= 3450 && player.body.x <= 3450+20 && player.body.y >= 1310 && player.body.y <= 1310+150) ||
+            (player.body.x >= 3200 && player.body.x <= 3200+20 && player.body.y >= 1465 && player.body.y <= 1465+150) ||
+            (player.body.x >= 3125 && player.body.x <= 3125+20 && player.body.y >= 1375 && player.body.y <= 1375+150) ||
+            (player.body.x >= 1100 && player.body.x <= 1100+20 && player.body.y >= 1170 && player.body.y <= 1170+150) ||
+            (player.body.x >= 2030 && player.body.x <= 2030+20 && player.body.y >= 1500 && player.body.y <= 1500+150) )){
             console.log("on ladder");
             player.body.data.gravityScale=0.05;
             onLadder=true;
