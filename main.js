@@ -279,7 +279,10 @@ Game.main.prototype={
                 this.pausePanel.y = this.camera.y-100;
                 this.pausePanel.update();
         }
-
+        //check if in bounds of ladder
+        if(player.body.x >= 200 && player.body.x <= 3200+20 && player.body.y >= 1560 && player.body.y <= 1560+150){
+            console.log("on ladder");
+        }
         //CHECK IF IN WATER -- This must be modified is water's position is modified...
         if(player.body.x >= 3200 && player.body.x <= 3200+400 && player.body.y >= 1850 && player.body.y <= 1850+1000){
             console.log("inwater");
