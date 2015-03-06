@@ -27,7 +27,7 @@ Game.preloader.prototype = {
     this.load.image('check','assets/check.png');
     this.load.image('ladder','assets/ladder.png');
      //Terrain details
-    this.load.physics('physicsdata','assets/world/forest/forest.json');
+    this.load.physics('physicsdataforest','assets/world/forest/forest.json');
     this.load.image('terr-null','assets/world/forest/terr-null.png');
     this.load.image('terr1-1','assets/world/forest/terr1-1.png');
     this.load.image('terr1-2','assets/world/forest/terr1-2.png');
@@ -40,6 +40,11 @@ Game.preloader.prototype = {
     this.load.image('terr1-b2','assets/world/forest/terr1-b2.png');
     this.load.image('water1-1','assets/world/forest/water1-1.png');
     this.load.image('boulder','assets/world/forest/boulder.png');
+    //second world
+    this.load.image('physicsdatafactory','assets/world/factory/factory.json');
+    this.load.image('fact1-1','assets/world/factory/fact1-1.png');
+    this.load.image('fact1-2','assets/world/factory/fact1-2.png');
+    this.load.image('fact1-3','assets/world/factory/fact1-3.png');
     //UI
     this.load.image('continue','assets/UI/continue.png');
     this.load.image('help','assets/UI/help.png');

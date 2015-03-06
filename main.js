@@ -96,7 +96,7 @@ Game.main.prototype={
         this.physics.p2.enableBody(terrain,isDebug);    //enables physics on it
         if(realTerrain){
             terrain.body.clearShapes();
-            terrain.body.loadPolygon('physicsdata',image);
+            terrain.body.loadPolygon('physicsdataforest',image);
         }
         //1.Tells the ground to be part of the jumpable collision group
         //2.This effectively tells it that it collides with these collision groups.

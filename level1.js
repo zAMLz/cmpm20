@@ -8,7 +8,6 @@ var killCollisionGroup;
 var counter = 0;
 
 //-------------OBJECTS---------------
-var checkmark;
 var index;
 var star;
 
@@ -46,43 +45,6 @@ Game.level1 = function (game){
 };
 
 Game.level1.prototype = {
- preload: function () {
-        this.load.audio('tutorialmusic', 'assets/audio/Steve_Combs_22_Thank_You_Remix.mp3');
-        this.load.image('sky', 'assets/sky.png');
-        this.load.image('ground', 'assets/platform.png');
-        this.load.image('star', 'assets/star.png');
-        this.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-        this.load.image('fulldome', 'assets/fulldome.png');
-        this.load.image('diamond','assets/diamond.png');
-        this.load.image('check','assets/check.png');
-        //Terrain details
-        this.load.physics('physicsdata','assets/world/forest/forest.json');
-        this.load.image('terr-null','assets/world/forest/terr-null.png');
-        this.load.image('terr1-1','assets/world/forest/terr1-1.png');
-        this.load.image('terr1-2','assets/world/forest/terr1-2.png');
-        this.load.image('terr1-3','assets/world/forest/terr1-3.png');
-        this.load.image('terr1-4','assets/world/forest/terr1-4.png');
-        this.load.image('terr1-5','assets/world/forest/terr1-5.png');
-        this.load.image('terr1-6','assets/world/forest/terr1-6.png');
-        this.load.image('terr1-7','assets/world/forest/terr1-7.png');
-        this.load.image('water1-1','assets/world/forest/water1-1.png');
-        //UI
-        this.load.image('continue','assets/UI/continue.png');
-        this.load.image('help','assets/UI/help.png');
-        this.load.image('pause','assets/UI/pause.png');
-        this.load.image('quit','assets/UI/quit.png');
-        this.load.image('restart','assets/UI/restart.png');
-        this.load.image('helpscn','assets/UI/helpscreen.png');
-
-        //fire
-        this.load.image('fire1', 'assets/fire/fire1.png');
-        this.load.image('fire2', 'assets/fire/fire2.png');
-        this.load.image('fire3', 'assets/fire/fire3.png');
-        this.load.image('smoke', 'assets/fire/smoke-puff.png');
-
-        this.load.spritesheet('ball', 'assets/fire/plasmaball.png', 128, 128);
-
-    },
 
     createBox: function(x, y, index, playerCollisionGroup, isJumpCollisionGroup ){
         boxX = x;
@@ -104,7 +66,7 @@ Game.level1.prototype = {
         this.physics.p2.enableBody(terrain,isDebug);    //enables physics on it
         terrain.body.clearShapes();
         if(realTerrain){
-            terrain.body.loadPolygon('physicsdata',image);
+            terrain.body.loadPolygon('physicsdatafactory',image);
             //1.Tells the ground to be part of the jumpable collision group
             //2.This effectively tells it that it collides with these collision groups.
             terrain.body.setCollisionGroup(isJumpCollisionGroup);
@@ -139,39 +101,13 @@ Game.level1.prototype = {
         //  (which we do) - what this does is adjust the bounds to use its own collision group.
         this.physics.p2.updateBoundsCollisionGroup();
 
-        this.terraincreator('terr1-1',400,1600,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('terr-null',400,2200,playerCollisionGroup,isJumpCollisionGroup,false);
-        this.terraincreator('terr1-2',1200,1300,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('terr-null',1200,1900,playerCollisionGroup,isJumpCollisionGroup,false);
-        this.terraincreator('terr1-3',2000,1527,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('terr-null',2000,2057,playerCollisionGroup,isJumpCollisionGroup,false);
-        this.terraincreator('terr1-4',2800,1595,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('terr-null',2800,2195,playerCollisionGroup,isJumpCollisionGroup,false);
-        this.terraincreator('terr1-5',4000,1527,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('terr-null',4000,2127,playerCollisionGroup,isJumpCollisionGroup,false);
-        this.terraincreator('terr1-6',4800,1350,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('terr-null',4800,1950,playerCollisionGroup,isJumpCollisionGroup,false);
-        this.terraincreator('terr1-7',5600,1470,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('terr-null',5600,2070,playerCollisionGroup,isJumpCollisionGroup,false);
+        //ADD TERRAIN HERE
+        this.terraincreator('fact1-1',400,1600,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
+        //this.terraincreator('terr-null',400,2200,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
+        this.terraincreator('fact1-2',1200,1300,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
+        //this.terraincreator('terr-null',1200,1900,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
+        this.terraincreator('fact1-3',2000,1527,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
 
-        //Add a forsure kill player object
-        diamond = this.add.sprite(300, 1600-175, 'diamond');
-        this.physics.p2.enableBody(diamond,isDebug);
-        diamond.body.static = true;
-        diamond.body.fixedRotation = true;
-        diamond.body.setCollisionGroup(killCollisionGroup);
-        diamond.body.collides([playerCollisionGroup]);
-
-        //create a moveable Boxs
-        this.createBox(100, 1700, 'diamond',playerCollisionGroup, isJumpCollisionGroup);
-
-        //TESING purposes -- added a checkmark for lols
-        checkmark = this.add.sprite(400,128,'check');
-        this.physics.p2.enableBody(checkmark,isDebug);
-        checkmark.body.clearShapes();
-        checkmark.body.loadPolygon('physicsdata','check');
-        checkmark.body.setCollisionGroup(isJumpCollisionGroup);
-        checkmark.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
         //if the player collides with the star next level starts
         star = this.add.sprite(5800,100,'star');
         this.physics.p2.enableBody(star, isDebug);
@@ -221,34 +157,6 @@ Game.level1.prototype = {
         //Enter Play Mode
         mehSpeed = new Array();
         this.playGame();
-
-        //fire
-        //this.physics.startSystem(Phaser.Physics.ARCADE);
-        emitter = this.add.emitter(this.world.centerX, this.world.centerY, 300);
-        //emitter = this.add.emitter(500, 300, 300);
-
-        emitter.makeParticles( [ 'fire1', 'fire2', 'fire3', 'smoke' ] );
-        emitter.gravity = 340;
-        emitter.setAlpha(1, 0, 3000);
-        emitter.setScale(0.5, 0, 0.5, 0, 3000);
-
-        emitter.start(false, 3000, 5);
-
-        sprite = this.add.sprite(500, 100, 'ball', 0);
-        //sprite = this.add.sprite(900, 200, 'ball', 0);
-        this.physics.arcade.enable(sprite);
-        //sprite.body.setSize(5, 5, 0, 0);
-
-        //fire 2
-        emitter2 = this.add.emitter(this.world.centerX, this.world.centerY, 300);
-        //emitter = this.add.emitter(500, 300, 300);
-
-        emitter2.makeParticles( [ 'fire1', 'fire2', 'fire3', 'smoke' ] );
-        emitter2.gravity = -30;
-        emitter2.setAlpha(1, 0, 2000);
-        emitter2.setScale(0.3, 0.3, 0.3, 0, 3000);
-
-        emitter2.start(false, 3000, 5);
        
     },
 
@@ -428,39 +336,6 @@ Game.level1.prototype = {
             this.endGame();
         }
 
-
-        //------------------ Fire EMitter
-        var px = 0;
-        var py = 0;
-
-        px *= -1;
-        py *= -1;
-
-        emitter.minParticleSpeed.set(px, py);
-        emitter.maxParticleSpeed.set(px, py);
-
-        emitter.emitX = sprite.x;
-        emitter.emitY = sprite.y+58;
-
-        //fire2---------------------------
-        var px2 = 200;
-        var py2 = 0;
-
-        px2 *= -1;
-        py2 *= -1;
-
-        emitter2.minParticleSpeed.set(px2, py2);
-        emitter2.maxParticleSpeed.set(px2, py2);
-
-        emitter2.emitX = 400;
-        emitter2.emitY = 1600;
-
-        // emitter.forEachExists(game.world.wrap, game.world);
-        //this.world.wrap(sprite, 64);
-        //console.log(px);
-        if (player.body.x >= 232 && player.body.x <= 431 && player.body.y <= 440 && player.body.y >= 434){
-            this.endGame();
-        }
     },
 
 
