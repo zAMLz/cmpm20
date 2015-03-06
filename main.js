@@ -6,6 +6,7 @@ var player;
 var cursors;
 var water;
 var inWater=false;
+var onLadder=false;
 var playerCollisionGroup;
 var BoxCollisionGroup;
 var isJumpCollisionGroup;
@@ -16,6 +17,7 @@ var counter = 0;
 var checkmark;
 var index;
 var star;
+var ladder;
 
 //-------------Boxes------------------
 var checkCreated = 0;
@@ -55,47 +57,6 @@ Game.main = function(game){
     this.music=null;
 }
 Game.main.prototype={
-    
-
-    preload: function () {
-        this.load.audio('tutorialmusic', 'assets/audio/Steve_Combs_22_Thank_You_Remix.mp3');
-        this.load.image('sky', 'assets/sky.png');
-        this.load.image('ground', 'assets/platform.png');
-        this.load.image('star', 'assets/star.png');
-        this.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-        this.load.image('fulldome', 'assets/fulldome.png');
-        this.load.image('diamond','assets/diamond.png');
-        this.load.image('check','assets/check.png');
-        //Terrain details
-        this.load.physics('physicsdata','assets/world/forest/forest.json');
-        this.load.image('terr-null','assets/world/forest/terr-null.png');
-        this.load.image('terr1-1','assets/world/forest/terr1-1.png');
-        this.load.image('terr1-2','assets/world/forest/terr1-2.png');
-        this.load.image('terr1-3','assets/world/forest/terr1-3.png');
-        this.load.image('terr1-4','assets/world/forest/terr1-4.png');
-        this.load.image('terr1-5','assets/world/forest/terr1-5.png');
-        this.load.image('terr1-6','assets/world/forest/terr1-6.png');
-        this.load.image('terr1-7','assets/world/forest/terr1-7.png');
-        this.load.image('terr1-b','assets/world/forest/terr1-b.png');
-        this.load.image('terr1-b2','assets/world/forest/terr1-b2.png');
-        this.load.image('water1-1','assets/world/forest/water1-1.png');
-        //UI
-        this.load.image('continue','assets/UI/continue.png');
-        this.load.image('help','assets/UI/help.png');
-        this.load.image('pause','assets/UI/pause.png');
-        this.load.image('quit','assets/UI/quit.png');
-        this.load.image('restart','assets/UI/restart.png');
-        this.load.image('helpscn','assets/UI/helpscreen.png');
-
-        //fire
-        this.load.image('fire1', 'assets/fire/fire1.png');
-        this.load.image('fire2', 'assets/fire/fire2.png');
-        this.load.image('fire3', 'assets/fire/fire3.png');
-        this.load.image('smoke', 'assets/fire/smoke-puff.png');
-
-        this.load.spritesheet('ball', 'assets/fire/plasmaball.png', 128, 128);
-
-    },
 
     createBox: function(x, y, index, playerCollisionGroup, isJumpCollisionGroup,BoxCollisionGroup ){
         boxX = x;
@@ -195,6 +156,8 @@ Game.main.prototype={
         this.physics.p2.enableBody(star, isDebug);
         star.body.setCollisionGroup(winCollisionGroup);
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+        //climbable tree
+        ladder = this.add.sprite(200,1560,'ladder');
         
         // The player aanimations and position
         player = this.add.sprite(32, 1600 - 150, 'dude');
@@ -323,10 +286,19 @@ Game.main.prototype={
                 this.pausePanel.y = this.camera.y-100;
                 this.pausePanel.update();
         }
-
+        //check if in bounds of ladder
+        if(pushButton.isDown&&(player.body.x >= 200 && player.body.x <= 200+20 && player.body.y >= 1560 && player.body.y <= 1560+150)){
+            console.log("on ladder");
+            player.body.data.gravityScale=0.05;
+            onLadder=true;
+        }
+        else{
+            player.body.data.gravityScale=1;
+            onLadder=false;
+        }
         //CHECK IF IN WATER -- This must be modified is water's position is modified...
         if(player.body.x >= 3200 && player.body.x <= 3200+400 && player.body.y >= 1850 && player.body.y <= 1850+1000){
-            console.log("inwater");
+           // console.log("inwater");
             inWater = true;
            // this.physics.p2.gravity.y = 200;
           //player.body.data.gravityScale=20;
@@ -340,7 +312,7 @@ Game.main.prototype={
         }
         else{
            // player.body.data.gravityScale=1;
-            console.log("notinwater");
+           // console.log("notinwater");
             inWater = false;
             this.physics.p2.gravity.y = 500;
             counter = 0;
@@ -353,7 +325,7 @@ Game.main.prototype={
             player.body.velocity.y = 0;
 
         //Control Player Movement;
-        if (!paused && !inWater){
+        if (!paused && !inWater && !onLadder){
             if (cursors.left.isDown)
             {
                 player.body.moveLeft(200+godmode);
@@ -421,7 +393,7 @@ Game.main.prototype={
 
         }
 
-        if (!paused && inWater){
+        if (!paused && inWater && !onLadder){
             if (cursors.left.isDown)
             {
                 player.body.moveLeft(200+godmode);
@@ -447,6 +419,14 @@ Game.main.prototype={
             else if (cursors.down.isDown)
             {
                 player.body.moveDown(200+godmode);
+            }
+        }
+        if(!paused && !inWater && onLadder){
+            if(cursors.up.isDown){
+                player.body.moveUp(40);
+            }
+            else if(cursors.down.isDown){
+                player.body.moveDown(40);
             }
         }
 

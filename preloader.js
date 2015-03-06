@@ -25,6 +25,20 @@ Game.preloader.prototype = {
     this.load.image('fulldome', 'assets/fulldome.png');
     this.load.image('diamond','assets/diamond.png');
     this.load.image('check','assets/check.png');
+    this.load.image('ladder','assets/ladder.png');
+     //Terrain details
+    this.load.physics('physicsdata','assets/world/forest/forest.json');
+    this.load.image('terr-null','assets/world/forest/terr-null.png');
+    this.load.image('terr1-1','assets/world/forest/terr1-1.png');
+    this.load.image('terr1-2','assets/world/forest/terr1-2.png');
+    this.load.image('terr1-3','assets/world/forest/terr1-3.png');
+    this.load.image('terr1-4','assets/world/forest/terr1-4.png');
+    this.load.image('terr1-5','assets/world/forest/terr1-5.png');
+    this.load.image('terr1-6','assets/world/forest/terr1-6.png');
+    this.load.image('terr1-7','assets/world/forest/terr1-7.png');
+    this.load.image('terr1-b','assets/world/forest/terr1-b.png');
+    this.load.image('terr1-b2','assets/world/forest/terr1-b2.png');
+    this.load.image('water1-1','assets/world/forest/water1-1.png');
     //UI
     this.load.image('continue','assets/UI/continue.png');
     this.load.image('help','assets/UI/help.png');
@@ -32,6 +46,12 @@ Game.preloader.prototype = {
     this.load.image('quit','assets/UI/quit.png');
     this.load.image('restart','assets/UI/restart.png');
     this.load.image('helpscn','assets/UI/helpscreen.png');
+    //fire
+    this.load.image('fire1', 'assets/fire/fire1.png');
+    this.load.image('fire2', 'assets/fire/fire2.png');
+    this.load.image('fire3', 'assets/fire/fire3.png');
+    this.load.image('smoke', 'assets/fire/smoke-puff.png');
+    this.load.spritesheet('ball', 'assets/fire/plasmaball.png', 128, 128);
 	},
 
 	create: function(){
