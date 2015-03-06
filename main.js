@@ -7,6 +7,7 @@ var cursors;
 var water;
 var inWater=false;
 var playerCollisionGroup;
+var BoxCollisionGroup;
 var isJumpCollisionGroup;
 var killCollisionGroup;
 var counter = 0;
@@ -21,6 +22,8 @@ var checkCreated = 0;
 var Box;
 var boxX;
 var boxY;
+var onGround = true;
+var playerbox = true;
 //----------Player Control Variables---
 var facing = 'left';
 var jumpButton;
@@ -94,7 +97,7 @@ Game.main.prototype={
 
     },
 
-    createBox: function(x, y, index, playerCollisionGroup, isJumpCollisionGroup ){
+    createBox: function(x, y, index, playerCollisionGroup, isJumpCollisionGroup,BoxCollisionGroup ){
         boxX = x;
         boxY = y;
         Box = this.add.sprite(x, y, index);
@@ -104,12 +107,13 @@ Game.main.prototype={
         Box.body.gravity = 500;
         Box.body.static = false;
         Box.body.fixedRotation = true;
-        Box.body.setCollisionGroup(isJumpCollisionGroup);
-        Box.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+        Box.body.setCollisionGroup(BoxCollisionGroup);
+        Box.body.collides(isJumpCollisionGroup,function (){onGround = true;},this);
+        Box.body.collides([playerCollisionGroup]);
 
     },
 
-    terraincreator: function(image,x,y,playerCollisionGroup,isJumpCollisionGroup,realTerrain){
+    terraincreator: function(image,x,y,playerCollisionGroup,isJumpCollisionGroup, BoxCollisionGroup, realTerrain){
         var terrain = this.add.sprite(x, y,image); //creates the sprite
         this.physics.p2.enableBody(terrain,isDebug);    //enables physics on it
         if(realTerrain){
@@ -119,7 +123,7 @@ Game.main.prototype={
         //1.Tells the ground to be part of the jumpable collision group
         //2.This effectively tells it that it collides with these collision groups.
         terrain.body.setCollisionGroup(isJumpCollisionGroup);
-        terrain.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+        terrain.body.collides([isJumpCollisionGroup, playerCollisionGroup, winCollisionGroup, BoxCollisionGroup]);
         terrain.body.static = true;                  //disables gravity for itself...
         terrain.body.fixedRotation = true;           //fixes rotation?
     },
@@ -144,28 +148,29 @@ Game.main.prototype={
         isJumpCollisionGroup = this.physics.p2.createCollisionGroup();
         killCollisionGroup = this.physics.p2.createCollisionGroup();
         winCollisionGroup = this.physics.p2.createCollisionGroup();
+        BoxCollisionGroup = this.physics.p2.createCollisionGroup();
 
         //  This part is vital if you want the objects with their own collision groups to still collide with the world bounds
         //  (which we do) - what this does is adjust the bounds to use its own collision group.
         this.physics.p2.updateBoundsCollisionGroup();
 
-        this.terraincreator('terr1-1',400,1600,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('terr-null',400,2200,playerCollisionGroup,isJumpCollisionGroup,false);
-        this.terraincreator('terr1-2',1200,1300,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('terr-null',1200,1900,playerCollisionGroup,isJumpCollisionGroup,false);
-        this.terraincreator('terr1-3',2000,1527,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('terr-null',2000,2057,playerCollisionGroup,isJumpCollisionGroup,false);
-        this.terraincreator('terr1-4',2800,1595,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('terr-null',2800,2195,playerCollisionGroup,isJumpCollisionGroup,false);
-        this.terraincreator('terr1-b',3196,2195,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-1',400,1600,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
+        this.terraincreator('terr-null',400,2200,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
+        this.terraincreator('terr1-2',1200,1300,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
+        this.terraincreator('terr-null',1200,1900,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
+        this.terraincreator('terr1-3',2000,1527,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
+        this.terraincreator('terr-null',2000,2057,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
+        this.terraincreator('terr1-4',2800,1595,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
+        this.terraincreator('terr-null',2800,2195,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
+        this.terraincreator('terr1-b',3196,2195,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         //water pool happens then more terrain
-        this.terraincreator('terr1-5',3950,1527,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('terr-null',4000,2127,playerCollisionGroup,isJumpCollisionGroup,false);
-        this.terraincreator('terr1-b2',3605,2127,playerCollisionGroup,isJumpCollisionGroup,false);
-        this.terraincreator('terr1-6',4750,1350,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('terr-null',4750,1950,playerCollisionGroup,isJumpCollisionGroup,false);
-        this.terraincreator('terr1-7',5550,1470,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('terr-null',5550,2070,playerCollisionGroup,isJumpCollisionGroup,false);
+        this.terraincreator('terr1-5',3950,1527,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
+        this.terraincreator('terr-null',4000,2127,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
+        this.terraincreator('terr1-b2',3605,2127,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
+        this.terraincreator('terr1-6',4750,1350,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
+        this.terraincreator('terr-null',4750,1950,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
+        this.terraincreator('terr1-7',5550,1470,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
+        this.terraincreator('terr-null',5550,2070,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
 
         //Add a forsure kill player object
         diamond = this.add.sprite(300, 1600-175, 'diamond');
@@ -176,7 +181,7 @@ Game.main.prototype={
         diamond.body.collides([playerCollisionGroup]);
 
         //create a moveable Boxs
-        this.createBox(100, 1700, 'diamond',playerCollisionGroup, isJumpCollisionGroup);
+        this.createBox(100, 1700, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
 
         //TESING purposes -- added a checkmark for lols
         checkmark = this.add.sprite(400,128,'check');
@@ -205,6 +210,7 @@ Game.main.prototype={
         player.body.collides(isJumpCollisionGroup,function (){ifCanJump = true;},this);
         player.body.collides(killCollisionGroup, this.endGame, this)
         player.body.collides(winCollisionGroup, this.nextLevel,this);
+        player.body.collides(BoxCollisionGroup,function(){playerbox = true; ifCanJump = true;},this)
 
         //sets camera to follow
         this.camera.follow(player,this.camera.FOLLOW_PLATFORMER);
@@ -394,18 +400,23 @@ Game.main.prototype={
                 ifCanJump = false;
             }
             // moving a Box-----------------------------
-            if ((pushButton.isDown && cursors.left.isDown) || (pushButton.isDown && cursors.right.isDown)) {
+            if ((pushButton.isDown && playerbox) || (pushButton.isDown && playerbox)) {
+                onGround = false;
                 if (checkCreated < 1){
+                    onGround = false;
                     Box.body.destroy();
                     Box.kill();
-                    this.createBox(boxX, boxY, 'diamond',playerCollisionGroup, isJumpCollisionGroup);
+                    this.createBox(boxX, boxY, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
                     checkCreated++;
                 }
-            }else if (pushButton.isUp){
+            }else if (pushButton.isUp && onGround){
+            
                 Box.body.static = true;
                 boxX = Box.body.x;
                 boxY = Box.body.y;
                 checkCreated =0;
+                playerbox =false;
+                
             }
 
         }
