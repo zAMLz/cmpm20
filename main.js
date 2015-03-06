@@ -105,6 +105,15 @@ Game.main.prototype={
         terrain.body.fixedRotation = true;           //fixes rotation?
     },
 
+    createKillObj: function(x, y, index, playerCollisionGroup, killCollisionGroup){
+        diamond = this.add.sprite(x, y, index);
+        this.physics.p2.enableBody(diamond,isDebug);
+        diamond.body.static = true;
+        diamond.body.fixedRotation = true;
+        diamond.body.setCollisionGroup(killCollisionGroup);
+        diamond.body.collides([playerCollisionGroup]);
+    },
+
     create: function() {
         //adds music
         this.music = this.add.audio('tutorialmusic');
@@ -150,12 +159,20 @@ Game.main.prototype={
         this.terraincreator('terr-null',5550,2070,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
 
         //Add a forsure kill player object
-        diamond = this.add.sprite(300, 1600-175, 'diamond');
-        this.physics.p2.enableBody(diamond,isDebug);
-        diamond.body.static = true;
-        diamond.body.fixedRotation = true;
-        diamond.body.setCollisionGroup(killCollisionGroup);
-        diamond.body.collides([playerCollisionGroup]);
+        this.createKillObj(300, 1600-100, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(2198, 1578, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(2233, 1578, 'diamond', playerCollisionGroup, killCollisionGroup);
+
+        this.createKillObj(2530, 1657, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(2555, 1685, 'diamond', playerCollisionGroup, killCollisionGroup);
+
+
+        this.createKillObj(2638, 1770, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(2658, 1790, 'diamond', playerCollisionGroup, killCollisionGroup);
+
+        this.createKillObj(2883, 1840, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(2913, 1840, 'diamond', playerCollisionGroup, killCollisionGroup);
+
 
         //create a moveable Boxs
         this.createBox(100, 1700, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
@@ -321,8 +338,15 @@ Game.main.prototype={
 
 
     update: function() {
+<<<<<<< HEAD
         console.log("x:"+player.body.x);
         console.log("y:"+player.body.y);
+=======
+        //console.log("x:"+this.camera.x);
+        //console.log("y:"+this.camera.y);
+        //console.log("x:"+player.body.x);
+        //console.log("y:"+player.body.y);
+>>>>>>> add the killzone
         //  To move the UI along with the camera 
         console.log("x: ", player.body.x);
         console.log("y: ", player.body.y);
