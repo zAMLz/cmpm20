@@ -338,15 +338,10 @@ Game.main.prototype={
 
 
     update: function() {
-<<<<<<< HEAD
-        console.log("x:"+player.body.x);
-        console.log("y:"+player.body.y);
-=======
         //console.log("x:"+this.camera.x);
         //console.log("y:"+this.camera.y);
         //console.log("x:"+player.body.x);
         //console.log("y:"+player.body.y);
->>>>>>> add the killzone
         //  To move the UI along with the camera 
         console.log("x: ", player.body.x);
         console.log("y: ", player.body.y);
