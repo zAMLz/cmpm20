@@ -10,6 +10,10 @@ var star;
 var ladder;
 var pausePanel;
 var paused;
+// text boxes
+var dangerText;
+var ladderText;
+var pushText;
 
 //collision groups
 var playerCollisionGroup;
@@ -128,7 +132,9 @@ Game.tutorial.prototype={
         //ladder to pass traps
         ladder = this.add.sprite(620, 250, 'ladder');
         this.createBox(200, 490, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
-
+        dangerText = this.add.text(400, 350, 'Danger!\nDon\'t touch\ndangerous things', { fontSize: '12px', fill: '#fff' });
+        ladderText = this.add.text(550, 100, 'Hold the spacebar\nto latch on\nthe ladder', {fontSize: '12px', fill: '#fff'});
+        pushText = this.add.text(100, 300, 'Some things\ncan be\npushed by\nholding the \nspacebar', { fontSize: '12px', fill: '#fff' });
         //sets camera to follow
         this.camera.follow(player);
 
