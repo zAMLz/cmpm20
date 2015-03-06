@@ -41,10 +41,10 @@ Game.preloader.prototype = {
     this.load.image('water1-1','assets/world/forest/water1-1.png');
     this.load.image('boulder','assets/world/forest/boulder.png');
     //second world
-    this.load.image('physicsdatafactory','assets/world/factory/factory.json');
-    this.load.image('fact1-1','assets/world/factory/fact1-1.png');
-    this.load.image('fact1-2','assets/world/factory/fact1-2.png');
-    this.load.image('fact1-3','assets/world/factory/fact1-3.png');
+    this.load.physics('physicsdatafactory','assets/world/factory/factory.json');
+    this.load.image('fact1','assets/world/factory/fact1.png');
+    this.load.image('fact2','assets/world/factory/fact2.png');
+    this.load.image('fact3','assets/world/factory/fact3.png');
     //UI
     this.load.image('continue','assets/UI/continue.png');
     this.load.image('help','assets/UI/help.png');
