@@ -152,17 +152,6 @@ Game.tutorial.prototype={
             this.physics.p2.gravity.y = 0;
             player.body.velocity.x=0;
             player.body.velocity.y=0;
-            
-            //add any object that is affected by gravity here.
-            mehSpeed.push(checkmark.body.velocity.x);
-            mehSpeed.push(checkmark.body.velocity.y);
-            
-            //Set the vbelocities to zero to make sure they dont move anymore.
-            checkmark.body.velocity.x = 0;
-            checkmark.body.velocity.y = 0;
-            
-            //fix the objects from rotating and make them static
-            checkmark.body.fixedRotation = true;
         }
     },
 
@@ -172,13 +161,6 @@ Game.tutorial.prototype={
             this.pausePanel.hide();
             this.camera.follow(player,this.camera.FOLLOW_PLATFORMER);
             this.physics.p2.gravity.y = 500;
-            
-            //Push out velocties affected by gravity for objects here.
-            checkmark.body.velocity.y = mehSpeed.pop();
-            checkmark.body.velocity.x = mehSpeed.pop();
-            
-            //allow for totations and disable static.
-            checkmark.body.fixedRotation = false;
         }
     },
 
@@ -340,7 +322,7 @@ var PausePanel = function(game, parent){
     this.y = -100;
     
     btnRestart = this.game.add.button(350,-225,'restart',function(){
-        this.game.state.restart(true,true);
+        this.game.state.start('tutorial');
     },this);
 
     btnHelpScreen = this.game.add.button(150,-500,'helpscn',function(){
