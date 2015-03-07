@@ -85,6 +85,10 @@ Game.tutorial.prototype={
         //  This part is vital if you want the objects with their own collision groups to still collide with the world bounds
         //  (which we do) - what this does is adjust the bounds to use its own collision group.
         this.physics.p2.updateBoundsCollisionGroup();
+        //text boxes
+        dangerText = this.add.text(400, 350, 'Danger!\nDon\'t touch\ndangerous things', { fontSize: '12px', fill: '#fff' });
+        ladderText = this.add.text(550, 100, 'Hold the spacebar\nto latch on\nthe ladder', {fontSize: '12px', fill: '#fff'});
+        pushText = this.add.text(100, 300, 'Some things\ncan be\npushed by\nholding the \nspacebar', { fontSize: '12px', fill: '#fff' });
 
         //Create a group that will use this collision group.
 
@@ -130,11 +134,8 @@ Game.tutorial.prototype={
         this.createKillObj(740, 490, 'diamond', playerCollisionGroup, killCollisionGroup);
 
         //ladder to pass traps
-        ladder = this.add.sprite(620, 250, 'ladder');
+        ladder = this.add.sprite(620, 220, 'ladder');
         this.createBox(200, 490, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
-        dangerText = this.add.text(400, 350, 'Danger!\nDon\'t touch\ndangerous things', { fontSize: '12px', fill: '#fff' });
-        ladderText = this.add.text(550, 100, 'Hold the spacebar\nto latch on\nthe ladder', {fontSize: '12px', fill: '#fff'});
-        pushText = this.add.text(100, 300, 'Some things\ncan be\npushed by\nholding the \nspacebar', { fontSize: '12px', fill: '#fff' });
         //sets camera to follow
         this.camera.follow(player);
 
@@ -188,7 +189,7 @@ Game.tutorial.prototype={
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
-        if(pushButton.isDown && ((player.body.x >= 620 && player.body.x <= 620+20 && player.body.y >= 250 && player.body.y <= 250+150))){
+        if(pushButton.isDown && ((player.body.x >= 620 && player.body.x <= 620+20 && player.body.y >= 220 && player.body.y <= 220+150))){
             console.log("on ladder");
             player.body.data.gravityScale=0.05;
             onLadder=true;
