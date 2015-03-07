@@ -1,50 +1,40 @@
 var player;
+var platforms;
 var cursors;
-var water;
-var inWater=false;
+var facing = 'left';
+var jumpButton;
+var pushButton;
+var isDebug = true;
+var ifCanJump = true;
+var star;
+var ladder;
+var pausePanel;
+var paused;
+// text boxes
+var dangerText;
+var ladderText;
+var pushText;
+
+//collision groups
 var playerCollisionGroup;
 var isJumpCollisionGroup;
+var winCollisionGroup;
 var killCollisionGroup;
-var counter = 0;
-
-//-------------OBJECTS---------------
-var index;
-var star;
+var BoxCollisionGroup;
 
 //-------------Boxes------------------
 var checkCreated = 0;
 var Box;
 var boxX;
 var boxY;
-//----------Player Control Variables---
-var facing = 'left';
-var jumpButton;
-var ifCanJump = false;
+var onGround = true;
+var playerbox = true;
 
-//------------TESTING PURPOSES
-var isDebug = true;
-var godmode = 0;
-
-//----------Pause Control-----------
-var paused;
-var pausePanel;
-var mehSpeed;
-
-//---------Other Variables---------
-var diamond;
-var diamond2;
-
-//----------fire-------------
-var sprite;
-var emitter;
-var emitter2;
-Game.level1 = function (game){
-	this.music = null;
-};
-
-Game.level1.prototype = {
-
-    createBox: function(x, y, index, playerCollisionGroup, isJumpCollisionGroup ){
+Game.tutorial = function(game){
+    this.music=null;
+}
+Game.tutorial.prototype={
+    createBox: function(x, y, index, playerCollisionGroup, isJumpCollisionGroup,BoxCollisionGroup ){
         boxX = x;
         boxY = y;
         Box = this.add.sprite(x, y, index);
@@ -54,72 +44,71 @@ Game.level1.prototype = {
         Box.body.gravity = 500;
         Box.body.static = false;
         Box.body.fixedRotation = true;
-        Box.body.setCollisionGroup(isJumpCollisionGroup);
-        Box.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+        Box.body.setCollisionGroup(BoxCollisionGroup);
+        Box.body.collides(isJumpCollisionGroup,function (){onGround = true;},this);
+        Box.body.collides([playerCollisionGroup]);
 
     },
-
-    terraincreator: function(image,x,y,playerCollisionGroup,isJumpCollisionGroup,realTerrain){
-        var terrain = this.add.sprite(x, y,image); //creates the sprite
-        this.physics.p2.enableBody(terrain,true);    //enables physics on it
-        terrain.body.clearShapes();
-        if(realTerrain){
-            terrain.body.loadPolygon('physicsdatafactory',image);
-            console.log(image);
-            //1.Tells the ground to be part of the jumpable collision group
-            //2.This effectively tells it that it collides with these collision groups.
-            terrain.body.setCollisionGroup(isJumpCollisionGroup);
-            terrain.body.collides([isJumpCollisionGroup, playerCollisionGroup, winCollisionGroup]);
-        }
-        terrain.body.static = true;                  //disables gravity for itself...
-        terrain.body.fixedRotation = true;           //fixes rotation?
+    createKillObj: function(x, y, index, playerCollisionGroup, killCollisionGroup){
+        diamond = this.add.sprite(x, y, index);
+        this.physics.p2.enableBody(diamond,isDebug);
+        diamond.body.static = true;
+        diamond.body.fixedRotation = true;
+        diamond.body.setCollisionGroup(killCollisionGroup);
+        diamond.body.collides([playerCollisionGroup]);
     },
-
     create: function() {
         //adds music
         this.music = this.add.audio('tutorialmusic');
         this.music.play();
+    	//changes bounds of the world and add a background for the world
+    	this.world.setBounds(0,0,1400,this.world.height);
+        this.add.tileSprite(0, 0,1400,this.world.height, 'fulldome');
+          //pause menu
+        this.btnPause = this.game.add.button(675,20,'pause',this.pauseGame,this);
+        this.pausePanel = new PausePanel(this.game);
+        this.game.add.existing(this.pausePanel);
+        this.playGame();
 
-        //changes bounds of the world and add a background for the world
-        this.world.setBounds(0,0,10000,2800);
-        this.stage.backgroundColor = '#d0f4f7';
-
-        //  We're going to be using physics, so enable the P2 Physics system
+        //  We're going to be using physics, so enable the Arcade Physics system
         this.physics.startSystem(Phaser.Physics.P2JS);
-        this.physics.p2.gravity.y = -500;
+        this.physics.p2.gravity.y = 400;
         this.physics.p2.setImpactEvents(true);
         this.physics.p2.restitution = 0.0;
 
         //COLLISION GROUPS -- VERY IMPORTANT (Helps keep track of which platforms the player can jump on...)
         playerCollisionGroup = this.physics.p2.createCollisionGroup();
         isJumpCollisionGroup = this.physics.p2.createCollisionGroup();
-        killCollisionGroup = this.physics.p2.createCollisionGroup();
         winCollisionGroup = this.physics.p2.createCollisionGroup();
-
+        killCollisionGroup = this.physics.p2.createCollisionGroup();
+        BoxCollisionGroup = this.physics.p2.createCollisionGroup();
         //  This part is vital if you want the objects with their own collision groups to still collide with the world bounds
         //  (which we do) - what this does is adjust the bounds to use its own collision group.
         this.physics.p2.updateBoundsCollisionGroup();
+        //text boxes
+        dangerText = this.add.text(400, 350, 'Danger!\nDon\'t touch\ndangerous things', { fontSize: '12px', fill: '#fff' });
+        ladderText = this.add.text(550, 100, 'Hold the spacebar\nto latch on\nthe ladder', {fontSize: '12px', fill: '#fff'});
+        pushText = this.add.text(100, 300, 'Some things\ncan be\npushed by\nholding the \nspacebar', { fontSize: '12px', fill: '#fff' });
 
-        //ADD TERRAIN HERE
-        this.terraincreator('fact1',200,1600,playerCollisionGroup,isJumpCollisionGroup,true);
-        //this.terraincreator('terr-null',400,2200,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact2',840,1600,playerCollisionGroup,isJumpCollisionGroup,true);
-        //this.terraincreator('terr-null',1200,1900,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact3',1480,1600,playerCollisionGroup,isJumpCollisionGroup,true);
+        //Create a group that will use this collision group.
 
-        //if the player collides with the star next level starts
-        star = this.add.sprite(5800,100,'star');
-        this.physics.p2.enableBody(star, isDebug);
-        star.body.setCollisionGroup(winCollisionGroup);
-        star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+        //Add a ground for our world
+        var ground = this.add.sprite(0, this.world.height - 64,'ground'); //creates the sprite
+        ground.scale.setTo(200,2);//set the scale
+        this.physics.p2.enableBody(ground,isDebug);    //enables physics on it
+        ground.body.static = true;                  //disables gravity for itself...
+        ground.body.fixedRotation = true;           //fixes rotation?
+        //1.Tells the ground to be part of the jumpable collision group
+        //2.This effectively tells it that it collides with these collision groups.
+        ground.body.setCollisionGroup(isJumpCollisionGroup);
+        ground.body.collides([isJumpCollisionGroup, playerCollisionGroup, killCollisionGroup, winCollisionGroup, BoxCollisionGroup]);
 
-        this.createBox(-10, 0, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
-        
         // The player aanimations and position
-        player = this.add.sprite(32, 1600 - 150, 'dude');
+        player = this.add.sprite(32, this.world.height - 150, 'dude');
         player.animations.add('left', [0, 1, 2, 3], 10, true);
         player.animations.add('right', [5, 6, 7, 8], 10, true);
-
+        
+        //  We need to enable physics on the player
         this.physics.p2.enable(player);
         player.body.fixedRotation = true;
         player.body.collideWorldBounds = true;
@@ -127,53 +116,42 @@ Game.level1.prototype = {
         //Again we need to set the player to use the player collision group.
         player.body.setCollisionGroup(playerCollisionGroup);
         player.body.collides(isJumpCollisionGroup,function (){ifCanJump = true;},this);
-        player.body.collides(killCollisionGroup, this.endGame, this)
-        player.body.collides(winCollisionGroup, this.nextLevel,this);
+        player.body.collides(winCollisionGroup, this.nextLevel, this);
+        player.body.collides(killCollisionGroup, this.endGame, this);
+        player.body.collides(BoxCollisionGroup,function(){playerbox = true; ifCanJump = true;},this)
 
+        //star that advances you to next level
+        star = this.add.sprite(1330, 460, 'star');
+        this.physics.p2.enableBody(star);
+        star.body.setCollisionGroup(winCollisionGroup);
+        star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+
+        //trap for tutorial
+        this.createKillObj(500, 490, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(560, 490, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(620, 490, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(680, 490, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(740, 490, 'diamond', playerCollisionGroup, killCollisionGroup);
+
+        //ladder to pass traps
+        ladder = this.add.sprite(620, 220, 'ladder');
+        this.createBox(200, 490, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
         //sets camera to follow
         this.camera.follow(player);
 
-        //Add water after adding the player so that way, water is layered ontop of the player
-        water = this.add.sprite(3200,1850,'water1-1'); //Note this has no interactions with the inWater function
-        this.add.tween(water).to({alpha:0.95}, 1, Phaser.Easing.Linear.NONE, true);//Transparency
-
-        //Sets the jump button to up
-        jumpButton = this.input.keyboard.addKey(Phaser.Keyboard.UP);
-
-        pushButton = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-
-        //  Our controls.(left/up/down/right)
+        //  Our controls.
         cursors = this.input.keyboard.createCursorKeys();
-        
-        //pause menu
-        this.btnPause = this.game.add.button(675,20,'pause',this.pauseGame,this);
-
-        //Build the Pause Panel
-        this.pausePanel = new PausePanel(this.game);
-        this.game.add.existing(this.pausePanel);
-
-        //Enter Play Mode
-        mehSpeed = new Array();
-        this.playGame();
-       
+        jumpButton = this.input.keyboard.addKey(Phaser.Keyboard.UP);
+        pushButton = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     },
-
     pauseGame: function(){
         if(!paused){
             paused = true;
             this.pausePanel.show();
+            this.camera.unfollow();
             this.physics.p2.gravity.y = 0;
-            
-            //add any object that is affected by gravity here.
-            mehSpeed.push(checkmark.body.velocity.x);
-            mehSpeed.push(checkmark.body.velocity.y);
-            
-            //Set the vbelocities to zero to make sure they dont move anymore.
-            checkmark.body.velocity.x = 0;
-            checkmark.body.velocity.y = 0;
-            
-            //fix the objects from rotating and make them static
-            checkmark.body.fixedRotation = true;
+            player.body.velocity.x=0;
+            player.body.velocity.y=0;
         }
     },
 
@@ -181,61 +159,40 @@ Game.level1.prototype = {
         if(paused){
             paused = false;
             this.pausePanel.hide();
+            this.camera.follow(player,this.camera.FOLLOW_PLATFORMER);
             this.physics.p2.gravity.y = 500;
-            
-            //Push out velocties affected by gravity for objects here.
-            checkmark.body.velocity.y = mehSpeed.pop();
-            checkmark.body.velocity.x = mehSpeed.pop();
-            
-            //allow for totations and disable static.
-            checkmark.body.fixedRotation = false;
         }
     },
 
-
     update: function() {
-        //console.log("x:"+this.camera.x);
-        //console.log("y:"+this.camera.y);
+        console.log("x ",player.body.x)
+        console.log("y ", player.body.y);
         //  To move the UI along with the camera 
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
+        if(pushButton.isDown && ((player.body.x >= 620 && player.body.x <= 620+20 && player.body.y >= 220 && player.body.y <= 220+150))){
+            console.log("on ladder");
+            player.body.data.gravityScale=0.05;
+            onLadder=true;
+        }
+        else{
+            player.body.data.gravityScale=1;
+            onLadder=false;
+        }
+
         if(!paused){
                 this.pausePanel.y = this.camera.y-100;
                 this.pausePanel.update();
         }
 
-        //CHECK IF IN WATER -- This must be modified is water's position is modified...
-        if(player.body.x >= 3200 && player.body.x <= 3200+400 && player.body.y >= 1850 && player.body.y <= 1850+1000){
-            console.log("inwater");
-            inWater = true;
-           // this.physics.p2.gravity.y = 200;
-          player.body.data.gravityScale=20;
-          ifCanJump=false;
-            /*if(counter == 0){
-                player.body.velocity.y = 0;
-                player.body.velocity.y = 0;
-            }
-            counter++;
-            if(counter%100 == 0)
-                this.physics.p2.gravity.y*=-1;*/
-        }
-        else{
-           // player.body.data.gravityScale=1;
-            console.log("notinwater");
-            inWater = false;
-            this.physics.p2.gravity.y = 500;
-            counter = 0;
-        }
-
-
         //  Reset the players velocity (movement)
         player.body.velocity.x = 0;
-        if(paused || inWater)
+        if(paused || inWater){
             player.body.velocity.y = 0;
-
-        //Control Player Movement;
-        if (!paused && !inWater){
+        }
+      //Control Player Movement;
+        if (!paused && !inWater && !onLadder){
             if (cursors.left.isDown)
             {
                 player.body.moveLeft(200+godmode);
@@ -282,23 +239,28 @@ Game.level1.prototype = {
                 ifCanJump = false;
             }
             // moving a Box-----------------------------
-            if ((pushButton.isDown && cursors.left.isDown) || (pushButton.isDown && cursors.right.isDown)) {
+            if ((pushButton.isDown && playerbox) || (pushButton.isDown && playerbox)) {
+                onGround = false;
                 if (checkCreated < 1){
+                    onGround = false;
                     Box.body.destroy();
                     Box.kill();
-                    this.createBox(boxX, boxY, 'diamond',playerCollisionGroup, isJumpCollisionGroup);
+                    this.createBox(boxX, boxY, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
                     checkCreated++;
                 }
-            }else if (pushButton.isUp){
+            }else if (pushButton.isUp && onGround){
+            
                 Box.body.static = true;
                 boxX = Box.body.x;
                 boxY = Box.body.y;
                 checkCreated =0;
+                playerbox =false;
+                
             }
 
         }
 
-        if (!paused && inWater){
+        if (!paused && inWater && !onLadder){
             if (cursors.left.isDown)
             {
                 player.body.moveLeft(200+godmode);
@@ -326,25 +288,26 @@ Game.level1.prototype = {
                 player.body.moveDown(200+godmode);
             }
         }
-
-        //-----------------------player Kill zone
-        if (player.body.y >= 1850+200){
-            this.endGame();
+        if(!paused && !inWater && onLadder){
+            if(cursors.up.isDown){
+                player.body.moveUp(40);
+            }
+            else if(cursors.down.isDown){
+                player.body.moveDown(40);
+            }
         }
-
     },
 
-
-// correct the endGame function
-    endGame: function(){
+     endGame: function(){
         this.music.stop();
-        this.state.start('gameover');
+        this.state.start('tutorialgg');
     },
     nextLevel: function(){
         this.music.stop();
-        this.state.start('level1');
+        this.state.start('main');
     }
 };
+
 var PausePanel = function(game, parent){
     //Super call to Phaser.group
     Phaser.Group.call(this, game, parent);
@@ -359,7 +322,7 @@ var PausePanel = function(game, parent){
     this.y = -100;
     
     btnRestart = this.game.add.button(350,-225,'restart',function(){
-        this.game.state.restart(true,true);
+        this.game.state.start('tutorial');
     },this);
 
     btnHelpScreen = this.game.add.button(150,-500,'helpscn',function(){

@@ -58,8 +58,6 @@ var pausePanel;
 var mehSpeed;
 
 //---------Other Variables---------
-var score = 0;
-var scoreText;
 var diamond;
 var diamond2;
 
@@ -219,7 +217,7 @@ Game.main.prototype={
         //Again we need to set the player to use the player collision group.
         player.body.setCollisionGroup(playerCollisionGroup);
         player.body.collides(isJumpCollisionGroup,function (){ifCanJump = true;},this);
-        player.body.collides(killCollisionGroup, this.endGame, this)
+        player.body.collides(killCollisionGroup, this.endGame, this);
         player.body.collides(winCollisionGroup, this.nextLevel,this);
         player.body.collides(BoxCollisionGroup,function(){playerbox = true; ifCanJump = true;},this)
 
@@ -236,10 +234,6 @@ Game.main.prototype={
         jumpButton = this.input.keyboard.addKey(Phaser.Keyboard.UP);
 
         pushButton = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-
-        //  The score
-        scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });
-
         //  Our controls.(left/up/down/right)
         cursors = this.input.keyboard.createCursorKeys();
         
@@ -346,8 +340,6 @@ Game.main.prototype={
         //  To move the UI along with the camera 
         console.log("x: ", player.body.x);
         console.log("y: ", player.body.y);
-        scoreText.x = this.camera.x+16;
-        scoreText.y = this.camera.y+16;
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
@@ -371,6 +363,7 @@ Game.main.prototype={
             (player.body.x >= 1100 && player.body.x <= 1100+20 && player.body.y >= 1170 && player.body.y <= 1170+150) ||
             (player.body.x >= 2030 && player.body.x <= 2030+20 && player.body.y >= 1420 && player.body.y <= 1420+150) ||
             (player.body.x >= 2030 && player.body.x <= 2030+20 && player.body.y >= 1270 && player.body.y <= 1270+150) )){
+
             console.log("on ladder");
             player.body.data.gravityScale=0.05;
             onLadder=true;
@@ -561,7 +554,6 @@ Game.main.prototype={
 
 // correct the endGame function
     endGame: function(){
-        score = 0;
         this.music.stop();
         this.state.start('gameover');
     },
