@@ -338,7 +338,7 @@ Game.level1.prototype = {
 // correct the endGame function
     endGame: function(){
         this.music.stop();
-        this.state.start('gameover');
+        this.state.start('level1gg');
     },
     nextLevel: function(){
         this.music.stop();
