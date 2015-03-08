@@ -117,8 +117,15 @@ Game.level1.prototype = {
         
         // The player aanimations and position
         player = this.add.sprite(32, 1600 - 150, 'courier');
-        player.animations.add('left', [0, 1, 2, 3], 10, true);
-        player.animations.add('right', [5, 6, 7, 8], 10, true);
+        player.animations.add('left', [3,4,5,11], 10, true);
+        player.animations.add('right', [10,9,8,2], 10, true);
+        player.animations.add('left_idle', [14], 10, true);
+        player.animations.add('right_idle', [13], 10, true);
+        player.animations.add('left_idle_letter', [6], 10, true);
+        player.animations.add('right_idle_letter', [12], 10, true);
+        player.animations.add('left_jump', [5], 10, true);
+        player.animations.add('right_jump', [2], 10, true);
+        player.animations.add('climb', [0,1], 5, true);
 
         this.physics.p2.enable(player);
         player.body.fixedRotation = true;
@@ -266,14 +273,24 @@ Game.level1.prototype = {
 
                     if (facing == 'left')
                     {
-                        player.frame = 0;
+                        player.frame = 14;
                     }
                     else
                     {
-                        player.frame = 5;
+                        player.frame = 13;
                     }
 
                     facing = 'idle';
+                }
+            }
+            else if(ifCanJump){
+                if (facing == 'left')
+                {
+                    player.frame = 14;
+                }
+                else
+                {
+                    player.frame = 13;
                 }
             }
 
