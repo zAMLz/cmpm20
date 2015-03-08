@@ -207,7 +207,8 @@ Game.main.prototype={
         ladder13 = this.add.sprite(2030, 1270, 'ladder');
         
         // The player aanimations and position
-        player = this.add.sprite(32, 1600 - 150, 'courier');
+        //player = this.add.sprite(32, 1600 - 150, 'courier');
+        player = this.add.sprite(32+3600, 1300, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
@@ -384,7 +385,8 @@ Game.main.prototype={
         //PREVENT WALL JUMPERS
         if((player.body.x >= 590 && player.body.x <= 590+50 && player.body.y >= 1400 && player.body.y <= 1640) ||
            (player.body.x >= 1140 && player.body.x <= 1140+50 && player.body.y >= 1235 && player.body.y <= 1370) ||
-           (player.body.x >= 2070 && player.body.x <= 2070+50 && player.body.y >= 1574 && player.body.y <= 1676))
+           (player.body.x >= 2070 && player.body.x <= 2070+50 && player.body.y >= 1574 && player.body.y <= 1676) ||
+           (player.body.x >= 3585 && player.body.x <= 3585+50 && player.body.y >= 1349 && player.body.y <= 1849))
             ifCanJump=false;
 
         //CHECK OTHER ING GAME EVENTS HERE
@@ -500,23 +502,14 @@ Game.main.prototype={
         }
 
         if (!paused && inWater && !onLadder){
+            player.animations.play('climb');
             if (cursors.left.isDown)
             {
                 player.body.moveLeft(200+godmode);
-                if (facing != 'left')
-                {
-                    player.animations.play('left');
-                    facing = 'left';
-                }
             }
             else if (cursors.right.isDown)
             {
                 player.body.moveRight(200+godmode);
-                if (facing != 'right')
-                {
-                    player.animations.play('right');
-                    facing = 'right';
-                }
             }
             if (cursors.up.isDown&&!inWater)
             {
