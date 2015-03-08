@@ -90,6 +90,7 @@ Game.main.prototype={
     },
 
     terraincreator: function(image,x,y,playerCollisionGroup,isJumpCollisionGroup, BoxCollisionGroup, realTerrain){
+        isDebug = false;
         var terrain = this.add.sprite(x, y,image); //creates the sprite
         this.physics.p2.enableBody(terrain,isDebug);    //enables physics on it
         if(realTerrain){
@@ -375,7 +376,11 @@ Game.main.prototype={
             player.body.data.gravityScale=0.05;
             onLadder=true;
         }
-        else{
+        else if(ifCanJump){
+            if (facing == 'left' && cursors.right.isDown)
+                player.animations.play('left');
+            else if((facing == 'right' && cursors.right.isDown))
+                player.animations.play('right');
             player.body.data.gravityScale=1;
             onLadder=false;
         }
