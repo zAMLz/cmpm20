@@ -206,9 +206,16 @@ Game.main.prototype={
         ladder13 = this.add.sprite(2030, 1270, 'ladder');
         
         // The player aanimations and position
-        player = this.add.sprite(32, 1600 - 150, 'dude');
-        player.animations.add('left', [0, 1, 2, 3], 10, true);
-        player.animations.add('right', [5, 6, 7, 8], 10, true);
+        player = this.add.sprite(32, 1600 - 150, 'courier');
+        player.animations.add('left', [3,4,5,11], 10, true);
+        player.animations.add('right', [10,9,8,2], 10, true);
+        player.animations.add('left_idle', [14], 10, true);
+        player.animations.add('right_idle', [13], 10, true);
+        player.animations.add('left_idle_letter', [6], 10, true);
+        player.animations.add('right_idle_letter', [12], 10, true);
+        player.animations.add('left_jump', [5], 10, true);
+        player.animations.add('right_jump', [2], 10, true);
+        player.animations.add('climb', [0,1], 5, true);
 
         this.physics.p2.enable(player);
         player.body.fixedRotation = true;
@@ -405,7 +412,7 @@ Game.main.prototype={
         if(paused || inWater)
             player.body.velocity.y = 0;
 
-        //Control Player Movement;
+        //PLAYER CONTROL MOVEMENT
         if (!paused && !inWater && !onLadder){
             if (cursors.left.isDown)
             {
@@ -437,16 +444,27 @@ Game.main.prototype={
 
                     if (facing == 'left')
                     {
-                        player.frame = 0;
+                        player.frame = 14;
                     }
                     else
                     {
-                        player.frame = 5;
+                        player.frame = 13;
                     }
 
                     facing = 'idle';
                 }
             }
+            else if(ifCanJump){
+                if (facing == 'left')
+                {
+                    player.frame = 14;
+                }
+                else
+                {
+                    player.frame = 13;
+                }
+            }
+
 
             if (jumpButton.isDown && ifCanJump){
                 player.body.moveUp(300+godmode);
@@ -504,11 +522,15 @@ Game.main.prototype={
         }
         if(!paused && !inWater && onLadder){
             if(cursors.up.isDown){
+                player.animations.play('climb');
                 player.body.moveUp(40);
             }
             else if(cursors.down.isDown){
+                player.animations.play('climb');
                 player.body.moveDown(40);
             }
+            else
+                player.animations.stop();
         }
 
         //-----------------------player Kill zone
