@@ -376,14 +376,16 @@ Game.main.prototype={
             player.body.data.gravityScale=0.05;
             onLadder=true;
         }
-        else if(ifCanJump){
-            if (facing == 'left' && cursors.right.isDown)
-                player.animations.play('left');
-            else if((facing == 'right' && cursors.right.isDown))
-                player.animations.play('right');
+        else{
             player.body.data.gravityScale=1;
             onLadder=false;
         }
+
+        //PREVENT WALL JUMPERS
+        if((player.body.x >= 590 && player.body.x <= 590+50 && player.body.y >= 1400 && player.body.y <= 1640) ||
+           (player.body.x >= 1140 && player.body.x <= 1140+50 && player.body.y >= 1235 && player.body.y <= 1370) ||
+           (player.body.x >= 2070 && player.body.x <= 2070+50 && player.body.y >= 1574 && player.body.y <= 1676))
+            ifCanJump=false;
 
         //CHECK OTHER ING GAME EVENTS HERE
         //1. DEATH BOULDER
