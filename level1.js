@@ -103,9 +103,15 @@ Game.level1.prototype = {
         //ADD TERRAIN HERE
         this.terraincreator('fact1',200,1600,playerCollisionGroup,isJumpCollisionGroup,true);
         //this.terraincreator('terr-null',400,2200,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact2',840,1600,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',840,1600,playerCollisionGroup,isJumpCollisionGroup,true);
         //this.terraincreator('terr-null',1200,1900,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact3',1480,1600,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',1480,1600,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',2120,1600,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',2760,1500,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',3400,1500,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact3',4040,1560,playerCollisionGroup,isJumpCollisionGroup,true);
+        
+
 
         //if the player collides with the star next level starts
         star = this.add.sprite(5800,100,'star');
