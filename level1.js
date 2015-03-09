@@ -104,6 +104,14 @@ Game.level1.prototype = {
         }
     },
 
+    floatingBox: function(image,x,y,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup){
+        var box = this.add.sprite(x,y,image);
+        this.physics.p2.enableBody(box,isDebug);
+        box.body.setCollisionGroup(isJumpCollisionGroup);
+        box.body.collides([isJumpCollisionGroup,playerCollisionGroup,BoxCollisionGroup]);
+        box.body.data.gravityScale=0;
+    },
+
     create: function() {
         //adds music
         this.music = this.add.audio('tutorialmusic');
@@ -146,7 +154,8 @@ Game.level1.prototype = {
         this.createBox(258, 1678, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
         
         // The player aanimations and position
-        player = this.add.sprite(32, 1600 - 150, 'courier');
+        //player = this.add.sprite(32, 1600 - 150, 'courier');
+        player = this.add.sprite(10000, 1100, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
@@ -238,6 +247,14 @@ Game.level1.prototype = {
         this.terraincreator('fact1',15280,555,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
         this.terraincreator('terr-null',15250,1055,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
 
+        //boxes floating in water
+        this.floatingBox('diamond',10100,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
+        this.floatingBox('diamond',10250,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
+        this.floatingBox('diamond',10400,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
+        this.floatingBox('diamond',10550,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
+        this.floatingBox('diamond',10700,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
+        this.floatingBox('diamond',11500,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
+        this.floatingBox('diamond',11650,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
 
 
         //Sets the jump button to up
