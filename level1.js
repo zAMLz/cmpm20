@@ -154,8 +154,7 @@ Game.level1.prototype = {
         this.createBox(258, 1678, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
         
         // The player aanimations and position
-        //player = this.add.sprite(32, 1600 - 150, 'courier');
-        player = this.add.sprite(10000, 1100, 'courier');
+        player = this.add.sprite(32, 1600 - 150, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
@@ -176,6 +175,7 @@ Game.level1.prototype = {
         player.body.collides(killCollisionGroup, this.endGame, this)
         player.body.collides(winCollisionGroup, this.nextLevel,this);
         player.body.collides(BoxCollisionGroup,function(){playerbox = true; ifCanJump = true;},this)
+        
 
         //sets camera to follow
         this.camera.follow(player);
@@ -246,7 +246,7 @@ Game.level1.prototype = {
         this.terraincreator('terr-null',14645,1055,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',15280,555,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
         this.terraincreator('terr-null',15250,1055,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-
+        
         //boxes floating in water
         this.floatingBox('diamond',10100,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
         this.floatingBox('diamond',10250,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
