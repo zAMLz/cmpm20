@@ -22,7 +22,7 @@ var jumpButton;
 var ifCanJump = false;
 
 //------------TESTING PURPOSES
-var isDebug = true;
+var isDebug = false;
 var godmode = 0;
 
 //----------Pause Control-----------
@@ -61,7 +61,7 @@ Game.level1.prototype = {
 
     terraincreator: function(image,x,y,playerCollisionGroup,isJumpCollisionGroup,realTerrain){
         var terrain = this.add.sprite(x, y,image); //creates the sprite
-        this.physics.p2.enableBody(terrain,true);    //enables physics on it
+        this.physics.p2.enableBody(terrain,isDebug);    //enables physics on it
         terrain.body.clearShapes();
         if(realTerrain){
             terrain.body.loadPolygon('physicsdatafactory',image);
@@ -103,13 +103,27 @@ Game.level1.prototype = {
         //ADD TERRAIN HERE
         this.terraincreator('fact1',200,1600,playerCollisionGroup,isJumpCollisionGroup,true);
         //this.terraincreator('terr-null',400,2200,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',840,1600,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',835,1600,playerCollisionGroup,isJumpCollisionGroup,true);
         //this.terraincreator('terr-null',1200,1900,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',1480,1600,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('fact1',2120,1600,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('fact1',2760,1500,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('fact1',3400,1500,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('fact3',4040,1560,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',1470,1600,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',2105,1600,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',2740,1505,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',3375,1505,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',3375,1600,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',4010,1695,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',4645,1695,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',5280,1695,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',5915,1600,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',5915,1505,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',6550,1505,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',7185,1505,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',7820,1410,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',7820,1315,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',7820,1220,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',7820,1125,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',7820,1030,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',8455,1030,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',9090,1030,playerCollisionGroup,isJumpCollisionGroup,true);
         
 
 
