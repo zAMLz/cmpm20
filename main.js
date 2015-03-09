@@ -99,6 +99,13 @@ Game.main.prototype={
         diamond.body.collides([playerCollisionGroup]);
     },
 
+    ladderUpdater: function(ladd){
+        if((player.body.x >= ladd.x && player.body.x <= ladd.x+20 && player.body.y >= ladd.y && player.body.y <= ladd.y+150))
+            return true;
+        else
+            return false;
+    },
+
     groundcreator: function(x,y,xs,ys){
         var ground = this.add.sprite(x, y, 'ground');
         ground.scale.setTo(xs,ys);//set the scale
@@ -137,6 +144,8 @@ Game.main.prototype={
         //  (which we do) - what this does is adjust the bounds to use its own collision group.
         this.physics.p2.updateBoundsCollisionGroup();
 
+       
+
         this.terraincreator('terr1-1',400,1600,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
         this.terraincreator('terr-null',400,2200,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('terr1-2',1200,1300,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
@@ -147,6 +156,7 @@ Game.main.prototype={
         this.terraincreator('terr-null',2800,2195,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('terr1-b',3196,2195,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         //water pool happens then more terrain
+        this.groundcreator(4665,1198,0.15,12);// Look at comments in Maze section
         this.terraincreator('terr1-5',3950,1527,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
         this.terraincreator('terr-null',4000,2127,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('terr1-b2',3605,2127,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
@@ -188,27 +198,28 @@ Game.main.prototype={
         star.body.setCollisionGroup(winCollisionGroup);
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
         //climbable tree
-        ladder = this.add.sprite(560, 1520,'ladder');
-        ladder = this.add.sprite(500, 1400, 'ladder');
-        ladder = this.add.sprite(580, 1300, 'ladder');
-        ladder = this.add.sprite(3250, 1600, 'ladder');
-        ladder = this.add.sprite(3325, 1525, 'ladder');
-        ladder = this.add.sprite(3400, 1450, 'ladder');
-        ladder = this.add.sprite(3565, 1430, 'ladder');
-        ladder = this.add.sprite(3575, 1300, 'ladder');
-        ladder = this.add.sprite(3450, 1310, 'ladder');
-        ladder = this.add.sprite(3200, 1465, 'ladder');
-        ladder = this.add.sprite(3125, 1375, 'ladder');
-        ladder = this.add.sprite(1100, 1170, 'ladder');
-        ladder = this.add.sprite(2030, 1430, 'ladder');
-        ladder = this.add.sprite(2030, 1270, 'ladder');
+        ladder = new Array();
+        ladder[0] = this.add.sprite(560, 1520,'ladder');
+        ladder[1] = this.add.sprite(500, 1400, 'ladder');
+        ladder[2] = this.add.sprite(580, 1300, 'ladder');
+        ladder[3] = this.add.sprite(3250, 1600, 'ladder');
+        ladder[4] = this.add.sprite(3325, 1525, 'ladder');
+        ladder[5] = this.add.sprite(3400, 1450, 'ladder');
+        ladder[6] = this.add.sprite(3565, 1430, 'ladder');
+        ladder[7] = this.add.sprite(3575, 1300, 'ladder');
+        ladder[8] = this.add.sprite(3450, 1310, 'ladder');
+        ladder[9] = this.add.sprite(3200, 1465, 'ladder');
+        ladder[10] = this.add.sprite(3125, 1375, 'ladder');
+        ladder[11] = this.add.sprite(1100, 1170, 'ladder');
+        ladder[12] = this.add.sprite(2030, 1430, 'ladder');
+        ladder[13] = this.add.sprite(2030, 1270, 'ladder');
         //MAZE LADDERS and GROUNDS
-        ladder = this.add.sprite(3850 ,1334-300 ,'ladder');
-        ladder = this.add.sprite(3950 ,1334-225 ,'ladder');
-        ladder = this.add.sprite(4050 ,1334-150 ,'ladder');
-        ladder = this.add.sprite(3950 ,1109-175 ,'ladder');
-        ladder = this.add.sprite(3950 ,1109-175-150 ,'ladder');
-        ladder = this.add.sprite(4150 ,1334-225 ,'ladder');
+        ladder[14] = this.add.sprite(3850 ,1334-300 ,'ladder');
+        ladder[15] = this.add.sprite(3950 ,1334-225 ,'ladder');
+        ladder[16] = this.add.sprite(4050 ,1334-150 ,'ladder');
+        ladder[17] = this.add.sprite(3950 ,1109-175 ,'ladder');
+        ladder[18] = this.add.sprite(3950 ,1109-175-150 ,'ladder');
+        ladder[19] = this.add.sprite(4150 ,1334-225 ,'ladder');
 
         this.groundcreator(4100,1109-10,1,0.5);
         this.groundcreator(4200,1000,0.15,6);
@@ -216,24 +227,30 @@ Game.main.prototype={
         this.groundcreator(4300,1200,0.5,0.5);
 
         
-        ladder = this.add.sprite(4310 ,1000 ,'ladder');
-        ladder = this.add.sprite(4410 ,1100 ,'ladder');
-        ladder = this.add.sprite(4400 , 900 ,'ladder');
-        ladder = this.add.sprite(4475 ,950,'ladder');
-        ladder = this.add.sprite(4475 ,950-125 ,'ladder');
-        //ladder = this.add.sprite( , ,'ladder');
-        //ladder = this.add.sprite( , ,'ladder');
-        //ladder = this.add.sprite( , ,'ladder');
-        //ladder = this.add.sprite( , ,'ladder');
-        //ladder = this.add.sprite( , ,'ladder');
-        //ladder = this.add.sprite( , ,'ladder');
-        //ladder = this.add.sprite( , ,'ladder');
-        //ladder = this.add.sprite( , ,'ladder');
-        //ladder = this.add.sprite( , ,'ladder');
-        //ladder = this.add.sprite( , ,'ladder');
-        //ladder = this.add.sprite( , ,'ladder');
-        //ladder = this.add.sprite( , ,'ladder');
-        //ladder = this.add.sprite( , ,'ladder');
+        ladder[20] = this.add.sprite(4310 ,1000 ,'ladder');
+        ladder[21] = this.add.sprite(4410 ,1100 ,'ladder');
+        ladder[22] = this.add.sprite(4400 , 900 ,'ladder');
+        ladder[23] = this.add.sprite(4475 ,950,'ladder');
+        ladder[24] = this.add.sprite(4475 ,950-125 ,'ladder');
+
+        this.groundcreator(4605,948,0.05,4);
+        this.groundcreator(4665,998,0.35,1);
+        //this.groundcreator(4665,1198,0.15,12); this ground is actually printed out before the terrain so the terrain has priority layering
+        this.groundcreator(0,0,0,0);
+
+        ladder[25] = this.add.sprite( 4575,950,'ladder');
+        //ladder[] = this.add.sprite( , ,'ladder');
+        //ladder[] = this.add.sprite( , ,'ladder');
+        //ladder[] = this.add.sprite( , ,'ladder');
+        //ladder[] = this.add.sprite( , ,'ladder');
+        //ladder[] = this.add.sprite( , ,'ladder');
+        //ladder[] = this.add.sprite( , ,'ladder');
+        //ladder[] = this.add.sprite( , ,'ladder');
+        //ladder[] = this.add.sprite( , ,'ladder');
+        //ladder[] = this.add.sprite( , ,'ladder');
+        //ladder[] = this.add.sprite( , ,'ladder');
+        //ladder[] = this.add.sprite( , ,'ladder');
+        //ladder[] = this.add.sprite( , ,'ladder');
         
         // The player aanimations and position
         //player = this.add.sprite(32, 1600 - 150, 'courier');
@@ -387,21 +404,14 @@ Game.main.prototype={
         }
 
         //check if in bounds of ladder
-        if(pushButton.isDown && ((player.body.x >= 560 && player.body.x <= 560+20 && player.body.y >= 1520 && player.body.y <= 1520+150) || 
-            (player.body.x >= 500 && player.body.x <= 500+20 && player.body.y >= 1400 && player.body.y <= 1400+150) || 
-            (player.body.x >= 580 && player.body.x <= 580+20 && player.body.y >= 1300 && player.body.y <= 1300+150) ||
-            (player.body.x >= 3250 && player.body.x <= 3250+20 && player.body.y >= 1600 && player.body.y <= 1600+150) ||
-            (player.body.x >= 3325 && player.body.x <= 3325+20 && player.body.y >= 1525 && player.body.y <= 1525+150) ||
-            (player.body.x >= 3400 && player.body.x <= 3400+20 && player.body.y >= 1450 && player.body.y <= 1450+150) || 
-            (player.body.x >= 3565 && player.body.x <= 3565+20 && player.body.y >= 1430 && player.body.y <= 1430+150) ||
-            (player.body.x >= 3575 && player.body.x <= 3575+20 && player.body.y >= 1300 && player.body.y <= 1300+150) ||
-            (player.body.x >= 3450 && player.body.x <= 3450+20 && player.body.y >= 1310 && player.body.y <= 1310+150) ||
-            (player.body.x >= 3200 && player.body.x <= 3200+20 && player.body.y >= 1465 && player.body.y <= 1465+150) ||
-            (player.body.x >= 3125 && player.body.x <= 3125+20 && player.body.y >= 1375 && player.body.y <= 1375+150) ||
-            (player.body.x >= 1100 && player.body.x <= 1100+20 && player.body.y >= 1170 && player.body.y <= 1170+150) ||
-            (player.body.x >= 2030 && player.body.x <= 2030+20 && player.body.y >= 1420 && player.body.y <= 1420+150) ||
-            (player.body.x >= 2030 && player.body.x <= 2030+20 && player.body.y >= 1270 && player.body.y <= 1270+150) ||
-            (player.body.x >= 3841 && player.body.x <= 9999+20 && player.body.y >= 0 && player.body.y <= 1350))){
+        if(pushButton.isDown && (this.ladderUpdater(ladder[0]) || this.ladderUpdater(ladder[1])|| this.ladderUpdater(ladder[2])|| this.ladderUpdater(ladder[3])|| 
+        this.ladderUpdater(ladder[4])|| this.ladderUpdater(ladder[5])|| this.ladderUpdater(ladder[6])|| this.ladderUpdater(ladder[7])|| this.ladderUpdater(ladder[8])|| 
+        this.ladderUpdater(ladder[9])|| this.ladderUpdater(ladder[10])|| this.ladderUpdater(ladder[11])|| this.ladderUpdater(ladder[12])|| this.ladderUpdater(ladder[13])|| 
+        this.ladderUpdater(ladder[14])|| this.ladderUpdater(ladder[15])|| this.ladderUpdater(ladder[16])|| this.ladderUpdater(ladder[17])|| this.ladderUpdater(ladder[18])|| 
+        this.ladderUpdater(ladder[19])|| this.ladderUpdater(ladder[20])|| this.ladderUpdater(ladder[21])|| this.ladderUpdater(ladder[22])|| this.ladderUpdater(ladder[23])|| 
+        this.ladderUpdater(ladder[24]) || this.ladderUpdater(ladder[25]) ))
+        {
+
             ifCanJump=false;
             console.log("on ladder");
             player.body.data.gravityScale=0.05;
