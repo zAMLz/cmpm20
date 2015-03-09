@@ -2,6 +2,7 @@ var player;
 var cursors;
 var water;
 var inWater=false;
+var killobjglobal = true;
 var playerCollisionGroup;
 var isJumpCollisionGroup;
 var killCollisionGroup;
@@ -10,12 +11,15 @@ var counter = 0;
 //-------------OBJECTS---------------
 var index;
 var star;
+var moveKillObj;
 
 //-------------Boxes------------------
 var checkCreated = 0;
 var Box;
 var boxX;
 var boxY;
+var onGround = true;
+var playerbox = true;
 //----------Player Control Variables---
 var facing = 'left';
 var jumpButton;
@@ -44,7 +48,7 @@ Game.level1 = function (game){
 
 Game.level1.prototype = {
 
-    createBox: function(x, y, index, playerCollisionGroup, isJumpCollisionGroup ){
+    createBox: function(x, y, index, playerCollisionGroup, isJumpCollisionGroup,BoxCollisionGroup ){
         boxX = x;
         boxY = y;
         Box = this.add.sprite(x, y, index);
@@ -54,25 +58,50 @@ Game.level1.prototype = {
         Box.body.gravity = 500;
         Box.body.static = false;
         Box.body.fixedRotation = true;
-        Box.body.setCollisionGroup(isJumpCollisionGroup);
-        Box.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+        Box.body.setCollisionGroup(BoxCollisionGroup);
+        Box.body.collides(isJumpCollisionGroup,function (){onGround = true;},this);
+        Box.body.collides([playerCollisionGroup]);
 
     },
 
-    terraincreator: function(image,x,y,playerCollisionGroup,isJumpCollisionGroup,realTerrain){
+    terraincreator: function(image,x,y,playerCollisionGroup,isJumpCollisionGroup, BoxCollisionGroup, realTerrain){
         var terrain = this.add.sprite(x, y,image); //creates the sprite
         this.physics.p2.enableBody(terrain,isDebug);    //enables physics on it
         terrain.body.clearShapes();
         if(realTerrain){
+            terrain.body.clearShapes();
             terrain.body.loadPolygon('physicsdatafactory',image);
             console.log(image);
             //1.Tells the ground to be part of the jumpable collision group
             //2.This effectively tells it that it collides with these collision groups.
             terrain.body.setCollisionGroup(isJumpCollisionGroup);
-            terrain.body.collides([isJumpCollisionGroup, playerCollisionGroup, winCollisionGroup]);
+            terrain.body.collides([isJumpCollisionGroup, playerCollisionGroup, winCollisionGroup, BoxCollisionGroup, killCollisionGroup]);
         }
         terrain.body.static = true;                  //disables gravity for itself...
         terrain.body.fixedRotation = true;           //fixes rotation?
+    },
+
+    moveKill: function(temp,start,end,travel,time){
+        if (temp.x <= start)
+        {
+            //  Here you'll notice we are using a relative value for the tween.
+            //  You can specify a number as a string with either + or - at the start of it.
+            //  When the tween starts it will take the sprites current X value and add +300 to it.
+            //console.log('true');
+            //killobjglobal = true;
+            this.add.tween(temp).to( { x: '+'+travel }, time, Phaser.Easing.Linear.None, true);
+        }
+        else if (temp.x >= end)
+        {
+            //console.log('false');
+            //killobjglobal = false;
+            this.add.tween(temp).to( { x: '-'+travel }, time, Phaser.Easing.Linear.None, true);
+        }
+
+        if((player.body.x >= temp.x && player.body.x <= temp.x+100 && player.body.y >= temp.y && player.body.y <= temp.y+100)){
+            //console.log('DEAD');
+            this.endGame();   
+        }
     },
 
     create: function() {
@@ -95,10 +124,18 @@ Game.level1.prototype = {
         isJumpCollisionGroup = this.physics.p2.createCollisionGroup();
         killCollisionGroup = this.physics.p2.createCollisionGroup();
         winCollisionGroup = this.physics.p2.createCollisionGroup();
+        BoxCollisionGroup = this.physics.p2.createCollisionGroup();
+
 
         //  This part is vital if you want the objects with their own collision groups to still collide with the world bounds
         //  (which we do) - what this does is adjust the bounds to use its own collision group.
         this.physics.p2.updateBoundsCollisionGroup();
+
+        //Create a moveKill object
+        //moveKillObj = this.add.sprite(500, 1678, 'boulder');
+        moveKillObj = new Array();
+        moveKillObj[0] = this.add.sprite(500,1678,'boulder');
+        moveKillObj[1] = this.add.sprite(500, 1400, 'boulder');
 
         //if the player collides with the star next level starts
         star = this.add.sprite(15500,500,'star');
@@ -106,7 +143,7 @@ Game.level1.prototype = {
         star.body.setCollisionGroup(winCollisionGroup);
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
 
-        this.createBox(-10, 0, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+        this.createBox(258, 1678, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
         
         // The player aanimations and position
         player = this.add.sprite(32, 1600 - 150, 'courier');
@@ -129,6 +166,7 @@ Game.level1.prototype = {
         player.body.collides(isJumpCollisionGroup,function (){ifCanJump = true;},this);
         player.body.collides(killCollisionGroup, this.endGame, this)
         player.body.collides(winCollisionGroup, this.nextLevel,this);
+        player.body.collides(BoxCollisionGroup,function(){playerbox = true; ifCanJump = true;},this)
 
         //sets camera to follow
         this.camera.follow(player);
@@ -220,6 +258,8 @@ Game.level1.prototype = {
         //Enter Play Mode
         mehSpeed = new Array();
         this.playGame();
+
+
        
     },
 
@@ -261,6 +301,8 @@ Game.level1.prototype = {
     update: function() {
         //console.log("x:"+this.camera.x);
         //console.log("y:"+this.camera.y);
+        //console.log("x:"+player.body.x);
+        //console.log("y:"+player.body.y);
         //  To move the UI along with the camera 
         console.log("x: ",player.body.x);
         console.log("y: ",player.body.y);
@@ -270,6 +312,9 @@ Game.level1.prototype = {
         if(!paused){
                 this.pausePanel.y = this.camera.y-100;
                 this.pausePanel.update();
+                
+            this.moveKill(moveKillObj[0],500,900,'400',4000);
+            this.moveKill(moveKillObj[1],500,1000,'500',400);
         }
 
         //CHECK IF IN WATER -- This must be modified is water's position is modified...
@@ -289,7 +334,7 @@ Game.level1.prototype = {
         }
         else{
            // player.body.data.gravityScale=1;
-            console.log("notinwater");
+            //console.log("notinwater");
             inWater = false;
             this.physics.p2.gravity.y = 500;
             counter = 0;
@@ -358,19 +403,25 @@ Game.level1.prototype = {
                 player.body.moveUp(300+godmode);
                 ifCanJump = false;
             }
+
             // moving a Box-----------------------------
-            if ((pushButton.isDown && cursors.left.isDown) || (pushButton.isDown && cursors.right.isDown)) {
+            if ((pushButton.isDown && playerbox) || (pushButton.isDown && playerbox)) {
+                onGround = false;
                 if (checkCreated < 1){
+                    onGround = false;
                     Box.body.destroy();
                     Box.kill();
-                    this.createBox(boxX, boxY, 'diamond',playerCollisionGroup, isJumpCollisionGroup);
+                    this.createBox(boxX, boxY, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
                     checkCreated++;
                 }
-            }else if (pushButton.isUp){
+            }else if (pushButton.isUp && onGround){
+            
                 Box.body.static = true;
                 boxX = Box.body.x;
                 boxY = Box.body.y;
                 checkCreated =0;
+                playerbox =false;
+                
             }
 
         }
@@ -403,6 +454,9 @@ Game.level1.prototype = {
                 player.body.moveDown(200+godmode);
             }
         }
+        //-----------------------player moveKill
+        //if (player.body.x >= 226){
+        //}
 
         //-----------------------player Kill zone
         if (player.body.y >= 1850+200){
