@@ -22,7 +22,7 @@ var jumpButton;
 var ifCanJump = false;
 
 //------------TESTING PURPOSES
-var isDebug = false;
+var isDebug = true;
 var godmode = 0;
 
 //----------Pause Control-----------
@@ -132,7 +132,6 @@ Game.level1.prototype = {
 
         //sets camera to follow
         this.camera.follow(player);
-
         //Add water after adding the player so that way, water is layered ontop of the player
         water = this.add.sprite(10030,1205,'water1-1'); //Note this has no interactions with the inWater function
         this.add.tween(water).to({alpha:0.95}, 1, Phaser.Easing.Linear.NONE, true);//Transparency
@@ -140,41 +139,67 @@ Game.level1.prototype = {
         water = this.add.sprite(11400, 1205, 'water1-1');
          //ADD TERRAIN HERE
         this.terraincreator('fact1',200,1600,playerCollisionGroup,isJumpCollisionGroup,true);
-        //this.terraincreator('terr-null',400,2200,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
+        this.terraincreator('terr-null',200,2100,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',835,1600,playerCollisionGroup,isJumpCollisionGroup,true);
-        //this.terraincreator('terr-null',1200,1900,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
+        this.terraincreator('terr-null',835,2100,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',1470,1600,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',1470,2100,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',2105,1600,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',2105,2100,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',2740,1505,playerCollisionGroup,isJumpCollisionGroup,true);
         this.terraincreator('fact1',3375,1505,playerCollisionGroup,isJumpCollisionGroup,true);
         this.terraincreator('fact1',3375,1600,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',2820,2005,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
+        this.terraincreator('terr-null',3285,2005,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
+        this.terraincreator('terr-null',3375,2100,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',4010,1695,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',4010,2195,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',4645,1695,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',4645,2195,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',5280,1695,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',5280,2195,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',5915,1600,playerCollisionGroup,isJumpCollisionGroup,true);
         this.terraincreator('fact1',5915,1505,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',5995,2005,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',6550,1505,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',6550,2005,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',7185,1505,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',7185,2005,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',7820,1410,playerCollisionGroup,isJumpCollisionGroup,true);
         this.terraincreator('fact1',7820,1315,playerCollisionGroup,isJumpCollisionGroup,true);
         this.terraincreator('fact1',7820,1220,playerCollisionGroup,isJumpCollisionGroup,true);
         this.terraincreator('fact1',7820,1125,playerCollisionGroup,isJumpCollisionGroup,true);
         this.terraincreator('fact1',7820,1030,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',7905,1530,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
+        this.terraincreator('terr-null',7905,1830,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',8455,1030,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',8455,1530,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',9090,1030,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',9090,1530,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',9725,1030,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',9645,1530,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',11100,1030,playerCollisionGroup,isJumpCollisionGroup,true);
+        //needs a smaller piece of null terrain
+        //this.terraincreator('terr-null',11100,1530,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',12105,1030,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',12185,1530,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',12740,1030,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',12740,1530,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',13375,1030,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',13375,1530,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',13375,935,playerCollisionGroup,isJumpCollisionGroup,true);
         this.terraincreator('fact1',13375,840,playerCollisionGroup,isJumpCollisionGroup,true);
         this.terraincreator('fact1',13375,745,playerCollisionGroup,isJumpCollisionGroup,true);
         this.terraincreator('fact1',13375,650,playerCollisionGroup,isJumpCollisionGroup,true);
         this.terraincreator('fact1',13375,555,playerCollisionGroup,isJumpCollisionGroup,true);
         this.terraincreator('fact1',14010,555,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',13465,1055,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',14645,555,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',14000,1055,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
+        this.terraincreator('terr-null',14645,1055,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',15280,555,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('terr-null',15250,1055,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
+
 
 
         //Sets the jump button to up
@@ -237,6 +262,8 @@ Game.level1.prototype = {
         //console.log("x:"+this.camera.x);
         //console.log("y:"+this.camera.y);
         //  To move the UI along with the camera 
+        console.log("x: ",player.body.x);
+        console.log("y: ",player.body.y);
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
