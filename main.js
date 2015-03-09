@@ -238,8 +238,8 @@ Game.main.prototype={
         //this.groundcreator(4665,1198,0.15,12); this ground is actually printed out before the terrain so the terrain has priority layering
         this.groundcreator(0,0,0,0);
 
-        ladder[25] = this.add.sprite( 4575,950,'ladder');
-        //ladder[] = this.add.sprite( , ,'ladder');
+        ladder[25] = this.add.sprite(4575 , 950 ,'ladder');
+        ladder[26] = this.add.sprite(4835 , 958 ,'ladder');
         //ladder[] = this.add.sprite( , ,'ladder');
         //ladder[] = this.add.sprite( , ,'ladder');
         //ladder[] = this.add.sprite( , ,'ladder');
@@ -254,7 +254,7 @@ Game.main.prototype={
         
         // The player aanimations and position
         //player = this.add.sprite(32, 1600 - 150, 'courier');
-        player = this.add.sprite(32+3600, 1300, 'courier');
+        player = this.add.sprite(4625, 949, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
@@ -409,7 +409,7 @@ Game.main.prototype={
         this.ladderUpdater(ladder[9])|| this.ladderUpdater(ladder[10])|| this.ladderUpdater(ladder[11])|| this.ladderUpdater(ladder[12])|| this.ladderUpdater(ladder[13])|| 
         this.ladderUpdater(ladder[14])|| this.ladderUpdater(ladder[15])|| this.ladderUpdater(ladder[16])|| this.ladderUpdater(ladder[17])|| this.ladderUpdater(ladder[18])|| 
         this.ladderUpdater(ladder[19])|| this.ladderUpdater(ladder[20])|| this.ladderUpdater(ladder[21])|| this.ladderUpdater(ladder[22])|| this.ladderUpdater(ladder[23])|| 
-        this.ladderUpdater(ladder[24]) || this.ladderUpdater(ladder[25]) ))
+        this.ladderUpdater(ladder[24]) || this.ladderUpdater(ladder[25]) || this.ladderUpdater(ladder[26])))
         {
 
             ifCanJump=false;
