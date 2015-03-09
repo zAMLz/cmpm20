@@ -240,17 +240,17 @@ Game.main.prototype={
 
         ladder[25] = this.add.sprite(4575 , 950 ,'ladder');
         ladder[26] = this.add.sprite(4835 , 958 ,'ladder');
-        //ladder[] = this.add.sprite( , ,'ladder');
-        //ladder[] = this.add.sprite( , ,'ladder');
-        //ladder[] = this.add.sprite( , ,'ladder');
-        //ladder[] = this.add.sprite( , ,'ladder');
-        //ladder[] = this.add.sprite( , ,'ladder');
-        //ladder[] = this.add.sprite( , ,'ladder');
-        //ladder[] = this.add.sprite( , ,'ladder');
-        //ladder[] = this.add.sprite( , ,'ladder');
-        //ladder[] = this.add.sprite( , ,'ladder');
-        //ladder[] = this.add.sprite( , ,'ladder');
-        //ladder[] = this.add.sprite( , ,'ladder');
+        ladder[27] = this.add.sprite(0 ,0 ,'ladder');
+        ladder[28] = this.add.sprite(0 ,0 ,'ladder');
+        ladder[29] = this.add.sprite(0 ,0 ,'ladder');
+        ladder[30] = this.add.sprite(0 ,0 ,'ladder');
+        ladder[31] = this.add.sprite(0 ,0 ,'ladder');
+        ladder[32] = this.add.sprite(0 ,0 ,'ladder');
+        ladder[33] = this.add.sprite(0 ,0 ,'ladder');
+        ladder[34] = this.add.sprite(0 ,0 ,'ladder');
+        ladder[35] = this.add.sprite(0 ,0 ,'ladder');
+        ladder[36] = this.add.sprite(0 ,0 ,'ladder');
+        ladder[37] = this.add.sprite(0 ,0 ,'ladder');
         
         // The player aanimations and position
         //player = this.add.sprite(32, 1600 - 150, 'courier');
@@ -409,7 +409,9 @@ Game.main.prototype={
         this.ladderUpdater(ladder[9])|| this.ladderUpdater(ladder[10])|| this.ladderUpdater(ladder[11])|| this.ladderUpdater(ladder[12])|| this.ladderUpdater(ladder[13])|| 
         this.ladderUpdater(ladder[14])|| this.ladderUpdater(ladder[15])|| this.ladderUpdater(ladder[16])|| this.ladderUpdater(ladder[17])|| this.ladderUpdater(ladder[18])|| 
         this.ladderUpdater(ladder[19])|| this.ladderUpdater(ladder[20])|| this.ladderUpdater(ladder[21])|| this.ladderUpdater(ladder[22])|| this.ladderUpdater(ladder[23])|| 
-        this.ladderUpdater(ladder[24]) || this.ladderUpdater(ladder[25]) || this.ladderUpdater(ladder[26])))
+        this.ladderUpdater(ladder[24])|| this.ladderUpdater(ladder[25])|| this.ladderUpdater(ladder[26])|| this.ladderUpdater(ladder[27])|| this.ladderUpdater(ladder[28])|| 
+        this.ladderUpdater(ladder[29])|| this.ladderUpdater(ladder[30])|| this.ladderUpdater(ladder[31])|| this.ladderUpdater(ladder[32])|| this.ladderUpdater(ladder[33])|| 
+        this.ladderUpdater(ladder[34])|| this.ladderUpdater(ladder[35])|| this.ladderUpdater(ladder[36])|| this.ladderUpdater(ladder[37])))
         {
 
             ifCanJump=false;
