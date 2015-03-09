@@ -81,7 +81,7 @@ Game.level1.prototype = {
         this.music.play();
 
         //changes bounds of the world and add a background for the world
-        this.world.setBounds(0,0,10000,2800);
+        this.world.setBounds(0,0,15600,2800);
         this.stage.backgroundColor = '#d0f4f7';
 
         //  We're going to be using physics, so enable the P2 Physics system
@@ -100,35 +100,8 @@ Game.level1.prototype = {
         //  (which we do) - what this does is adjust the bounds to use its own collision group.
         this.physics.p2.updateBoundsCollisionGroup();
 
-        //ADD TERRAIN HERE
-        this.terraincreator('fact1',200,1600,playerCollisionGroup,isJumpCollisionGroup,true);
-        //this.terraincreator('terr-null',400,2200,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',835,1600,playerCollisionGroup,isJumpCollisionGroup,true);
-        //this.terraincreator('terr-null',1200,1900,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',1470,1600,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('fact1',2105,1600,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('fact1',2740,1505,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('fact1',3375,1505,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('fact1',3375,1600,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('fact1',4010,1695,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('fact1',4645,1695,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('fact1',5280,1695,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('fact1',5915,1600,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('fact1',5915,1505,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('fact1',6550,1505,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('fact1',7185,1505,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('fact1',7820,1410,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('fact1',7820,1315,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('fact1',7820,1220,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('fact1',7820,1125,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('fact1',7820,1030,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('fact1',8455,1030,playerCollisionGroup,isJumpCollisionGroup,true);
-        this.terraincreator('fact1',9090,1030,playerCollisionGroup,isJumpCollisionGroup,true);
-        
-
-
         //if the player collides with the star next level starts
-        star = this.add.sprite(5800,100,'star');
+        star = this.add.sprite(15500,500,'star');
         this.physics.p2.enableBody(star, isDebug);
         star.body.setCollisionGroup(winCollisionGroup);
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
@@ -136,7 +109,8 @@ Game.level1.prototype = {
         this.createBox(-10, 0, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
         
         // The player aanimations and position
-        player = this.add.sprite(32, 1600 - 150, 'courier');
+       // player = this.add.sprite(32, 1600 - 150, 'courier');
+        player = this.add.sprite(15300,500, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
@@ -161,8 +135,48 @@ Game.level1.prototype = {
         this.camera.follow(player);
 
         //Add water after adding the player so that way, water is layered ontop of the player
-        water = this.add.sprite(3200,1850,'water1-1'); //Note this has no interactions with the inWater function
+        water = this.add.sprite(10030,1205,'water1-1'); //Note this has no interactions with the inWater function
         this.add.tween(water).to({alpha:0.95}, 1, Phaser.Easing.Linear.NONE, true);//Transparency
+        water.scale.setTo(2,1);//change size of water
+        water = this.add.sprite(11400, 1205, 'water1-1');
+         //ADD TERRAIN HERE
+        this.terraincreator('fact1',200,1600,playerCollisionGroup,isJumpCollisionGroup,true);
+        //this.terraincreator('terr-null',400,2200,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
+        this.terraincreator('fact1',835,1600,playerCollisionGroup,isJumpCollisionGroup,true);
+        //this.terraincreator('terr-null',1200,1900,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
+        this.terraincreator('fact1',1470,1600,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',2105,1600,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',2740,1505,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',3375,1505,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',3375,1600,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',4010,1695,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',4645,1695,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',5280,1695,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',5915,1600,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',5915,1505,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',6550,1505,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',7185,1505,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',7820,1410,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',7820,1315,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',7820,1220,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',7820,1125,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',7820,1030,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',8455,1030,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',9090,1030,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',9725,1030,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',11100,1030,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',12105,1030,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',12740,1030,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',13375,1030,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',13375,935,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',13375,840,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',13375,745,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',13375,650,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',13375,555,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',14010,555,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',14645,555,playerCollisionGroup,isJumpCollisionGroup,true);
+        this.terraincreator('fact1',15280,555,playerCollisionGroup,isJumpCollisionGroup,true);
+
 
         //Sets the jump button to up
         jumpButton = this.input.keyboard.addKey(Phaser.Keyboard.UP);
