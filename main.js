@@ -211,7 +211,7 @@ Game.main.prototype={
         ladder[9] = this.add.sprite(3200, 1465, 'ladder');
         ladder[10] = this.add.sprite(3125, 1375, 'ladder');
         ladder[11] = this.add.sprite(1100, 1170, 'ladder');
-        ladder[12] = this.add.sprite(2030, 1430, 'ladder');
+        ladder[12] = this.add.sprite(2030, 1420, 'ladder');
         ladder[13] = this.add.sprite(2030, 1270, 'ladder');
         //MAZE LADDERS and GROUNDS
         ladder[14] = this.add.sprite(3850 ,1334-300 ,'ladder');
@@ -309,8 +309,8 @@ Game.main.prototype={
         ladder[37] = this.add.sprite(5475 ,750 ,'ladder');
         
         // The player aanimations and position
-        //player = this.add.sprite(32, 1600 - 150, 'courier');
-        player = this.add.sprite(4625, 949, 'courier');
+        player = this.add.sprite(32, 1600 - 150, 'courier');
+        //player = this.add.sprite(4625, 949, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
