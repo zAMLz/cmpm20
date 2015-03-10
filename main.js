@@ -22,6 +22,7 @@ var index;
 var star;
 var ladder;
 var cutsceneFlag;
+var emitter = new Array();
 
 //-------------Boxes------------------
 var checkCreated = 0;
@@ -47,13 +48,6 @@ var mehSpeed;
 //---------Other Variables---------
 var diamond;
 var diamond2;
-
-//----------fire-------------
-var sprite;
-var emitter;
-var emitter2;
-
-
 
 Game.main = function(game){
     this.music=null;
@@ -118,6 +112,29 @@ Game.main.prototype={
         //2.This effectively tells it that it collides with these collision groups.
         ground.body.setCollisionGroup(isJumpCollisionGroup);
         ground.body.collides([isJumpCollisionGroup, playerCollisionGroup,winCollisionGroup]);
+    },
+
+    createfire: function(tempFire,speedX, speedY, fireX, fireY){
+        var px = speedX;
+        var py = speedY;
+
+        px *= -1;
+        py *= -1;
+
+        tempFire.minParticleSpeed.set(px, py);
+        tempFire.maxParticleSpeed.set(px, py);
+
+        tempFire.emitX = fireX;
+        tempFire.emitY = fireY;
+    },
+
+    createEmitter: function(i){
+        emitter[i] = this.add.emitter(this.world.centerX, this.world.centerY, 300);
+        emitter[i].makeParticles( [ 'fire1', 'fire2', 'fire3', 'smoke' ] );
+        emitter[i].gravity = -50;
+        emitter[i].setAlpha(1, 0, 3000);
+        emitter[i].setScale(0.3, 0, 0.3, 0.3, 5000);
+        emitter[i].start(false, 5000, 1);
     },
 
     create: function() {
@@ -303,8 +320,8 @@ Game.main.prototype={
         this.createKillObj(5664-32-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
         this.createKillObj(5664-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
         this.createKillObj(5664-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5664-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5664, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
+        //this.createKillObj(5664-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
+        //this.createKillObj(5664, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
 
         ladder[32] = this.add.sprite(4975 ,850 ,'ladder');
         ladder[33] = this.add.sprite(5075 ,750 ,'ladder');
@@ -366,32 +383,54 @@ Game.main.prototype={
 
         //fire
         //this.physics.startSystem(Phaser.Physics.ARCADE);
-        emitter = this.add.emitter(this.world.centerX, this.world.centerY, 300);
-        //emitter = this.add.emitter(500, 300, 300);
-
-        emitter.makeParticles( [ 'fire1', 'fire2', 'fire3', 'smoke' ] );
-        emitter.gravity = 340;
-        emitter.setAlpha(1, 0, 3000);
-        emitter.setScale(0.5, 0, 0.5, 0, 3000);
-
-        emitter.start(false, 3000, 5);
-
-        sprite = this.add.sprite(500, 100, 'ball', 0);
-        //sprite = this.add.sprite(900, 200, 'ball', 0);
-        this.physics.arcade.enable(sprite);
-        //sprite.body.setSize(5, 5, 0, 0);
-
+        this.createEmitter(1);
         //fire 2
-        emitter2 = this.add.emitter(this.world.centerX, this.world.centerY, 300);
-        //emitter = this.add.emitter(500, 300, 300);
+        emitter[2] = this.add.emitter(this.world.centerX, this.world.centerY, 300);
+        emitter[2].makeParticles( [ 'fire1', 'fire2', 'fire3', 'smoke' ] );
+        emitter[2].gravity = -500;
+        emitter[2].setAlpha(1, 0, 2000);
+        emitter[2].setScale(0.2, 0.3, 0.2, 0, 3000);
+        emitter[2].start(false, 3000, 5);
 
-        emitter2.makeParticles( [ 'fire1', 'fire2', 'fire3', 'smoke' ] );
-        emitter2.gravity = -500;
-        emitter2.setAlpha(1, 0, 2000);
-        emitter2.setScale(0.2, 0.3, 0.2, 0, 3000);
+        //fire3
+        this.createEmitter(3);
+        //fire4
+        this.createEmitter(4);
+        //fire5
+        this.createEmitter(5);
 
-        emitter2.start(false, 3000, 5);
-       
+        //after the "1" fire
+        this.createEmitter(6);
+        this.createEmitter(7);
+        this.createEmitter(8);
+        this.createEmitter(9);
+        this.createEmitter(10);
+        this.createEmitter(11);
+        this.createEmitter(12);
+        this.createEmitter(13);
+        this.createEmitter(14);
+        this.createEmitter(15);
+        //after fire"3"
+        this.createEmitter(16);
+        this.createEmitter(17);
+        this.createEmitter(18);
+        this.createEmitter(19);
+        this.createEmitter(20);
+        //after fire"4"
+        this.createEmitter(21);
+        this.createEmitter(22);
+        this.createEmitter(23);
+        this.createEmitter(24);
+        //after fire "5"
+        this.createEmitter(25);
+        this.createEmitter(26);
+        this.createEmitter(27);
+        this.createEmitter(28);
+        this.createEmitter(29);
+        this.createEmitter(30);
+        this.createEmitter(31);
+        this.createEmitter(32);
+
     },
 
     badbouldercreate: function(){
@@ -661,36 +700,47 @@ Game.main.prototype={
             this.endGame();
         }
 
-
         //------------------ Fire EMitter
-        var px = 0;
-        var py = 0;
+        this.createfire(emitter[1], 0, 0, 4110, 1370);
+        this.createfire(emitter[2], 0, 0, 2130, 1570);
+        this.createfire(emitter[3], 0, 0, 5070, 1055);
+        this.createfire(emitter[4], 0, 0, 5470, 1055);
+        this.createfire(emitter[5], 0, 0, 4730, 1370);
+        //fire after "1"
+        this.createfire(emitter[6], 0, 0, 4110+50, 1370);
+        this.createfire(emitter[7], 0, 0, 4110+50+50, 1370);
+        this.createfire(emitter[8], 0, 0, 4110+50+50+50, 1370);
+        this.createfire(emitter[9], 0, 0, 4110+50+50+50+50, 1370);
+        this.createfire(emitter[10], 0, 0, 4110+50+50+50+50+50, 1370);
+        this.createfire(emitter[11], 0, 0, 4110+50+50+50+50+50+50, 1370);
+        this.createfire(emitter[12], 0, 0, 4110+50+50+50+50+50+50+50, 1370);
+        this.createfire(emitter[13], 0, 0, 4110+50+50+50+50+50+50+50+50, 1370);
+        this.createfire(emitter[14], 0, 0, 4110+50+50+50+50+50+50+50+50+50, 1370);
+        this.createfire(emitter[15], 0, 0, 4110+50+50+50+50+50+50+50+50+50+50, 1370);
+        //fire after "3"
+        this.createfire(emitter[16], 0, 0, 5070+50, 1055);
+        this.createfire(emitter[17], 0, 0, 5070+50+50, 1055);
+        this.createfire(emitter[18], 0, 0, 5070+50+50+50, 1055);
+        this.createfire(emitter[19], 0, 0, 5070+50+50+50+50, 1055);
+        this.createfire(emitter[20], 0, 0, 5070+50+50+50+50+50, 1055);
+        //fire after "4"
+        this.createfire(emitter[21], 0, 0, 5470+50, 1055);
+        this.createfire(emitter[22], 0, 0, 5470+50+50, 1055);
+        this.createfire(emitter[23], 0, 0, 5470+50+50+50, 1055);
+        this.createfire(emitter[24], 0, 0, 5470+50+50+50+50, 1055);
+        //fire afrer "5"
+        this.createfire(emitter[25], 0, 0, 4730+50, 1370);
+        this.createfire(emitter[26], 0, 0, 4730+50+50, 1370);
+        this.createfire(emitter[27], 0, 0, 4730+50+50+50, 1370);
+        this.createfire(emitter[28], 0, 0, 4730+50+50+50+50, 1370);
+        this.createfire(emitter[29], 0, 0, 4730+50+50+50+50+50, 1370);
+        this.createfire(emitter[30], 0, 0, 4730+50+50+50+50+50+50, 1370);
+        this.createfire(emitter[31], 0, 0, 4730+50+50+50+50+50+50+50, 1370);
+        this.createfire(emitter[32], 0, 0, 4730+50+50+50+50+50+50+50+50, 1370);
 
-        px *= -1;
-        py *= -1;
 
-        emitter.minParticleSpeed.set(px, py);
-        emitter.maxParticleSpeed.set(px, py);
 
-        emitter.emitX = sprite.x;
-        emitter.emitY = sprite.y+58;
 
-        //fire2---------------------------
-        var px2 = 0;
-        var py2 = 0;
-
-        px2 *= -1;
-        py2 *= -1;
-
-        emitter2.minParticleSpeed.set(px2, py2);
-        emitter2.maxParticleSpeed.set(px2, py2);
-
-        emitter2.emitX = 2130;
-        emitter2.emitY = 1570;
-
-        // emitter.forEachExists(game.world.wrap, game.world);
-        //this.world.wrap(sprite, 64);
-        //console.log(px);
         if (player.body.x >= 2130 && player.body.x <= 2159 && player.body.y <= 1565 && player.body.y >= 1360){
             this.endGame();
         }
