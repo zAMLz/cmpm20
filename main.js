@@ -193,7 +193,7 @@ Game.main.prototype={
         boulder.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
 
         //if the player collides with the star next level starts
-        star = this.add.sprite(5715,1018,'star');
+        star = this.add.sprite(5715,1018,'letter');
         this.physics.p2.enableBody(star, isDebug);
         star.body.setCollisionGroup(winCollisionGroup);
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
