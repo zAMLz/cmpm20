@@ -142,8 +142,14 @@ Game.level1.prototype = {
         //Create a moveKill object
         //moveKillObj = this.add.sprite(500, 1678, 'boulder');
         moveKillObj = new Array();
-        moveKillObj[0] = this.add.sprite(500,1678,'boulder');
-        moveKillObj[1] = this.add.sprite(500, 1400, 'boulder');
+        moveKillObj[0] = this.add.sprite(500,1678,'sawblade');
+        moveKillObj[1] = this.add.sprite(500, 1400, 'sawblade');
+        //Add sawblade animations or any other animation...
+        moveKillObj[0].animations.add('spin',[0,1,5,6,2,7,3,4],40,true);
+        moveKillObj[1].animations.add('spin',[0,1,5,6,2,7,3,4],40,true);
+        //play the animations.
+        moveKillObj[0].animations.play('spin');
+        moveKillObj[1].animations.play('spin');
 
         //if the player collides with the star next level starts
         star = this.add.sprite(15500,500,'star');
