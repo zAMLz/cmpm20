@@ -282,17 +282,18 @@ Game.level1.prototype = {
             paused = true;
             this.pausePanel.show();
             this.physics.p2.gravity.y = 0;
+            this.camera.unfollow();
             
             //add any object that is affected by gravity here.
-            mehSpeed.push(checkmark.body.velocity.x);
-            mehSpeed.push(checkmark.body.velocity.y);
+            //mehSpeed.push(checkmark.body.velocity.x);
+            //mehSpeed.push(checkmark.body.velocity.y);
             
             //Set the vbelocities to zero to make sure they dont move anymore.
-            checkmark.body.velocity.x = 0;
-            checkmark.body.velocity.y = 0;
+            //checkmark.body.velocity.x = 0;
+            //checkmark.body.velocity.y = 0;
             
             //fix the objects from rotating and make them static
-            checkmark.body.fixedRotation = true;
+            //checkmark.body.fixedRotation = true;
         }
     },
 
@@ -301,13 +302,14 @@ Game.level1.prototype = {
             paused = false;
             this.pausePanel.hide();
             this.physics.p2.gravity.y = 500;
+            this.camera.follow(player,this.camera.FOLLOW_PLATFORMER);
             
             //Push out velocties affected by gravity for objects here.
-            checkmark.body.velocity.y = mehSpeed.pop();
-            checkmark.body.velocity.x = mehSpeed.pop();
+            //checkmark.body.velocity.y = mehSpeed.pop();
+            //checkmark.body.velocity.x = mehSpeed.pop();
             
             //allow for totations and disable static.
-            checkmark.body.fixedRotation = false;
+            //checkmark.body.fixedRotation = false;
         }
     },
 

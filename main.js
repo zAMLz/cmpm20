@@ -419,16 +419,11 @@ Game.main.prototype={
             player.body.velocity.x=0;
             player.body.velocity.y=0;
             
-            //add any object that is affected by gravity here.
-            mehSpeed.push(checkmark.body.velocity.x);
-            mehSpeed.push(checkmark.body.velocity.y);
-            
             //Set the vbelocities to zero to make sure they dont move anymore.
             //checkmark.body.velocity.x = 0;
             //checkmark.body.velocity.y = 0;
             
             //fix the objects from rotating and make them static
-            checkmark.body.fixedRotation = true;
         }
     },
 
@@ -445,7 +440,6 @@ Game.main.prototype={
             //checkmark.body.velocity.x = mehSpeed.pop();
             
             //allow for totations and disable static.
-            checkmark.body.fixedRotation = false;
         }
     },
 
