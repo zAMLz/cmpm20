@@ -81,24 +81,19 @@ Game.level1.prototype = {
         terrain.body.fixedRotation = true;           //fixes rotation?
     },
 
-    moveKill: function(temp,start,end,travel,time){
-        if (temp.x <= start)
-        {
-            //  Here you'll notice we are using a relative value for the tween.
-            //  You can specify a number as a string with either + or - at the start of it.
-            //  When the tween starts it will take the sprites current X value and add +300 to it.
-            //console.log('true');
-            //killobjglobal = true;
+    moveKill: function(temp,start,end,travel,time,angler){
+        //handles animations of the sprite
+        if (temp.x <= start){
             this.add.tween(temp).to( { x: '+'+travel }, time, Phaser.Easing.Linear.None, true);
         }
-        else if (temp.x >= end)
-        {
-            //console.log('false');
-            //killobjglobal = false;
+        else if (temp.x >= end){
             this.add.tween(temp).to( { x: '-'+travel }, time, Phaser.Easing.Linear.None, true);
         }
+        //Handpicked roation value, after careful  trial and error and such...
+        this.add.tween(temp).to({angle: angler}, 1, Phaser.Easing.Linear.None, true, 100);
 
-        if((player.body.x >= temp.x && player.body.x <= temp.x+100 && player.body.y >= temp.y && player.body.y <= temp.y+100)){
+        //Check the collision bounds....
+        if((player.body.x >= temp.x-50 && player.body.x <= temp.x+100-50 && player.body.y >= temp.y-50 && player.body.y <= temp.y+100-50)){
             //console.log('DEAD');
             this.endGame();   
         }
@@ -143,13 +138,9 @@ Game.level1.prototype = {
         //moveKillObj = this.add.sprite(500, 1678, 'boulder');
         moveKillObj = new Array();
         moveKillObj[0] = this.add.sprite(500,1678,'sawblade');
+        moveKillObj[0].anchor.setTo(0.5,0.5);
         moveKillObj[1] = this.add.sprite(500, 1400, 'sawblade');
-        //Add sawblade animations or any other animation...
-        moveKillObj[0].animations.add('spin',[0,1,5,6,2,7,3,4],40,true);
-        moveKillObj[1].animations.add('spin',[0,1,5,6,2,7,3,4],40,true);
-        //play the animations.
-        moveKillObj[0].animations.play('spin');
-        moveKillObj[1].animations.play('spin');
+        moveKillObj[1].anchor.setTo(0.5,0.5);
 
         //if the player collides with the star next level starts
         star = this.add.sprite(15500,500,'star');
@@ -336,8 +327,8 @@ Game.level1.prototype = {
                 this.pausePanel.y = this.camera.y-100;
                 this.pausePanel.update();
                 
-            this.moveKill(moveKillObj[0],500,900,'400',4000);
-            this.moveKill(moveKillObj[1],500,1000,'500',400);
+            this.moveKill(moveKillObj[0],500,900,'400',4000,'+57');
+            this.moveKill(moveKillObj[1],500,1000,'500',400,'+57');
         }
 
         //CHECK IF IN WATER -- This must be modified is water's position is modified...
