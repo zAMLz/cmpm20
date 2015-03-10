@@ -137,9 +137,9 @@ Game.level1.prototype = {
         //Create a moveKill object
         //moveKillObj = this.add.sprite(500, 1678, 'boulder');
         moveKillObj = new Array();
-        moveKillObj[0] = this.add.sprite(500,1678,'sawblade');
+        moveKillObj[0] = this.add.sprite(5250,1795,'sawblade');
         moveKillObj[0].anchor.setTo(0.5,0.5);
-        moveKillObj[1] = this.add.sprite(500, 1400, 'sawblade');
+        moveKillObj[1] = this.add.sprite(6250, 1613, 'sawblade');
         moveKillObj[1].anchor.setTo(0.5,0.5);
 
         //if the player collides with the star next level starts
@@ -326,11 +326,11 @@ Game.level1.prototype = {
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
         if(!paused){
-                this.pausePanel.y = this.camera.y-100;
-                this.pausePanel.update();
-                
-            this.moveKill(moveKillObj[0],500,900,'400',4000,'+57');
-            this.moveKill(moveKillObj[1],500,1000,'500',400,'+57');
+            this.pausePanel.y = this.camera.y-100;
+            this.pausePanel.update();    
+
+            this.moveKill(moveKillObj[0],5250,5650,'400',4000,'+57');
+            this.moveKill(moveKillObj[1],6250,7250,'1000',4000,'+57');
         }
 
         //CHECK IF IN WATER -- This must be modified is water's position is modified...
@@ -461,7 +461,7 @@ Game.level1.prototype = {
                     facing = 'right';
                 }
             }
-            if (cursors.up.isDown&&!inWater)
+            if (cursors.up.isDown && !inWater)
             {
                 player.body.moveUp(200+godmode);
             }
