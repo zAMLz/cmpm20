@@ -245,13 +245,13 @@ Game.level1.prototype = {
         this.terraincreator('terr-null',15250,1055,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         
         //boxes floating in water
-        this.floatingBox('diamond',10100,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
-        this.floatingBox('diamond',10250,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
-        this.floatingBox('diamond',10400,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
-        this.floatingBox('diamond',10550,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
-        this.floatingBox('diamond',10700,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
-        this.floatingBox('diamond',11500,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
-        this.floatingBox('diamond',11650,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
+        this.floatingBox('box',10100,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
+        this.floatingBox('box',10250,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
+        this.floatingBox('box',10400,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
+        this.floatingBox('box',10550,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
+        this.floatingBox('box',10700,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
+        this.floatingBox('box',11500,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
+        this.floatingBox('box',11650,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
 
 
         //Sets the jump button to up
