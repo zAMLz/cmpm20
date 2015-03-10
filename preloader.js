@@ -58,6 +58,7 @@ Game.preloader.prototype = {
     this.load.image('quit','assets/UI/quit.png');
     this.load.image('restart','assets/UI/restart.png');
     this.load.image('helpscn','assets/UI/helpscreen.png');
+    this.load.script('filter', 'https://cdn.rawgit.com/photonstorm/phaser/master/filters/Fire.js');
     //fire
     this.load.image('fire1', 'assets/fire/fire1.png');
     this.load.image('fire2', 'assets/fire/fire2.png');
