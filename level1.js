@@ -13,6 +13,7 @@ var counter = 0;
 var index;
 var star;
 var moveKillObj;
+var boxArray = new Array();
 
 //-------------Boxes------------------
 var checkCreated = 0;
@@ -100,12 +101,12 @@ Game.level1.prototype = {
         }
     },
 
-    floatingBox: function(image,x,y,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup){
-        var box = this.add.sprite(x,y,image);
-        this.physics.p2.enableBody(box,isDebug);
-        box.body.setCollisionGroup(isJumpCollisionGroup);
-        box.body.collides([isJumpCollisionGroup,playerCollisionGroup,BoxCollisionGroup]);
-        box.body.data.gravityScale=0;
+    floatingBox: function(image,x,y,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,i){
+        boxArray[i] = this.add.sprite(x,y,image);
+        this.physics.p2.enableBody(boxArray[i],isDebug);
+        boxArray[i].body.setCollisionGroup(isJumpCollisionGroup);
+        boxArray[i].body.collides([isJumpCollisionGroup,playerCollisionGroup,BoxCollisionGroup]);
+        boxArray[i].body.data.gravityScale=0;
     },
 
     create: function() {
@@ -246,13 +247,13 @@ Game.level1.prototype = {
         this.terraincreator('terr-null',15250,1055,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         
         //boxes floating in water
-        this.floatingBox('box',10100,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
-        this.floatingBox('box',10250,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
-        this.floatingBox('box',10400,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
-        this.floatingBox('box',10550,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
-        this.floatingBox('box',10700,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
-        this.floatingBox('box',11500,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
-        this.floatingBox('box',11650,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
+        this.floatingBox('box',10100,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,0);
+        this.floatingBox('box',10250,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,1);
+        this.floatingBox('box',10400,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,2);
+        this.floatingBox('box',10550,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,3);
+        this.floatingBox('box',10700,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,4);
+        this.floatingBox('box',11500,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,5);
+        this.floatingBox('box',11650,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,6);
 
 
         //Sets the jump button to up
@@ -359,6 +360,8 @@ Game.level1.prototype = {
         }
         if(player.body.x> 11350){
             this.add.tween(water1).to( { y:1205+200 }, 2000, Phaser.Easing.Linear.None, true);
+            boxArray[5].body.moveDown(200);
+            boxArray[6].body.moveDown(200);
         }
 
 
