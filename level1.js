@@ -334,7 +334,8 @@ Game.level1.prototype = {
         }
 
         //CHECK IF IN WATER -- This must be modified is water's position is modified...
-        if(player.body.x >= 3200 && player.body.x <= 3200+400 && player.body.y >= 1850 && player.body.y <= 1850+1000){
+        if((player.body.x >= 10030 && player.body.x <= 10030+400 && player.body.y >= 1205 && player.body.y <= 1205+1000) ||
+            (player.body.x >= 11400 && player.body.x <= 11400+400 && player.body.y >= 1205 && player.body.y <= 1205+1000)){
             console.log("inwater");
             inWater = true;
            // this.physics.p2.gravity.y = 200;
@@ -443,6 +444,7 @@ Game.level1.prototype = {
         }
 
         if (!paused && inWater){
+            player.animations.play('climb');
             if (cursors.left.isDown)
             {
                 player.body.moveLeft(200+godmode);
