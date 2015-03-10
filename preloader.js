@@ -29,6 +29,7 @@ Game.preloader.prototype = {
     this.load.image('sawblade2','assets/world/factory/sawblades/sawbladeRold.png');
     this.load.image('fulldome', 'assets/fulldome.png');
     this.load.image('diamond','assets/diamond.png');
+    this.load.image('box','assets/box.png');
     this.load.image('blank','assets/blank.png');
     this.load.image('check','assets/check.png');
     this.load.image('ladder','assets/ladder.png');
