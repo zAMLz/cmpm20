@@ -20,21 +20,6 @@ var BBnotcreated = true;
 var index;
 var star;
 var ladder;
-var ladder1;
-var ladder2;
-var ladder3;
-var ladder4;
-var ladder5;
-var ladder6;
-var ladder7;
-var ladder8;
-var ladder9;
-var ladder10;
-var ladder11;
-var ladder12;
-var ladder13;
-
-
 
 //-------------Boxes------------------
 var checkCreated = 0;
@@ -90,6 +75,7 @@ Game.main.prototype={
     },
 
     terraincreator: function(image,x,y,playerCollisionGroup,isJumpCollisionGroup, BoxCollisionGroup, realTerrain){
+        isDebug = false;
         var terrain = this.add.sprite(x, y,image); //creates the sprite
         this.physics.p2.enableBody(terrain,isDebug);    //enables physics on it
         if(realTerrain){
@@ -111,6 +97,25 @@ Game.main.prototype={
         diamond.body.fixedRotation = true;
         diamond.body.setCollisionGroup(killCollisionGroup);
         diamond.body.collides([playerCollisionGroup]);
+    },
+
+    ladderUpdater: function(ladd){
+        if((player.body.x >= ladd.x && player.body.x <= ladd.x+20 && player.body.y >= ladd.y && player.body.y <= ladd.y+150))
+            return true;
+        else
+            return false;
+    },
+
+    groundcreator: function(x,y,xs,ys){
+        var ground = this.add.sprite(x, y, 'ground');
+        ground.scale.setTo(xs,ys);//set the scale
+        this.physics.p2.enableBody(ground,isDebug);    //enables physics on it
+        ground.body.static = true;                  //disables gravity for itself...
+        ground.body.fixedRotation = true;           //fixes rotation?
+        //1.Tells the ground to be part of the jumpable collision group
+        //2.This effectively tells it that it collides with these collision groups.
+        ground.body.setCollisionGroup(isJumpCollisionGroup);
+        ground.body.collides([isJumpCollisionGroup, playerCollisionGroup,winCollisionGroup]);
     },
 
     create: function() {
@@ -139,6 +144,8 @@ Game.main.prototype={
         //  (which we do) - what this does is adjust the bounds to use its own collision group.
         this.physics.p2.updateBoundsCollisionGroup();
 
+       
+
         this.terraincreator('terr1-1',400,1600,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
         this.terraincreator('terr-null',400,2200,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('terr1-2',1200,1300,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
@@ -149,6 +156,7 @@ Game.main.prototype={
         this.terraincreator('terr-null',2800,2195,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('terr1-b',3196,2195,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         //water pool happens then more terrain
+        this.groundcreator(4665,1198,0.15,12);// Look at comments in Maze section
         this.terraincreator('terr1-5',3950,1527,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
         this.terraincreator('terr-null',4000,2127,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('terr1-b2',3605,2127,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
@@ -185,28 +193,124 @@ Game.main.prototype={
         boulder.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
 
         //if the player collides with the star next level starts
-        star = this.add.sprite(5800,100,'star');
+        star = this.add.sprite(5715,1018,'star');
         this.physics.p2.enableBody(star, isDebug);
         star.body.setCollisionGroup(winCollisionGroup);
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
         //climbable tree
-        ladder = this.add.sprite(560, 1520,'ladder');
-        ladder1 = this.add.sprite(500, 1400, 'ladder');
-        ladder2 = this.add.sprite(580, 1300, 'ladder');
-        ladder3 = this.add.sprite(3250, 1600, 'ladder');
-        ladder4 = this.add.sprite(3325, 1525, 'ladder');
-        ladder5 = this.add.sprite(3400, 1450, 'ladder');
-        ladder6 = this.add.sprite(3565, 1430, 'ladder');
-        ladder7 = this.add.sprite(3575, 1300, 'ladder');
-        ladder8 = this.add.sprite(3450, 1310, 'ladder');
-        ladder9 = this.add.sprite(3200, 1465, 'ladder');
-        ladder10 = this.add.sprite(3125, 1375, 'ladder');
-        ladder11 = this.add.sprite(1100, 1170, 'ladder');
-        ladder12 = this.add.sprite(2030, 1430, 'ladder');
-        ladder13 = this.add.sprite(2030, 1270, 'ladder');
+        ladder = new Array();
+        ladder[0] = this.add.sprite(560, 1520,'ladder');
+        ladder[1] = this.add.sprite(500, 1400, 'ladder');
+        ladder[2] = this.add.sprite(580, 1300, 'ladder');
+        ladder[3] = this.add.sprite(3250, 1600, 'ladder');
+        ladder[4] = this.add.sprite(3325, 1525, 'ladder');
+        ladder[5] = this.add.sprite(3400, 1450, 'ladder');
+        ladder[6] = this.add.sprite(3565, 1430, 'ladder');
+        ladder[7] = this.add.sprite(3575, 1300, 'ladder');
+        ladder[8] = this.add.sprite(3450, 1310, 'ladder');
+        ladder[9] = this.add.sprite(3200, 1465, 'ladder');
+        ladder[10] = this.add.sprite(3125, 1375, 'ladder');
+        ladder[11] = this.add.sprite(1100, 1170, 'ladder');
+        ladder[12] = this.add.sprite(2030, 1430, 'ladder');
+        ladder[13] = this.add.sprite(2030, 1270, 'ladder');
+        //MAZE LADDERS and GROUNDS
+        ladder[14] = this.add.sprite(3850 ,1334-300 ,'ladder');
+        ladder[15] = this.add.sprite(3950 ,1334-225 ,'ladder');
+        ladder[16] = this.add.sprite(4050 ,1334-150 ,'ladder');
+        ladder[17] = this.add.sprite(3950 ,1109-175 ,'ladder');
+        ladder[18] = this.add.sprite(3950 ,1109-175-150 ,'ladder');
+        ladder[19] = this.add.sprite(4150 ,1334-225 ,'ladder');
+
+        this.groundcreator(4100,1109-10,1,0.5);
+        this.groundcreator(4200,1000,0.15,6);
+        this.groundcreator(4300,900,1.5,1);
+        this.groundcreator(4300,1200,0.5,0.5);
+
+        
+        ladder[20] = this.add.sprite(4310 ,1000 ,'ladder');
+        ladder[21] = this.add.sprite(4410 ,1100 ,'ladder');
+        ladder[22] = this.add.sprite(4400 , 900 ,'ladder');
+        ladder[23] = this.add.sprite(4475 ,950,'ladder');
+        ladder[24] = this.add.sprite(4475 ,950-125 ,'ladder');
+
+        this.groundcreator(4605,948,0.05,4);
+        this.groundcreator(4665,998,0.35,1);
+        //this.groundcreator(4665,1198,0.15,12); this ground is actually printed out before the terrain so the terrain has priority layering
+        this.groundcreator(0,0,0,0);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+
+        ladder[25] = this.add.sprite(4575 , 950 ,'ladder');
+        ladder[26] = this.add.sprite(4885 , 958 ,'ladder');
+
+        this.groundcreator(5200,1058,0.75,1);
+        this.createKillObj(5331-32-32-32-32-32-32-32-32-10, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32-32-32-32-32-32-32-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32-32-32-32-32-32-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32-32-32-32-32-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32-32-32-32-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32-32-32-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32-32-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
+
+        ladder[27] = this.add.sprite(4950 ,1075 ,'ladder');
+        ladder[28] = this.add.sprite(5050 ,1175 ,'ladder');
+        ladder[29] = this.add.sprite(5150 ,1075 ,'ladder');
+        ladder[30] = this.add.sprite(5250 ,1175 ,'ladder');
+        ladder[31] = this.add.sprite(5350 ,1025 ,'ladder');
+        
+        this.groundcreator(5600,1058,0.75,1)
+        this.createKillObj(5664-32-32-32-32-32-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5664-32-32-32-32-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5664-32-32-32-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5664-32-32-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5664-32-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5664-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5664, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
+
+        ladder[32] = this.add.sprite(4975 ,850 ,'ladder');
+        ladder[33] = this.add.sprite(5075 ,750 ,'ladder');
+        ladder[34] = this.add.sprite(5175 ,850 ,'ladder');
+        ladder[35] = this.add.sprite(5275 ,750 ,'ladder');
+        ladder[36] = this.add.sprite(5375 ,850 ,'ladder');
+        ladder[37] = this.add.sprite(5475 ,750 ,'ladder');
         
         // The player aanimations and position
-        player = this.add.sprite(32, 1600 - 150, 'courier');
+        //player = this.add.sprite(32, 1600 - 150, 'courier');
+        player = this.add.sprite(4625, 949, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
@@ -306,6 +410,7 @@ Game.main.prototype={
             this.pausePanel.show();
             this.camera.unfollow();
             this.physics.p2.gravity.y = 0;
+            player.body.data.gravityScale=0.05;
             player.body.velocity.x=0;
             player.body.velocity.y=0;
             
@@ -314,8 +419,8 @@ Game.main.prototype={
             mehSpeed.push(checkmark.body.velocity.y);
             
             //Set the vbelocities to zero to make sure they dont move anymore.
-            checkmark.body.velocity.x = 0;
-            checkmark.body.velocity.y = 0;
+            //checkmark.body.velocity.x = 0;
+            //checkmark.body.velocity.y = 0;
             
             //fix the objects from rotating and make them static
             checkmark.body.fixedRotation = true;
@@ -328,10 +433,11 @@ Game.main.prototype={
             this.pausePanel.hide();
             this.camera.follow(player,this.camera.FOLLOW_PLATFORMER);
             this.physics.p2.gravity.y = 500;
+            player.body.data.gravityScale=1;
             
             //Push out velocties affected by gravity for objects here.
-            checkmark.body.velocity.y = mehSpeed.pop();
-            checkmark.body.velocity.x = mehSpeed.pop();
+            //checkmark.body.velocity.y = mehSpeed.pop();
+            //checkmark.body.velocity.x = mehSpeed.pop();
             
             //allow for totations and disable static.
             checkmark.body.fixedRotation = false;
@@ -356,21 +462,17 @@ Game.main.prototype={
         }
 
         //check if in bounds of ladder
-        if(pushButton.isDown && ((player.body.x >= 560 && player.body.x <= 560+20 && player.body.y >= 1520 && player.body.y <= 1520+150) || 
-            (player.body.x >= 500 && player.body.x <= 500+20 && player.body.y >= 1400 && player.body.y <= 1400+150) || 
-            (player.body.x >= 580 && player.body.x <= 580+20 && player.body.y >= 1300 && player.body.y <= 1300+150) ||
-            (player.body.x >= 3250 && player.body.x <= 3250+20 && player.body.y >= 1600 && player.body.y <= 1600+150) ||
-            (player.body.x >= 3325 && player.body.x <= 3325+20 && player.body.y >= 1525 && player.body.y <= 1525+150) ||
-            (player.body.x >= 3400 && player.body.x <= 3400+20 && player.body.y >= 1450 && player.body.y <= 1450+150) || 
-            (player.body.x >= 3565 && player.body.x <= 3565+20 && player.body.y >= 1430 && player.body.y <= 1430+150) ||
-            (player.body.x >= 3575 && player.body.x <= 3575+20 && player.body.y >= 1300 && player.body.y <= 1300+150) ||
-            (player.body.x >= 3450 && player.body.x <= 3450+20 && player.body.y >= 1310 && player.body.y <= 1310+150) ||
-            (player.body.x >= 3200 && player.body.x <= 3200+20 && player.body.y >= 1465 && player.body.y <= 1465+150) ||
-            (player.body.x >= 3125 && player.body.x <= 3125+20 && player.body.y >= 1375 && player.body.y <= 1375+150) ||
-            (player.body.x >= 1100 && player.body.x <= 1100+20 && player.body.y >= 1170 && player.body.y <= 1170+150) ||
-            (player.body.x >= 2030 && player.body.x <= 2030+20 && player.body.y >= 1420 && player.body.y <= 1420+150) ||
-            (player.body.x >= 2030 && player.body.x <= 2030+20 && player.body.y >= 1270 && player.body.y <= 1270+150) )){
+        if(pushButton.isDown && (this.ladderUpdater(ladder[0]) || this.ladderUpdater(ladder[1])|| this.ladderUpdater(ladder[2])|| this.ladderUpdater(ladder[3])|| 
+        this.ladderUpdater(ladder[4])|| this.ladderUpdater(ladder[5])|| this.ladderUpdater(ladder[6])|| this.ladderUpdater(ladder[7])|| this.ladderUpdater(ladder[8])|| 
+        this.ladderUpdater(ladder[9])|| this.ladderUpdater(ladder[10])|| this.ladderUpdater(ladder[11])|| this.ladderUpdater(ladder[12])|| this.ladderUpdater(ladder[13])|| 
+        this.ladderUpdater(ladder[14])|| this.ladderUpdater(ladder[15])|| this.ladderUpdater(ladder[16])|| this.ladderUpdater(ladder[17])|| this.ladderUpdater(ladder[18])|| 
+        this.ladderUpdater(ladder[19])|| this.ladderUpdater(ladder[20])|| this.ladderUpdater(ladder[21])|| this.ladderUpdater(ladder[22])|| this.ladderUpdater(ladder[23])|| 
+        this.ladderUpdater(ladder[24])|| this.ladderUpdater(ladder[25])|| this.ladderUpdater(ladder[26])|| this.ladderUpdater(ladder[27])|| this.ladderUpdater(ladder[28])|| 
+        this.ladderUpdater(ladder[29])|| this.ladderUpdater(ladder[30])|| this.ladderUpdater(ladder[31])|| this.ladderUpdater(ladder[32])|| this.ladderUpdater(ladder[33])|| 
+        this.ladderUpdater(ladder[34])|| this.ladderUpdater(ladder[35])|| this.ladderUpdater(ladder[36])|| this.ladderUpdater(ladder[37])))
+        {
 
+            ifCanJump=false;
             console.log("on ladder");
             player.body.data.gravityScale=0.05;
             onLadder=true;
@@ -379,6 +481,13 @@ Game.main.prototype={
             player.body.data.gravityScale=1;
             onLadder=false;
         }
+
+        //PREVENT WALL JUMPERS
+        if((player.body.x >= 590 && player.body.x <= 590+50 && player.body.y >= 1400 && player.body.y <= 1640) ||
+           (player.body.x >= 1140 && player.body.x <= 1140+50 && player.body.y >= 1235 && player.body.y <= 1370) ||
+           (player.body.x >= 2070 && player.body.x <= 2070+50 && player.body.y >= 1574 && player.body.y <= 1676) ||
+           (player.body.x >= 3585 && player.body.x <= 3585+50 && player.body.y >= 1349 && player.body.y <= 1849))
+            ifCanJump=false;
 
         //CHECK OTHER ING GAME EVENTS HERE
         //1. DEATH BOULDER
@@ -493,23 +602,14 @@ Game.main.prototype={
         }
 
         if (!paused && inWater && !onLadder){
+            player.animations.play('climb');
             if (cursors.left.isDown)
             {
                 player.body.moveLeft(200+godmode);
-                if (facing != 'left')
-                {
-                    player.animations.play('left');
-                    facing = 'left';
-                }
             }
             else if (cursors.right.isDown)
             {
                 player.body.moveRight(200+godmode);
-                if (facing != 'right')
-                {
-                    player.animations.play('right');
-                    facing = 'right';
-                }
             }
             if (cursors.up.isDown&&!inWater)
             {
