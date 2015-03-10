@@ -1,6 +1,7 @@
 var player;
 var cursors;
 var water;
+var water1;
 var inWater=false;
 var killobjglobal = true;
 var playerCollisionGroup;
@@ -180,7 +181,7 @@ Game.level1.prototype = {
         water = this.add.sprite(10030,1205,'water1-1'); //Note this has no interactions with the inWater function
         this.add.tween(water).to({alpha:0.95}, 1, Phaser.Easing.Linear.NONE, true);//Transparency
         water.scale.setTo(2,1);//change size of water
-        water = this.add.sprite(11400, 1205, 'water1-1');
+        water1 = this.add.sprite(11400, 1205, 'water1-1');
          //ADD TERRAIN HERE
         this.terraincreator('fact1',200,1600,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
         this.terraincreator('terr-null',200,2100,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
@@ -334,8 +335,8 @@ Game.level1.prototype = {
         }
 
         //CHECK IF IN WATER -- This must be modified is water's position is modified...
-        if((player.body.x >= 10030 && player.body.x <= 10030+400 && player.body.y >= 1205 && player.body.y <= 1205+1000) ||
-            (player.body.x >= 11400 && player.body.x <= 11400+400 && player.body.y >= 1205 && player.body.y <= 1205+1000)){
+        if((player.body.x >= water.x && player.body.x <= water.x+400 && player.body.y >= water.y && player.body.y <= water.y+1000) ||
+            (player.body.x >= water1.x && player.body.x <= water1.x+400 && player.body.y >= water1.y && player.body.y <= water1.y+1000)){
             console.log("inwater");
             inWater = true;
            // this.physics.p2.gravity.y = 200;
@@ -355,6 +356,9 @@ Game.level1.prototype = {
             inWater = false;
             this.physics.p2.gravity.y = 500;
             counter = 0;
+        }
+        if(player.body.x> 11350){
+            this.add.tween(water1).to( { y:1205+200 }, 2000, Phaser.Easing.Linear.None, true);
         }
 
 
