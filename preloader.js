@@ -21,6 +21,7 @@ Game.preloader.prototype = {
     this.load.image('sky', 'assets/sky.png');
     this.load.image('ground', 'assets/platform.png');
     this.load.image('star', 'assets/star.png');
+    this.load.image('letter','assets/letter.png');
     this.load.spritesheet('courier', 'assets/courier.png', 32, 48);
     this.load.image('fulldome', 'assets/fulldome.png');
     this.load.image('diamond','assets/diamond.png');
