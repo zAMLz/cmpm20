@@ -154,8 +154,8 @@ Game.level1.prototype = {
         this.createBox(258, 1678, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
         
         // The player aanimations and position
-        //player = this.add.sprite(32, 1600 - 150, 'courier');
-        player = this.add.sprite(11000, 1100, 'courier');
+        player = this.add.sprite(32, 1600 - 150, 'courier');
+        //player = this.add.sprite(11000, 1100, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
