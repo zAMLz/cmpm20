@@ -24,6 +24,7 @@ Game.preloader.prototype = {
     this.load.spritesheet('courier', 'assets/courier.png', 32, 48);
     this.load.image('fulldome', 'assets/fulldome.png');
     this.load.image('diamond','assets/diamond.png');
+    this.load.image('blank','assets/blank.png');
     this.load.image('check','assets/check.png');
     this.load.image('ladder','assets/ladder.png');
      //Terrain details
