@@ -1,6 +1,7 @@
 var player;
 var cursors;
 var water;
+var water1;
 var inWater=false;
 var killobjglobal = true;
 var playerCollisionGroup;
@@ -12,6 +13,7 @@ var counter = 0;
 var index;
 var star;
 var moveKillObj;
+var boxArray = new Array();
 
 //-------------Boxes------------------
 var checkCreated = 0;
@@ -24,6 +26,7 @@ var playerbox = true;
 var facing = 'left';
 var jumpButton;
 var ifCanJump = false;
+var trigger = false;
 
 //------------TESTING PURPOSES
 var isDebug = true;
@@ -99,12 +102,12 @@ Game.level1.prototype = {
         }
     },
 
-    floatingBox: function(image,x,y,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup){
-        var box = this.add.sprite(x,y,image);
-        this.physics.p2.enableBody(box,isDebug);
-        box.body.setCollisionGroup(isJumpCollisionGroup);
-        box.body.collides([isJumpCollisionGroup,playerCollisionGroup,BoxCollisionGroup]);
-        box.body.data.gravityScale=0;
+    floatingBox: function(image,x,y,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,i){
+        boxArray[i] = this.add.sprite(x,y,image);
+        this.physics.p2.enableBody(boxArray[i],isDebug);
+        boxArray[i].body.setCollisionGroup(isJumpCollisionGroup);
+        boxArray[i].body.collides([isJumpCollisionGroup,playerCollisionGroup,BoxCollisionGroup]);
+        boxArray[i].body.data.gravityScale=0;
     },
 
     create: function() {
@@ -152,6 +155,7 @@ Game.level1.prototype = {
         
         // The player aanimations and position
         player = this.add.sprite(32, 1600 - 150, 'courier');
+        //player = this.add.sprite(11000, 1100, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
@@ -180,7 +184,7 @@ Game.level1.prototype = {
         water = this.add.sprite(10030,1205,'water1-1'); //Note this has no interactions with the inWater function
         this.add.tween(water).to({alpha:0.95}, 1, Phaser.Easing.Linear.NONE, true);//Transparency
         water.scale.setTo(2,1);//change size of water
-        water = this.add.sprite(11400, 1205, 'water1-1');
+        water1 = this.add.sprite(11400, 1205, 'water1-1');
          //ADD TERRAIN HERE
         this.terraincreator('fact1',200,1600,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
         this.terraincreator('terr-null',200,2100,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
@@ -245,13 +249,13 @@ Game.level1.prototype = {
         this.terraincreator('terr-null',15250,1055,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         
         //boxes floating in water
-        this.floatingBox('box',10100,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
-        this.floatingBox('box',10250,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
-        this.floatingBox('box',10400,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
-        this.floatingBox('box',10550,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
-        this.floatingBox('box',10700,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
-        this.floatingBox('box',11500,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
-        this.floatingBox('box',11650,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup);
+        this.floatingBox('box',10100,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,0);
+        this.floatingBox('box',10250,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,1);
+        this.floatingBox('box',10400,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,2);
+        this.floatingBox('box',10550,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,3);
+        this.floatingBox('box',10700,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,4);
+        this.floatingBox('box',11500,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,5);
+        this.floatingBox('box',11650,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,6);
 
 
         //Sets the jump button to up
@@ -334,7 +338,8 @@ Game.level1.prototype = {
         }
 
         //CHECK IF IN WATER -- This must be modified is water's position is modified...
-        if(player.body.x >= 3200 && player.body.x <= 3200+400 && player.body.y >= 1850 && player.body.y <= 1850+1000){
+        if((player.body.x >= water.x && player.body.x <= water.x+400 && player.body.y >= water.y && player.body.y <= water.y+1000) ||
+            (player.body.x >= water1.x && player.body.x <= water1.x+400 && player.body.y >= water1.y && player.body.y <= water1.y+1000)){
             console.log("inwater");
             inWater = true;
            // this.physics.p2.gravity.y = 200;
@@ -355,7 +360,24 @@ Game.level1.prototype = {
             this.physics.p2.gravity.y = 500;
             counter = 0;
         }
+        if(player.body.x> 11350 && player.body.x< 11400){
+            trigger = true;
+           // this.add.tween(water1).to( { y:1205+200 }, 200, Phaser.Easing.Linear.None, true);
+            //boxArray[5].body.moveDown(200);
+            //boxArray[6].body.moveDown(200);
+        }else{
+            trigger = false;
+        }
 
+        if(trigger){
+            this.add.tween(water1).to( { y:1205+200 }, 1000, Phaser.Easing.Linear.None, true);
+            boxArray[5].body.y=water1.y;
+            boxArray[6].body.y=water1.y;
+        }else{
+            this.add.tween(water1).to( { y:1405-200 }, 1000, Phaser.Easing.Linear.None, true);
+            boxArray[5].body.y=water1.y;
+            boxArray[6].body.y=water1.y;
+        }
 
         //  Reset the players velocity (movement)
         player.body.velocity.x = 0;
@@ -443,6 +465,7 @@ Game.level1.prototype = {
         }
 
         if (!paused && inWater){
+            player.animations.play('climb');
             if (cursors.left.isDown)
             {
                 player.body.moveLeft(200+godmode);
