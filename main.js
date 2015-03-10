@@ -12,6 +12,7 @@ var BoxCollisionGroup;
 var isJumpCollisionGroup;
 var killCollisionGroup;
 var counter = 0;
+var gameEnd=false;
 
 //-------------OBJECTS---------------
 var boulder;
@@ -20,6 +21,7 @@ var BBnotcreated = true;
 var index;
 var star;
 var ladder;
+var cutsceneFlag;
 
 //-------------Boxes------------------
 var checkCreated = 0;
@@ -124,7 +126,7 @@ Game.main.prototype={
         this.music.play();
 
         //changes bounds of the world and add a background for the world
-        this.world.setBounds(0,0,10000,2800);
+        this.world.setBounds(0,0,5790,2800);
         this.stage.backgroundColor = '#d0f4f7';
 
         //  We're going to be using physics, so enable the P2 Physics system
@@ -193,10 +195,13 @@ Game.main.prototype={
         boulder.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
 
         //if the player collides with the star next level starts
-        star = this.add.sprite(5715,1018,'letter');
+        star = this.add.sprite(5720,1018,'letter');
         this.physics.p2.enableBody(star, isDebug);
         star.body.setCollisionGroup(winCollisionGroup);
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+
+        cutsceneFlag = this.add.sprite(0,0,'star');
+
         //climbable tree
         ladder = new Array();
         ladder[0] = this.add.sprite(560, 1520,'ladder');
@@ -328,8 +333,8 @@ Game.main.prototype={
         //Again we need to set the player to use the player collision group.
         player.body.setCollisionGroup(playerCollisionGroup);
         player.body.collides(isJumpCollisionGroup,function (){ifCanJump = true;},this);
-        player.body.collides(killCollisionGroup, this.endGame, this);
-        player.body.collides(winCollisionGroup, this.nextLevel,this);
+        //player.body.collides(killCollisionGroup, this.endGame, this);
+        player.body.collides(winCollisionGroup, function(){gameEnd=true;},this);
         player.body.collides(BoxCollisionGroup,function(){playerbox = true; ifCanJump = true;},this)
 
         boulder = this.add.sprite(0,0,'boulder');
@@ -522,7 +527,7 @@ Game.main.prototype={
             player.body.velocity.y = 0;
 
         //PLAYER CONTROL MOVEMENT
-        if (!paused && !inWater && !onLadder){
+        if (!paused && !inWater && !onLadder && !gameEnd){
             if (cursors.left.isDown)
             {
                 player.body.moveLeft(200+godmode);
@@ -601,7 +606,7 @@ Game.main.prototype={
 
         }
 
-        if (!paused && inWater && !onLadder){
+        if (!paused && inWater && !onLadder && !gameEnd){
             player.animations.play('climb');
             if (cursors.left.isDown)
             {
@@ -620,7 +625,7 @@ Game.main.prototype={
                 player.body.moveDown(200+godmode);
             }
         }
-        if(!paused && !inWater && onLadder){
+        if(!paused && !inWater && onLadder && !gameEnd){
             if(cursors.up.isDown){
                 player.animations.play('climb');
                 player.body.moveUp(40);
@@ -631,6 +636,32 @@ Game.main.prototype={
             }
             else
                 player.animations.stop();
+        }
+        //----------------------END CUTSCENE IMAGINED...
+        if(gameEnd){
+            if(cutsceneFlag.x == 0 ){
+                //star.body.destroy();
+                star.kill();
+                this.camera.unfollow();
+                this.add.tween(cutsceneFlag).to( { x: '+100' }, 2000, Phaser.Easing.Linear.None, true);
+                if(facing =='right')
+                    player.animations.play('right_idle_letter');
+                else
+                    player.animations.play('left_idle_letter');
+            }
+            if(cutsceneFlag.x == 100){
+                this.add.tween(cutsceneFlag).to( { x: '+100' }, 500, Phaser.Easing.Linear.None, true);
+                player.animations.play('right');
+                player.body.moveRight(200);
+            }
+            if(cutsceneFlag.x >100)
+                player.body.moveRight(200);
+            if(cutsceneFlag.x == 150)
+                player.body.moveUp(300);
+            if(cutsceneFlag.x == 200){
+                this.nextLevel();
+            }
+
         }
 
         //-----------------------player Kill zone
@@ -671,6 +702,7 @@ Game.main.prototype={
         if (player.body.x >= 2130 && player.body.x <= 2159 && player.body.y <= 1565 && player.body.y >= 1360){
             this.endGame();
         }
+        
     },
 
 
