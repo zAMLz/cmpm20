@@ -724,7 +724,8 @@ var PausePanel = function(game, parent){
     this.y = -100;
     
     btnRestart = this.game.add.button(350,-225,'restart',function(){
-        this.game.state.restart(true,true);
+        //this.game.state.restart(true,true);
+        this.game.state.start('main');
     },this);
 
     btnHelpScreen = this.game.add.button(150,-500,'helpscn',function(){
