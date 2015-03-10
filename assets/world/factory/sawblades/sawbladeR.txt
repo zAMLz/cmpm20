@@ -1,0 +1,4 @@
+sawbladeR0 = 0 0 100 100
+sawbladeR2 = 101 0 100 100
+sawbladeR4 = 0 101 100 100
+sawbladeR6 = 101 101 100 100
