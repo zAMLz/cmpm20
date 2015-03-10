@@ -389,7 +389,7 @@ Game.main.prototype={
         emitter[2].makeParticles( [ 'fire1', 'fire2', 'fire3', 'smoke' ] );
         emitter[2].gravity = -500;
         emitter[2].setAlpha(1, 0, 2000);
-        emitter[2].setScale(0.2, 0.3, 0.2, 0, 3000);
+        emitter[2].setScale(0.3, 0.3, 0.3, 0, 5000);
         emitter[2].start(false, 3000, 5);
 
         //fire3
