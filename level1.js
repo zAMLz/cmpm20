@@ -26,6 +26,7 @@ var playerbox = true;
 var facing = 'left';
 var jumpButton;
 var ifCanJump = false;
+var trigger = false;
 
 //------------TESTING PURPOSES
 var isDebug = true;
@@ -153,7 +154,8 @@ Game.level1.prototype = {
         this.createBox(258, 1678, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
         
         // The player aanimations and position
-        player = this.add.sprite(32, 1600 - 150, 'courier');
+        //player = this.add.sprite(32, 1600 - 150, 'courier');
+        player = this.add.sprite(11000, 1100, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
@@ -358,12 +360,24 @@ Game.level1.prototype = {
             this.physics.p2.gravity.y = 500;
             counter = 0;
         }
-        if(player.body.x> 11350){
-            this.add.tween(water1).to( { y:1205+200 }, 2000, Phaser.Easing.Linear.None, true);
-            boxArray[5].body.moveDown(200);
-            boxArray[6].body.moveDown(200);
+        if(player.body.x> 11350 && player.body.x< 11400){
+            trigger = true;
+           // this.add.tween(water1).to( { y:1205+200 }, 200, Phaser.Easing.Linear.None, true);
+            //boxArray[5].body.moveDown(200);
+            //boxArray[6].body.moveDown(200);
+        }else{
+            trigger = false;
         }
 
+        if(trigger){
+            this.add.tween(water1).to( { y:1205+200 }, 1000, Phaser.Easing.Linear.None, true);
+            boxArray[5].body.y=water1.y;
+            boxArray[6].body.y=water1.y;
+        }else{
+            this.add.tween(water1).to( { y:1405-200 }, 1000, Phaser.Easing.Linear.None, true);
+            boxArray[5].body.y=water1.y;
+            boxArray[6].body.y=water1.y;
+        }
 
         //  Reset the players velocity (movement)
         player.body.velocity.x = 0;
