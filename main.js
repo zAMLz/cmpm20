@@ -455,9 +455,7 @@ Game.main.prototype={
         //console.log("y:"+this.camera.y);
         //console.log("x:"+player.body.x);
         //console.log("y:"+player.body.y);
-        //  To move the UI along with the camera 
-        console.log("x: ", player.body.x);
-        console.log("y: ", player.body.y);
+        //  To move the UI along with the camera
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
@@ -500,7 +498,7 @@ Game.main.prototype={
             this.badbouldercreate();
         //CHECK IF IN WATER -- This must be modified is water's position is modified...
         if(player.body.x >= 3200 && player.body.x <= 3200+400 && player.body.y >= 1850 && player.body.y <= 1850+1000){
-           // console.log("inwater");
+            console.log("inwater");
             inWater = true;
            // this.physics.p2.gravity.y = 200;
           //player.body.data.gravityScale=20;
@@ -643,14 +641,14 @@ Game.main.prototype={
                 //star.body.destroy();
                 star.kill();
                 this.camera.unfollow();
-                this.add.tween(cutsceneFlag).to( { x: '+100' }, 2000, Phaser.Easing.Linear.None, true);
+                this.add.tween(cutsceneFlag).to( { x: '+100' }, 2500, Phaser.Easing.Linear.None, true);
                 if(facing =='right')
                     player.animations.play('right_idle_letter');
                 else
                     player.animations.play('left_idle_letter');
             }
             if(cutsceneFlag.x == 100){
-                this.add.tween(cutsceneFlag).to( { x: '+100' }, 500, Phaser.Easing.Linear.None, true);
+                this.add.tween(cutsceneFlag).to( { x: '+100' }, 400, Phaser.Easing.Linear.None, true);
                 player.animations.play('right');
                 player.body.moveRight(200);
             }
