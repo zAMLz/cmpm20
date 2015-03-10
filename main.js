@@ -12,6 +12,7 @@ var BoxCollisionGroup;
 var isJumpCollisionGroup;
 var killCollisionGroup;
 var counter = 0;
+var gameEnd=false;
 
 //-------------OBJECTS---------------
 var boulder;
@@ -20,6 +21,7 @@ var BBnotcreated = true;
 var index;
 var star;
 var ladder;
+var cutsceneFlag;
 
 //-------------Boxes------------------
 var checkCreated = 0;
@@ -124,7 +126,7 @@ Game.main.prototype={
         this.music.play();
 
         //changes bounds of the world and add a background for the world
-        this.world.setBounds(0,0,10000,2800);
+        this.world.setBounds(0,0,5790,2800);
         this.stage.backgroundColor = '#d0f4f7';
 
         //  We're going to be using physics, so enable the P2 Physics system
@@ -166,18 +168,18 @@ Game.main.prototype={
         this.terraincreator('terr-null',5550,2070,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
 
         //Add a forsure kill player object
-        this.createKillObj(2298, 1582, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(2333, 1582, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(2298, 1582, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(2333, 1582, 'blank', playerCollisionGroup, killCollisionGroup);
 
-        this.createKillObj(2530, 1657, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(2555, 1685, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(2530, 1657, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(2555, 1685, 'blank', playerCollisionGroup, killCollisionGroup);
 
 
-        this.createKillObj(2638, 1770, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(2658, 1790, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(2638, 1770, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(2658, 1790, 'blank', playerCollisionGroup, killCollisionGroup);
 
-        this.createKillObj(2883, 1840, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(2913, 1840, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(2883, 1840, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(2913, 1840, 'blank', playerCollisionGroup, killCollisionGroup);
 
 
         //create a moveable Boxs
@@ -193,10 +195,13 @@ Game.main.prototype={
         boulder.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
 
         //if the player collides with the star next level starts
-        star = this.add.sprite(5715,1018,'star');
+        star = this.add.sprite(5720,1018,'letter');
         this.physics.p2.enableBody(star, isDebug);
         star.body.setCollisionGroup(winCollisionGroup);
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+
+        cutsceneFlag = this.add.sprite(0,0,'star');
+
         //climbable tree
         ladder = new Array();
         ladder[0] = this.add.sprite(560, 1520,'ladder');
@@ -237,54 +242,54 @@ Game.main.prototype={
         this.groundcreator(4665,998,0.35,1);
         //this.groundcreator(4665,1198,0.15,12); this ground is actually printed out before the terrain so the terrain has priority layering
         this.groundcreator(0,0,0,0);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135, 1347, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
 
         ladder[25] = this.add.sprite(4575 , 950 ,'ladder');
         ladder[26] = this.add.sprite(4885 , 958 ,'ladder');
 
         this.groundcreator(5200,1058,0.75,1);
-        this.createKillObj(5331-32-32-32-32-32-32-32-32-10, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5331-32-32-32-32-32-32-32-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5331-32-32-32-32-32-32-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5331-32-32-32-32-32-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5331-32-32-32-32-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5331-32-32-32-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5331-32-32-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5331-32-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5331-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5331, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32-32-32-32-32-32-32-32-10, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32-32-32-32-32-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32-32-32-32-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32-32-32-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32-32-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
 
         ladder[27] = this.add.sprite(4950 ,1075 ,'ladder');
         ladder[28] = this.add.sprite(5050 ,1175 ,'ladder');
@@ -293,13 +298,13 @@ Game.main.prototype={
         ladder[31] = this.add.sprite(5350 ,1025 ,'ladder');
         
         this.groundcreator(5600,1058,0.75,1)
-        this.createKillObj(5664-32-32-32-32-32-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5664-32-32-32-32-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5664-32-32-32-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5664-32-32-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5664-32-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5664-32, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5664, 1030, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5664-32-32-32-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5664-32-32-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5664-32-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5664-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5664-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5664-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5664, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
 
         ladder[32] = this.add.sprite(4975 ,850 ,'ladder');
         ladder[33] = this.add.sprite(5075 ,750 ,'ladder');
@@ -328,8 +333,8 @@ Game.main.prototype={
         //Again we need to set the player to use the player collision group.
         player.body.setCollisionGroup(playerCollisionGroup);
         player.body.collides(isJumpCollisionGroup,function (){ifCanJump = true;},this);
-        player.body.collides(killCollisionGroup, this.endGame, this);
-        player.body.collides(winCollisionGroup, this.nextLevel,this);
+        //player.body.collides(killCollisionGroup, this.endGame, this);
+        player.body.collides(winCollisionGroup, function(){gameEnd=true;},this);
         player.body.collides(BoxCollisionGroup,function(){playerbox = true; ifCanJump = true;},this)
 
         boulder = this.add.sprite(0,0,'boulder');
@@ -450,9 +455,7 @@ Game.main.prototype={
         //console.log("y:"+this.camera.y);
         //console.log("x:"+player.body.x);
         //console.log("y:"+player.body.y);
-        //  To move the UI along with the camera 
-        console.log("x: ", player.body.x);
-        console.log("y: ", player.body.y);
+        //  To move the UI along with the camera
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
@@ -495,7 +498,7 @@ Game.main.prototype={
             this.badbouldercreate();
         //CHECK IF IN WATER -- This must be modified is water's position is modified...
         if(player.body.x >= 3200 && player.body.x <= 3200+400 && player.body.y >= 1850 && player.body.y <= 1850+1000){
-           // console.log("inwater");
+            console.log("inwater");
             inWater = true;
            // this.physics.p2.gravity.y = 200;
           //player.body.data.gravityScale=20;
@@ -522,7 +525,7 @@ Game.main.prototype={
             player.body.velocity.y = 0;
 
         //PLAYER CONTROL MOVEMENT
-        if (!paused && !inWater && !onLadder){
+        if (!paused && !inWater && !onLadder && !gameEnd){
             if (cursors.left.isDown)
             {
                 player.body.moveLeft(200+godmode);
@@ -601,7 +604,7 @@ Game.main.prototype={
 
         }
 
-        if (!paused && inWater && !onLadder){
+        if (!paused && inWater && !onLadder && !gameEnd){
             player.animations.play('climb');
             if (cursors.left.isDown)
             {
@@ -620,7 +623,7 @@ Game.main.prototype={
                 player.body.moveDown(200+godmode);
             }
         }
-        if(!paused && !inWater && onLadder){
+        if(!paused && !inWater && onLadder && !gameEnd){
             if(cursors.up.isDown){
                 player.animations.play('climb');
                 player.body.moveUp(40);
@@ -631,6 +634,32 @@ Game.main.prototype={
             }
             else
                 player.animations.stop();
+        }
+        //----------------------END CUTSCENE IMAGINED...
+        if(gameEnd){
+            if(cutsceneFlag.x == 0 ){
+                //star.body.destroy();
+                star.kill();
+                this.camera.unfollow();
+                this.add.tween(cutsceneFlag).to( { x: '+100' }, 2500, Phaser.Easing.Linear.None, true);
+                if(facing =='right')
+                    player.animations.play('right_idle_letter');
+                else
+                    player.animations.play('left_idle_letter');
+            }
+            if(cutsceneFlag.x == 100){
+                this.add.tween(cutsceneFlag).to( { x: '+100' }, 400, Phaser.Easing.Linear.None, true);
+                player.animations.play('right');
+                player.body.moveRight(200);
+            }
+            if(cutsceneFlag.x >100)
+                player.body.moveRight(200);
+            if(cutsceneFlag.x == 150)
+                player.body.moveUp(300);
+            if(cutsceneFlag.x == 200){
+                this.nextLevel();
+            }
+
         }
 
         //-----------------------player Kill zone
@@ -671,6 +700,7 @@ Game.main.prototype={
         if (player.body.x >= 2130 && player.body.x <= 2159 && player.body.y <= 1565 && player.body.y >= 1360){
             this.endGame();
         }
+        
     },
 
 
