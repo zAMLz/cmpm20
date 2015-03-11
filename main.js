@@ -649,12 +649,13 @@ Game.main.prototype={
         
         if(gameStart){
             if(cutsceneFlag.x == 0){
-                this.add.tween(cutsceneFlag).to( { x: '+50' }, 1000, Phaser.Easing.Linear.None, true);
+                this.add.tween(cutsceneFlag).to( { x: '+50' }, 3000, Phaser.Easing.Linear.None, true);
                 this.add.tween(intro).to( { y: '-500' }, 1000, Phaser.Easing.Linear.None, true);
             }
             if(cutsceneFlag.x == 50){
                 this.add.tween(cutsceneFlag).to( { x: '+50' }, 1000, Phaser.Easing.Linear.None, true);
                 this.add.tween(blacker).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+                this.add.tween(intro).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
             }
             if(cutsceneFlag.x == 100){
                 player.animations.play('right_idle');
