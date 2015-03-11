@@ -314,7 +314,7 @@ Game.main.prototype={
         ladder[37] = this.add.sprite(5475 ,750 ,'ladder');
         
         // The player aanimations and position
-        player = this.add.sprite(32, 1600 - 150, 'courier');
+        player = this.add.sprite(32, 1680, 'courier');
         //player = this.add.sprite(4625, 949, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
