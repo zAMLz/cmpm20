@@ -647,6 +647,14 @@ Game.level1.prototype = {
     nextLevel: function(){
         this.music.stop();
         this.state.start('level1');
+    },
+    restartLevel: function(){
+        this.music.stop();
+        this.state.start('level1');
+    },
+    mainMenu: function(){
+        this.music.stop();
+        this.state.start('mainmenu');
     }
 };
 var PausePanel = function(game, parent){

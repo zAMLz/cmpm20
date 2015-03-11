@@ -13,6 +13,7 @@ var isJumpCollisionGroup;
 var killCollisionGroup;
 var counter = 0;
 var gameEnd=false;
+var gameStart=true;
 
 //-------------OBJECTS---------------
 var boulder;
@@ -23,6 +24,10 @@ var star;
 var ladder;
 var cutsceneFlag;
 var emitter = new Array();
+var blacker;
+var redder;
+var starcut;
+var intro;
 
 //-------------Boxes------------------
 var checkCreated = 0;
@@ -200,7 +205,7 @@ Game.main.prototype={
 
 
         //create a moveable Boxs
-        this.createBox(100, 1700, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+        this.createBox(100, 2500, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
 
         //Safe Boulder, used for jumping off the ground.
         boulder = this.add.sprite(1300,128,'boulder');
@@ -213,6 +218,7 @@ Game.main.prototype={
 
         //if the player collides with the star next level starts
         star = this.add.sprite(5720,1018,'letter');
+        starcut = this.add.sprite(92,1680,'letter');
         this.physics.p2.enableBody(star, isDebug);
         star.body.setCollisionGroup(winCollisionGroup);
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
@@ -331,7 +337,7 @@ Game.main.prototype={
         ladder[37] = this.add.sprite(5475 ,750 ,'ladder');
         
         // The player aanimations and position
-        player = this.add.sprite(32, 1600 - 150, 'courier');
+        player = this.add.sprite(32, 1680, 'courier');
         //player = this.add.sprite(4625, 949, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
@@ -350,7 +356,7 @@ Game.main.prototype={
         //Again we need to set the player to use the player collision group.
         player.body.setCollisionGroup(playerCollisionGroup);
         player.body.collides(isJumpCollisionGroup,function (){ifCanJump = true;},this);
-        //player.body.collides(killCollisionGroup, this.endGame, this);
+        player.body.collides(killCollisionGroup, this.endGame, this);
         player.body.collides(winCollisionGroup, function(){gameEnd=true;},this);
         player.body.collides(BoxCollisionGroup,function(){playerbox = true; ifCanJump = true;},this)
 
@@ -430,7 +436,18 @@ Game.main.prototype={
         this.createEmitter(30);
         this.createEmitter(31);
         this.createEmitter(32);
+        /*
+        emitter2.makeParticles( [ 'fire1', 'fire2', 'fire3', 'smoke' ] );
+        emitter2.gravity = -500;
+        emitter2.setAlpha(1, 0, 2000);
+        emitter2.setScale(0.2, 0.3, 0.2, 0, 3000);
 
+        emitter2.start(false, 3000, 5);*/
+
+        redder = this.add.sprite(this.camera.x-50,this.camera.y-50,'red');
+        blacker = this.add.sprite(0,1378,'black');
+        intro = this.add.sprite(0,1378+600,'introforest');
+        this.game.add.tween(redder).to({alpha:0.50}, 1, Phaser.Easing.Linear.NONE, true);
     },
 
     badbouldercreate: function(){
@@ -492,6 +509,11 @@ Game.main.prototype={
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
+        //this.game.add.tween(blacker).to({x:this.game.camera.x}, 1, Phaser.Easing.Linear.NONE, true);
+        //this.game.add.tween(blacker).to({y:this.game.camera.y}, 1, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(redder).to({x:this.game.camera.x-50}, 1, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(redder).to({y:this.game.camera.y-50}, 1, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(redder).to({alpha:0.4*(player.body.x/5790)}, 1, Phaser.Easing.Linear.NONE, true);
         if(!paused){
                 this.pausePanel.y = this.camera.y-100;
                 this.pausePanel.update();
@@ -558,7 +580,7 @@ Game.main.prototype={
             player.body.velocity.y = 0;
 
         //PLAYER CONTROL MOVEMENT
-        if (!paused && !inWater && !onLadder && !gameEnd){
+        if (!paused && !inWater && !onLadder && !gameEnd && !gameStart){
             if (cursors.left.isDown)
             {
                 player.body.moveLeft(200+godmode);
@@ -637,7 +659,7 @@ Game.main.prototype={
 
         }
 
-        if (!paused && inWater && !onLadder && !gameEnd){
+        if (!paused && inWater && !onLadder && !gameEnd && !gameStart){
             player.animations.play('climb');
             if (cursors.left.isDown)
             {
@@ -656,7 +678,7 @@ Game.main.prototype={
                 player.body.moveDown(200+godmode);
             }
         }
-        if(!paused && !inWater && onLadder && !gameEnd){
+        if(!paused && !inWater && onLadder && !gameEnd && !gameStart){
             if(cursors.up.isDown){
                 player.animations.play('climb');
                 player.body.moveUp(40);
@@ -668,7 +690,41 @@ Game.main.prototype={
             else
                 player.animations.stop();
         }
-        //----------------------END CUTSCENE IMAGINED...
+        //----------------------CUTSCENEs IMAGINED...
+        
+        if(gameStart){
+            if(cutsceneFlag.x == 0){
+                this.add.tween(cutsceneFlag).to( { x: '+50' }, 3000, Phaser.Easing.Linear.None, true);
+                this.add.tween(intro).to( { y: '-500' }, 1000, Phaser.Easing.Linear.None, true);
+            }
+            if(cutsceneFlag.x == 50){
+                this.add.tween(cutsceneFlag).to( { x: '+50' }, 1000, Phaser.Easing.Linear.None, true);
+                this.add.tween(blacker).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+                this.add.tween(intro).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+            }
+            if(cutsceneFlag.x == 100){
+                player.animations.play('right_idle');
+                this.add.tween(cutsceneFlag).to( { x: '+100' }, 400, Phaser.Easing.Linear.None, true);
+            }
+            if(cutsceneFlag.x>= 150 && cutsceneFlag.x<200){
+                player.animations.play('right');
+                player.body.moveRight(100);
+            }
+            if(cutsceneFlag.x == 200){
+                player.animations.play('right_idle');
+                this.add.tween(cutsceneFlag).to( { x: '+100' }, 2000, Phaser.Easing.Linear.None, true);
+                this.add.tween(starcut).to( { x: 675*2 }, 4000, Phaser.Easing.Linear.None, true);
+                this.add.tween(starcut).to( { y: 1389/2 }, 4000, Phaser.Easing.Linear.None, true);
+                this.add.tween(starcut).to( { angle: '+1500' }, 4000, Phaser.Easing.Linear.None, true);
+            }
+            if(cutsceneFlag.x == 300){
+                starcut.x = 0;
+                starcut.y = 0;
+                gameStart = false;
+                this.add.tween(cutsceneFlag).to({ x: 0 }, 1, Phaser.Easing.Linear.None, true);
+            }
+        }
+
         if(gameEnd){
             if(cutsceneFlag.x == 0 ){
                 //star.body.destroy();
@@ -750,12 +806,24 @@ Game.main.prototype={
 
 // correct the endGame function
     endGame: function(){
+        gameStart=true;
         this.music.stop();
         this.state.start('gameover');
     },
     nextLevel: function(){
+        gameStart=true;
         this.music.stop();
-        this.state.start('level1');
+        this.state.start('main');
+    },
+    restartLevel: function(){
+        gameStart=true;
+        this.music.stop();
+        this.state.start('main');
+    },
+    mainMenu: function(){
+        gameStart=true;
+        this.music.stop();
+        this.state.start('mainmenu');
     }
 
 };
@@ -774,7 +842,8 @@ var PausePanel = function(game, parent){
     this.y = -100;
     
     btnRestart = this.game.add.button(350,-225,'restart',function(){
-        //this.game.state.restart(true,true);
+        //this.game.state.restart(false,false);
+        gameStart=true;
         this.game.state.start('main');
     },this);
 
@@ -793,6 +862,7 @@ var PausePanel = function(game, parent){
     },this);
 
     btnQuit = this.game.add.button(350,-75,'quit',function(){
+        gameStart=true;
         this.game.state.start('mainmenu');
     },this);
 };
