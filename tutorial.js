@@ -107,7 +107,7 @@ Game.tutorial.prototype={
         ladder = this.add.sprite(620, 220, 'ladder');
 
         // The player aanimations and position
-        player = this.add.sprite(32, 1600 - 150, 'courier');
+        player = this.add.sprite(32, this.world.height-120, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
