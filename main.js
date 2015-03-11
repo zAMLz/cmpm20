@@ -143,6 +143,7 @@ Game.main.prototype={
     },
 
     create: function() {
+        gameStart=true;
         //adds music
         this.music = this.add.audio('tutorialmusic');
         this.music.play();
@@ -326,8 +327,8 @@ Game.main.prototype={
         this.createKillObj(5664-32-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
         this.createKillObj(5664-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
         this.createKillObj(5664-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
-        //this.createKillObj(5664-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
-        //this.createKillObj(5664, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5664-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5664, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
 
         ladder[32] = this.add.sprite(4975 ,850 ,'ladder');
         ladder[33] = this.add.sprite(5075 ,750 ,'ladder');
