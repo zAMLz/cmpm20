@@ -151,6 +151,8 @@ Game.level1.prototype = {
         moveKillObj[0].anchor.setTo(0.5,0.5);
         moveKillObj[1] = this.add.sprite(6250, 1613, 'sawblade');
         moveKillObj[1].anchor.setTo(0.5,0.5);
+        moveKillObj[2] = this.add.sprite(2430,1610,'sawblade');
+        moveKillObj[2].anchor.setTo(0.5,0.5);
 
         //if the player collides with the star next level starts
         star = this.add.sprite(15500,500,'star');
@@ -193,17 +195,17 @@ Game.level1.prototype = {
         beltBoxArray[0].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
         beltBoxArray[0].body.fixedRotation=true;
        // beltBoxArray[0].body.static=true;
-        beltBoxArray[1] = this.add.sprite(2310, 1639, 'box');
+        beltBoxArray[1] = this.add.sprite(2370, 1639, 'box');
         this.physics.p2.enableBody(beltBoxArray[1], isDebug);
         beltBoxArray[1].body.setCollisionGroup(beltCollisionGroup);
         beltBoxArray[1].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
         beltBoxArray[1].body.fixedRotation=true;
        // beltBoxArray[1].body.static=true;
-        beltBoxArray[2] = this.add.sprite(2370, 1639, 'box');
+       /* beltBoxArray[2] = this.add.sprite(2370, 1639, 'box');
         this.physics.p2.enableBody(beltBoxArray[2], isDebug);
         beltBoxArray[2].body.setCollisionGroup(beltCollisionGroup);
         beltBoxArray[2].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
-        beltBoxArray[2].body.fixedRotation=true;
+        beltBoxArray[2].body.fixedRotation=true;*/
       //  beltBoxArray[2].body.static=true;
 
         //sets camera to follow
@@ -381,6 +383,14 @@ Game.level1.prototype = {
 
             this.moveKill(moveKillObj[0],5250,5650,'400',4000,'+57');
             this.moveKill(moveKillObj[1],6250,7250,'1000',4000,'+57');
+            //this.moveKill(moveKillObj[2],2430,2430,'1000',4000,'+57');
+            this.add.tween(moveKillObj[2]).to({angle: '+57'}, 1, Phaser.Easing.Linear.None, true, 100);
+
+        //Check the collision bounds....
+        if((player.body.x >= moveKillObj[2].x-50 && player.body.x <= moveKillObj[2].x+100-50 && player.body.y >= moveKillObj[2].y-50 && player.body.y <= moveKillObj[2].y+100-50)){
+            //console.log('DEAD');
+            this.endGame();   
+                }
         }
 
         //check if on rightBelt
