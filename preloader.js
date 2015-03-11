@@ -56,6 +56,7 @@ Game.preloader.prototype = {
     this.load.image('terr1-b2','assets/world/forest/terr1-b2.png');
     this.load.image('water1-1','assets/world/forest/water1-1.png');
     this.load.image('boulder','assets/world/forest/boulder.png');
+    this.load.image('introforest','assets/world/forest/introforest.png');
     //second world
     this.load.physics('physicsdatafactory','assets/world/factory/factory.json');
     this.load.image('fact1','assets/world/factory/fact1.png');
