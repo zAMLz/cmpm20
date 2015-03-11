@@ -184,7 +184,27 @@ Game.level1.prototype = {
         player.body.collides(winCollisionGroup, this.nextLevel,this);
         player.body.collides(BoxCollisionGroup,function(){playerbox = true; ifCanJump = true;},this);
         player.body.collides(beltCollisionGroup, function (){ifCanJump = true;});
-        
+       
+        //boxes on belt
+        beltBoxArray[0] = this.add.sprite(2250, 1639, 'box');
+        this.physics.p2.enableBody(beltBoxArray[0], isDebug);
+        beltBoxArray[0].body.setCollisionGroup(beltCollisionGroup);
+        beltBoxArray[0].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
+        beltBoxArray[0].body.collides(isJumpCollisionGroup,function(){touchdown=true;});
+        beltBoxArray[0].body.fixedRotation=true;
+        beltBoxArray[0].body.static=true;
+        beltBoxArray[1] = this.add.sprite(2310, 1639, 'box');
+        this.physics.p2.enableBody(beltBoxArray[1], isDebug);
+        beltBoxArray[1].body.setCollisionGroup(beltCollisionGroup);
+        beltBoxArray[1].body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
+        beltBoxArray[1].body.fixedRotation=true;
+        beltBoxArray[1].body.static=true;
+        beltBoxArray[2] = this.add.sprite(2370, 1639, 'box');
+        this.physics.p2.enableBody(beltBoxArray[2], isDebug);
+        beltBoxArray[2].body.setCollisionGroup(beltCollisionGroup);
+        beltBoxArray[2].body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
+        beltBoxArray[2].body.fixedRotation=true;
+        beltBoxArray[2].body.static=true;
 
         //sets camera to follow
         this.camera.follow(player);
@@ -271,20 +291,7 @@ Game.level1.prototype = {
         beltRight.body.setCollisionGroup(isJumpCollisionGroup);
         beltRight.body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
         beltRight.body.static = true;
-        //boxes on belt
-        beltBoxArray[0] = this.add.sprite(2250, 1650, 'box');
-        this.physics.p2.enableBody(beltBoxArray[0], isDebug);
-        beltBoxArray[0].body.setCollisionGroup(beltCollisionGroup);
-        beltBoxArray[0].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
-        beltBoxArray[0].body.collides(isJumpCollisionGroup,function(){touchdown=true;});
-        beltBoxArray[1] = this.add.sprite(2310, 1677, 'box');
-        this.physics.p2.enableBody(beltBoxArray[1], isDebug);
-        beltBoxArray[1].body.setCollisionGroup(beltCollisionGroup);
-        beltBoxArray[1].body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
-        beltBoxArray[2] = this.add.sprite(2370, 1677, 'box');
-        this.physics.p2.enableBody(beltBoxArray[2], isDebug);
-        beltBoxArray[2].body.setCollisionGroup(beltCollisionGroup);
-        beltBoxArray[2].body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
+        
         //Sets the jump button to up
         jumpButton = this.input.keyboard.addKey(Phaser.Keyboard.UP);
 
@@ -353,22 +360,20 @@ Game.level1.prototype = {
         //  To move the UI along with the camera 
        // console.log("x: ",player.body.x);
        // console.log("y: ",player.body.y);
-       console.log(touchdown);
-      /*  console.log("1", beltBoxArray[0].body.x);
+        console.log("1", beltBoxArray[0].body.x);
         console.log("2", beltBoxArray[1].body.x);
         console.log("3", beltBoxArray[2].body.x);
-        console.log("1:y", beltBoxArray[0].body.y);
-        console.log("2:y", beltBoxArray[1].body.y);
-        console.log("3:y", beltBoxArray[2].body.y);*/
+        
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
         for(var i=0;i<beltBoxArray.length;i++){
-           // beltBoxArray[i].body.moveRight(400);
+          // beltBoxArray[i].body.moveRight(400);
+          beltBoxArray[i].body.x+=1;
         }
         for(var i=0;i<beltBoxArray.length;i++){
-            if(beltBoxArray[i].body.x>=2500){
-                beltBoxArray[i].body.x=2320;
+            if(beltBoxArray[i].body.x>=2440){
+                beltBoxArray[i].body.x=2250;
             }
         }
         if(!paused){
