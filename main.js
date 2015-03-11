@@ -37,7 +37,7 @@ var boxY;
 var onGround = true;
 var playerbox = true;
 //----------Player Control Variables---
-var facing = 'left';
+var facing = 'right';
 var jumpButton;
 var ifCanJump = false;
 
@@ -448,6 +448,7 @@ Game.main.prototype={
         blacker = this.add.sprite(0,1378,'black');
         intro = this.add.sprite(0,1378+600,'introforest');
         this.game.add.tween(redder).to({alpha:0.50}, 1, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(blacker).to({alpha:0.9}, 1, Phaser.Easing.Linear.NONE, true)
     },
 
     badbouldercreate: function(){
@@ -501,6 +502,7 @@ Game.main.prototype={
 
 
     update: function() {
+        console.log(gameStart);
         //console.log("x:"+this.camera.x);
         //console.log("y:"+this.camera.y);
         //console.log("x:"+player.body.x);
@@ -694,6 +696,7 @@ Game.main.prototype={
         
         if(gameStart){
             if(cutsceneFlag.x == 0){
+                player.animations.play('right_idle');
                 this.add.tween(cutsceneFlag).to( { x: '+50' }, 3000, Phaser.Easing.Linear.None, true);
                 this.add.tween(intro).to( { y: '-500' }, 1000, Phaser.Easing.Linear.None, true);
             }
