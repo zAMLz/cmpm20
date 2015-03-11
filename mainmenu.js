@@ -11,7 +11,9 @@ Game.mainmenu.prototype = {
 		this.music = this.add.audio('menumusic');
 		this.music.play();
 		this.add.sprite(0,0,'sky');
-		this.playButton=this.add.button((this.world.width-100)/2, (this.world.height-50)/2, 'play',this.startGame,this);
+		var log = this.add.sprite(400,300,'logo');
+		log.anchor.setTo(0.5,0.5);
+		this.playButton=this.add.button((this.world.width-100)/2, ((this.world.height-50)/2) + 225, 'play',this.startGame,this);
 	},
 	startGame: function(pointer){
 		this.music.stop();
