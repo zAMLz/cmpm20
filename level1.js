@@ -14,6 +14,8 @@ var index;
 var star;
 var moveKillObj;
 var boxArray = new Array();
+var beltRight;
+var beltBoxArray = new Array();
 
 //-------------Boxes------------------
 var checkCreated = 0;
@@ -27,6 +29,8 @@ var facing = 'left';
 var jumpButton;
 var ifCanJump = false;
 var trigger = false;
+var beltRightBool = false;
+var beltLeftBool = false;
 
 //------------TESTING PURPOSES
 var isDebug = true;
@@ -256,8 +260,26 @@ Game.level1.prototype = {
         this.floatingBox('box',10700,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,4);
         this.floatingBox('box',11500,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,5);
         this.floatingBox('box',11650,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,6);
-
-
+        //right belt
+        beltRight = this.add.sprite(2320,1677,'continue');
+        beltRight.scale.setTo(2,1);
+        this.physics.p2.enableBody(beltRight, isDebug);
+        beltRight.body.setCollisionGroup(isJumpCollisionGroup);
+        beltRight.body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup]);
+        beltRight.body.static = true;
+        //boxes on belt
+        beltBoxArray[0] = this.add.sprite(2320, 1677, 'box');
+        this.physics.p2.enableBody(beltBoxArray[0], isDebug);
+        beltBoxArray[0].body.setCollisionGroup(isJumpCollisionGroup);
+        beltBoxArray[0].body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup]);
+        beltBoxArray[1] = this.add.sprite(2370, 1677, 'box');
+        this.physics.p2.enableBody(beltBoxArray[1], isDebug);
+        beltBoxArray[1].body.setCollisionGroup(isJumpCollisionGroup);
+        beltBoxArray[1].body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup]);
+        beltBoxArray[2] = this.add.sprite(2420, 1677, 'box');
+        this.physics.p2.enableBody(beltBoxArray[2], isDebug);
+        beltBoxArray[2].body.setCollisionGroup(isJumpCollisionGroup);
+        beltBoxArray[2].body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup]);
         //Sets the jump button to up
         jumpButton = this.input.keyboard.addKey(Phaser.Keyboard.UP);
 
@@ -329,12 +351,27 @@ Game.level1.prototype = {
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
+        for(var i=0;i<beltBoxArray.length;i++){
+           // beltBoxArray[i].body.moveRight(400);
+        }
+        for(var i=0;i<beltBoxArray.length;i++){
+            if(beltBoxArray[i].body.x>=2500){
+                beltBoxArray[i].body.x=2320;
+            }
+        }
         if(!paused){
             this.pausePanel.y = this.camera.y-100;
             this.pausePanel.update();    
 
             this.moveKill(moveKillObj[0],5250,5650,'400',4000,'+57');
             this.moveKill(moveKillObj[1],6250,7250,'1000',4000,'+57');
+        }
+
+        //check if on rightBelt
+        if(player.body.x >=2200 && player.body.x<=2404 && player.body.y>=1500 && player.body.y<=1677+84){
+            beltRightBool = true;
+        }else{
+            beltRightBool = false;
         }
 
         //CHECK IF IN WATER -- This must be modified is water's position is modified...
@@ -492,6 +529,85 @@ Game.level1.prototype = {
             {
                 player.body.moveDown(200+godmode);
             }
+        }
+        //if on rightBelt
+       if (!paused && beltRightBool){
+            if (cursors.left.isDown)
+            {
+                player.body.moveLeft(50+godmode);
+
+                if (facing != 'left')
+                {
+                    player.animations.play('left');
+                    facing = 'left';
+                }
+            }
+            else if (cursors.right.isDown)
+            {
+                player.body.moveRight(400+godmode);
+
+                if (facing != 'right')
+                {
+                    player.animations.play('right');
+                    facing = 'right';
+                }
+            }
+            else if(ifCanJump)
+            {
+                player.body.velocity.x = 100;
+
+                if (facing != 'idle')
+                {
+                    player.animations.stop();
+
+                    if (facing == 'left')
+                    {
+                        player.frame = 14;
+                    }
+                    else
+                    {
+                        player.frame = 13;
+                    }
+
+                    facing = 'idle';
+                }
+            }
+            else if(ifCanJump){
+                if (facing == 'left')
+                {
+                    player.frame = 14;
+                }
+                else
+                {
+                    player.frame = 13;
+                }
+            }
+
+            if (jumpButton.isDown && ifCanJump){
+                player.body.moveUp(300+godmode);
+                ifCanJump = false;
+            }
+
+            // moving a Box-----------------------------
+            if ((pushButton.isDown && playerbox) || (pushButton.isDown && playerbox)) {
+                onGround = false;
+                if (checkCreated < 1){
+                    onGround = false;
+                    Box.body.destroy();
+                    Box.kill();
+                    this.createBox(boxX, boxY, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+                    checkCreated++;
+                }
+            }else if (pushButton.isUp && onGround){
+            
+                Box.body.static = true;
+                boxX = Box.body.x;
+                boxY = Box.body.y;
+                checkCreated =0;
+                playerbox =false;
+                
+            }
+
         }
         //-----------------------player moveKill
         //if (player.body.x >= 226){
