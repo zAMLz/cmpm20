@@ -4,7 +4,7 @@ var cursors;
 var facing = 'left';
 var jumpButton;
 var pushButton;
-var isDebug = true;
+var isDebug = false;
 var ifCanJump = true;
 var star;
 var ladder;
@@ -51,7 +51,7 @@ Game.tutorial.prototype={
     },
     createKillObj: function(x, y, index, playerCollisionGroup, killCollisionGroup){
         diamond = this.add.sprite(x, y, index);
-        this.physics.p2.enableBody(diamond,isDebug);
+        this.physics.p2.enableBody(diamond,false);
         diamond.body.static = true;
         diamond.body.fixedRotation = true;
         diamond.body.setCollisionGroup(killCollisionGroup);
@@ -137,11 +137,11 @@ Game.tutorial.prototype={
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
 
         //trap for tutorial
-        this.createKillObj(500, 490, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(560, 490, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(620, 490, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(680, 490, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(740, 490, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(500, 490, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(560, 490, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(620, 490, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(680, 490, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(740, 490, 'blank', playerCollisionGroup, killCollisionGroup);
 
 
         this.createBox(200, 490, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
