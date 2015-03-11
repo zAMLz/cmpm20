@@ -21,6 +21,8 @@ Game.preloader.prototype = {
 
     this.load.image('logo','assets/logo.png');
     this.load.image('gameover','assets/gameover.png');
+    this.load.image('black','assets/black.png');
+    this.load.image('red','assets/red.png');
     this.load.image('sky', 'assets/sky.png');
     this.load.image('play', 'assets/UI/play.jpg');
     //also needs ogg version for firefox.

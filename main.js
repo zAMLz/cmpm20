@@ -13,6 +13,7 @@ var isJumpCollisionGroup;
 var killCollisionGroup;
 var counter = 0;
 var gameEnd=false;
+var gameStart=true;
 
 //-------------OBJECTS---------------
 var boulder;
@@ -22,6 +23,8 @@ var index;
 var star;
 var ladder;
 var cutsceneFlag;
+var blacker;
+var redder;
 
 //-------------Boxes------------------
 var checkCreated = 0;
@@ -391,6 +394,8 @@ Game.main.prototype={
         emitter2.setScale(0.2, 0.3, 0.2, 0, 3000);
 
         emitter2.start(false, 3000, 5);
+
+        redder = this.add.sprite(this.camera.x,this.camera.y,'red');
        
     },
 
@@ -629,7 +634,11 @@ Game.main.prototype={
             else
                 player.animations.stop();
         }
-        //----------------------END CUTSCENE IMAGINED...
+        //----------------------CUTSCENEs IMAGINED...
+        
+        if(gameStart){
+
+        }
         if(gameEnd){
             if(cutsceneFlag.x == 0 ){
                 //star.body.destroy();
