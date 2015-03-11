@@ -706,6 +706,14 @@ Game.main.prototype={
     nextLevel: function(){
         this.music.stop();
         this.state.start('level1');
+    },
+    restartLevel: function(){
+        this.music.stop();
+        this.state.start('main');
+    },
+    mainMenu: function(){
+        this.music.stop();
+        this.state.start('mainmenu');
     }
 
 };
@@ -725,7 +733,7 @@ var PausePanel = function(game, parent){
     
     btnRestart = this.game.add.button(350,-225,'restart',function(){
         //this.game.state.restart(true,true);
-        this.game.state.start('main');
+        this.game.restartLevel();
     },this);
 
     btnHelpScreen = this.game.add.button(150,-500,'helpscn',function(){
@@ -743,7 +751,7 @@ var PausePanel = function(game, parent){
     },this);
 
     btnQuit = this.game.add.button(350,-75,'quit',function(){
-        this.game.state.start('mainmenu');
+        this.game.mainMenu();
     },this);
 };
 
