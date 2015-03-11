@@ -131,7 +131,7 @@ Game.tutorial.prototype={
         player.body.collides(BoxCollisionGroup,function(){playerbox = true; ifCanJump = true;},this)
 
         //star that advances you to next level
-        star = this.add.sprite(1330, 460, 'star');
+        star = this.add.sprite(1330, 460, 'letter');
         this.physics.p2.enableBody(star);
         star.body.setCollisionGroup(winCollisionGroup);
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
