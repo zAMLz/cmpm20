@@ -26,6 +26,7 @@ var cutsceneFlag;
 var blacker;
 var redder;
 var starcut;
+var intro;
 
 //-------------Boxes------------------
 var checkCreated = 0;
@@ -399,6 +400,7 @@ Game.main.prototype={
 
         redder = this.add.sprite(this.camera.x-50,this.camera.y-50,'red');
         blacker = this.add.sprite(0,1378,'black');
+        intro = this.add.sprite(0,1378+600,'introforest');
         this.game.add.tween(redder).to({alpha:0.50}, 1, Phaser.Easing.Linear.NONE, true);
        
     },
@@ -648,6 +650,7 @@ Game.main.prototype={
         if(gameStart){
             if(cutsceneFlag.x == 0){
                 this.add.tween(cutsceneFlag).to( { x: '+50' }, 1000, Phaser.Easing.Linear.None, true);
+                this.add.tween(intro).to( { y: '-500' }, 1000, Phaser.Easing.Linear.None, true);
             }
             if(cutsceneFlag.x == 50){
                 this.add.tween(cutsceneFlag).to( { x: '+50' }, 1000, Phaser.Easing.Linear.None, true);
