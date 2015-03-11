@@ -456,8 +456,8 @@ Game.main.prototype={
 
 
     update: function() {
-        console.log("x:"+this.camera.x);
-        console.log("y:"+this.camera.y);
+        //console.log("x:"+this.camera.x);
+        //console.log("y:"+this.camera.y);
         //console.log("x:"+player.body.x);
         //console.log("y:"+player.body.y);
         //  To move the UI along with the camera
@@ -755,7 +755,7 @@ Game.main.prototype={
     },
     nextLevel: function(){
         this.music.stop();
-        this.state.start('level1');
+        this.state.start('main');
     },
     restartLevel: function(){
         this.music.stop();
@@ -782,8 +782,8 @@ var PausePanel = function(game, parent){
     this.y = -100;
     
     btnRestart = this.game.add.button(350,-225,'restart',function(){
-        //this.game.state.restart(true,true);
-        this.game.restartLevel();
+        //this.game.state.restart(false,false);
+        this.game.state.start('main');
     },this);
 
     btnHelpScreen = this.game.add.button(150,-500,'helpscn',function(){
@@ -801,7 +801,7 @@ var PausePanel = function(game, parent){
     },this);
 
     btnQuit = this.game.add.button(350,-75,'quit',function(){
-        this.game.mainMenu();
+        this.game.state.start('mainmenu');
     },this);
 };
 
