@@ -816,7 +816,7 @@ Game.main.prototype={
     nextLevel: function(){
         gameStart=true;
         this.music.stop();
-        this.state.start('main');
+        this.state.start('level1');
     },
     restartLevel: function(){
         gameStart=true;
