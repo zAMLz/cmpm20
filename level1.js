@@ -161,8 +161,8 @@ Game.level1.prototype = {
         this.createBox(258, 1678, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
         
         // The player aanimations and position
-       // player = this.add.sprite(32, 1600 - 150, 'courier');
-        player = this.add.sprite(2000, 1655, 'courier');
+        player = this.add.sprite(32, 1600 - 150, 'courier');
+        //player = this.add.sprite(2000, 1655, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
@@ -183,28 +183,28 @@ Game.level1.prototype = {
         player.body.collides(killCollisionGroup, this.endGame, this);
         player.body.collides(winCollisionGroup, this.nextLevel,this);
         player.body.collides(BoxCollisionGroup,function(){playerbox = true; ifCanJump = true;},this);
-        player.body.collides(beltCollisionGroup, function (){ifCanJump = true;});
+        player.body.collides(beltCollisionGroup, function (){ifCanJump = true; touchdown=true;});
+        
        
         //boxes on belt
         beltBoxArray[0] = this.add.sprite(2250, 1639, 'box');
         this.physics.p2.enableBody(beltBoxArray[0], isDebug);
         beltBoxArray[0].body.setCollisionGroup(beltCollisionGroup);
         beltBoxArray[0].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
-        beltBoxArray[0].body.collides(isJumpCollisionGroup,function(){touchdown=true;});
         beltBoxArray[0].body.fixedRotation=true;
-        beltBoxArray[0].body.static=true;
+       // beltBoxArray[0].body.static=true;
         beltBoxArray[1] = this.add.sprite(2310, 1639, 'box');
         this.physics.p2.enableBody(beltBoxArray[1], isDebug);
         beltBoxArray[1].body.setCollisionGroup(beltCollisionGroup);
-        beltBoxArray[1].body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
+        beltBoxArray[1].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
         beltBoxArray[1].body.fixedRotation=true;
-        beltBoxArray[1].body.static=true;
+       // beltBoxArray[1].body.static=true;
         beltBoxArray[2] = this.add.sprite(2370, 1639, 'box');
         this.physics.p2.enableBody(beltBoxArray[2], isDebug);
         beltBoxArray[2].body.setCollisionGroup(beltCollisionGroup);
-        beltBoxArray[2].body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
+        beltBoxArray[2].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
         beltBoxArray[2].body.fixedRotation=true;
-        beltBoxArray[2].body.static=true;
+      //  beltBoxArray[2].body.static=true;
 
         //sets camera to follow
         this.camera.follow(player);
@@ -288,7 +288,7 @@ Game.level1.prototype = {
         beltRight = this.add.sprite(2320,1677,'continue');
         beltRight.scale.setTo(2,1);
         this.physics.p2.enableBody(beltRight, isDebug);
-        beltRight.body.setCollisionGroup(isJumpCollisionGroup);
+        beltRight.body.setCollisionGroup(beltCollisionGroup);
         beltRight.body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
         beltRight.body.static = true;
         
@@ -355,15 +355,13 @@ Game.level1.prototype = {
     update: function() {
         //console.log("x:"+this.camera.x);
         //console.log("y:"+this.camera.y);
-        //console.log("x:"+player.body.x);
-        //console.log("y:"+player.body.y);
-        //  To move the UI along with the camera 
        // console.log("x: ",player.body.x);
-       // console.log("y: ",player.body.y);
-        console.log("1", beltBoxArray[0].body.x);
-        console.log("2", beltBoxArray[1].body.x);
-        console.log("3", beltBoxArray[2].body.x);
-        
+      //  console.log("y: ",player.body.y);
+      //  console.log("1", beltBoxArray[0].body.x);
+       // console.log("2", beltBoxArray[1].body.x);
+       // console.log("3", beltBoxArray[2].body.x);
+       // console.log(touchdown);
+        //  To move the UI along with the camera 
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
@@ -372,8 +370,9 @@ Game.level1.prototype = {
           beltBoxArray[i].body.x+=1;
         }
         for(var i=0;i<beltBoxArray.length;i++){
-            if(beltBoxArray[i].body.x>=2440){
+            if(beltBoxArray[i].body.x>=2440 || beltBoxArray[i].body.y>=2400){
                 beltBoxArray[i].body.x=2250;
+                beltBoxArray[i].body.y=1639;
             }
         }
         if(!paused){
@@ -385,10 +384,11 @@ Game.level1.prototype = {
         }
 
         //check if on rightBelt
-        if(player.body.x >=2200 && player.body.x<=2404 && player.body.y>=1500 && player.body.y<=1677+84){
+        if(player.body.x >=2200 && player.body.x<=2404 && player.body.y>=1600 && player.body.y<=1670){
             beltRightBool = true;
         }else{
             beltRightBool = false;
+            touchdown = false;
         }
 
         //CHECK IF IN WATER -- This must be modified is water's position is modified...
@@ -414,6 +414,7 @@ Game.level1.prototype = {
             this.physics.p2.gravity.y = 500;
             counter = 0;
         }
+        //code for pressure plate lowering water
         if(player.body.x> 11350 && player.body.x< 11400){
             trigger = true;
            // this.add.tween(water1).to( { y:1205+200 }, 200, Phaser.Easing.Linear.None, true);
@@ -548,7 +549,7 @@ Game.level1.prototype = {
             }
         }
         //if on rightBelt
-       if (!paused && beltRightBool){
+       if (!paused && touchdown && beltRightBool){
             if (cursors.left.isDown)
             {
                 player.body.moveLeft(50+godmode);
