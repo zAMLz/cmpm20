@@ -398,7 +398,7 @@ Game.main.prototype={
         emitter[2].setAlpha(1, 0, 2000);
         emitter[2].setScale(0.3, 0.3, 0.3, 0, 5000);
         emitter[2].start(false, 3000, 5);
-
+        /*
         //fire3
         this.createEmitter(3);
         //fire4
@@ -437,6 +437,7 @@ Game.main.prototype={
         this.createEmitter(30);
         this.createEmitter(31);
         this.createEmitter(32);
+        */
         /*
         emitter2.makeParticles( [ 'fire1', 'fire2', 'fire3', 'smoke' ] );
         emitter2.gravity = -500;
@@ -762,6 +763,7 @@ Game.main.prototype={
 
         //------------------ Fire EMitter
         this.createfire(emitter[1], 0, 0, 4110, 1370);
+        /*
         this.createfire(emitter[2], 0, 0, 2130, 1570);
         this.createfire(emitter[3], 0, 0, 5070, 1055);
         this.createfire(emitter[4], 0, 0, 5470, 1055);
@@ -797,13 +799,14 @@ Game.main.prototype={
         this.createfire(emitter[30], 0, 0, 4730+50+50+50+50+50+50, 1370);
         this.createfire(emitter[31], 0, 0, 4730+50+50+50+50+50+50+50, 1370);
         this.createfire(emitter[32], 0, 0, 4730+50+50+50+50+50+50+50+50, 1370);
-
+       
 
 
 
         if (player.body.x >= 2130 && player.body.x <= 2159 && player.body.y <= 1565 && player.body.y >= 1360){
             this.endGame();
         }
+        */
         
     },
 
