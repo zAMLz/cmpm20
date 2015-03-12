@@ -16,7 +16,9 @@ var star;
 var moveKillObj;
 var boxArray = new Array();
 var beltRight;
+var beltLeft;
 var beltBoxArray = new Array();
+var stool;
 
 //-------------Boxes------------------
 var checkCreated = 0;
@@ -163,8 +165,8 @@ Game.level1.prototype = {
         this.createBox(258, 1678, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
         
         // The player aanimations and position
-        player = this.add.sprite(32, 1600 - 150, 'courier');
-        //player = this.add.sprite(2000, 1655, 'courier');
+      //  player = this.add.sprite(32, 1600 - 150, 'courier');
+        player = this.add.sprite(5200, 1655, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
@@ -286,14 +288,29 @@ Game.level1.prototype = {
         this.floatingBox('box',10700,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,4);
         this.floatingBox('box',11500,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,5);
         this.floatingBox('box',11650,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,6);
-        //right belt
+        //right direction belt
         beltRight = this.add.sprite(2320,1677,'continue');
         beltRight.scale.setTo(2,1);
         this.physics.p2.enableBody(beltRight, isDebug);
         beltRight.body.setCollisionGroup(beltCollisionGroup);
         beltRight.body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
         beltRight.body.static = true;
-        
+      //  beltRight.body.onEndContact.add(function(){touchdown=false;},this);
+        //left direction belt
+        beltLeft = this.add.sprite(5195,1748,'continue');
+        beltLeft.scale.setTo(8,2);
+        this.physics.p2.enableBody(beltLeft, isDebug);
+        beltLeft.body.setCollisionGroup(beltCollisionGroup);
+        beltLeft.body.collides([isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
+        beltLeft.body.collides(playerCollisionGroup, function(){tounchdown=true; isJumpCollisionGroup=true;});
+     //   beltLeft.body.static = true;
+     //   beltLeft.body.onEndContact.add(function(){tounchdown = false;},this);
+        //stepping stool box
+        stool = this.add.sprite(4779,1783,'box');
+        this.physics.p2.enableBody(stool, isDebug);
+        stool.body.setCollisionGroup(isJumpCollisionGroup);
+        stool.body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
+        stool.body.static=true;
         //Sets the jump button to up
         jumpButton = this.input.keyboard.addKey(Phaser.Keyboard.UP);
 
@@ -358,7 +375,10 @@ Game.level1.prototype = {
         //console.log("x:"+this.camera.x);
         //console.log("y:"+this.camera.y);
        // console.log("x: ",player.body.x);
-      //  console.log("y: ",player.body.y);
+        //console.log("y: ",player.body.y);
+       // console.log("stool x:", stool.body.x);
+        //console.log("stool y:", stool.body.y);
+        console.log("touchdown:", touchdown);
       //  console.log("1", beltBoxArray[0].body.x);
        // console.log("2", beltBoxArray[1].body.x);
        // console.log("3", beltBoxArray[2].body.x);
@@ -396,8 +416,12 @@ Game.level1.prototype = {
         //check if on rightBelt
         if(player.body.x >=2200 && player.body.x<=2404 && player.body.y>=1600 && player.body.y<=1670){
             beltRightBool = true;
-        }else{
+        }else if(player.body.x >=4780 && player.body.x<=5600 && player.body.y>=1500 && player.body.y<=1700){
+            beltLeftBool = true;
+        }
+        else{
             beltRightBool = false;
+            beltLeftBool = false;
             touchdown = false;
         }
 
@@ -583,6 +607,85 @@ Game.level1.prototype = {
             else if(ifCanJump)
             {
                 player.body.velocity.x = 100;
+
+                if (facing != 'idle')
+                {
+                    player.animations.stop();
+
+                    if (facing == 'left')
+                    {
+                        player.frame = 14;
+                    }
+                    else
+                    {
+                        player.frame = 13;
+                    }
+
+                    facing = 'idle';
+                }
+            }
+            else if(ifCanJump){
+                if (facing == 'left')
+                {
+                    player.frame = 14;
+                }
+                else
+                {
+                    player.frame = 13;
+                }
+            }
+
+            if (jumpButton.isDown && ifCanJump){
+                player.body.moveUp(300+godmode);
+                ifCanJump = false;
+            }
+
+            // moving a Box-----------------------------
+            if ((pushButton.isDown && playerbox) || (pushButton.isDown && playerbox)) {
+                onGround = false;
+                if (checkCreated < 1){
+                    onGround = false;
+                    Box.body.destroy();
+                    Box.kill();
+                    this.createBox(boxX, boxY, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+                    checkCreated++;
+                }
+            }else if (pushButton.isUp && onGround){
+            
+                Box.body.static = true;
+                boxX = Box.body.x;
+                boxY = Box.body.y;
+                checkCreated =0;
+                playerbox =false;
+                
+            }
+
+        }
+                //if on leftBelt
+       if (!paused && touchdown && beltLeftBool){
+            if (cursors.left.isDown)
+            {
+                player.body.moveLeft(400+godmode);
+
+                if (facing != 'left')
+                {
+                    player.animations.play('left');
+                    facing = 'left';
+                }
+            }
+            else if (cursors.right.isDown)
+            {
+                player.body.moveRight(50+godmode);
+
+                if (facing != 'right')
+                {
+                    player.animations.play('right');
+                    facing = 'right';
+                }
+            }
+            else if(ifCanJump)
+            {
+                player.body.velocity.x = -100;
 
                 if (facing != 'idle')
                 {
