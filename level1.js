@@ -51,7 +51,7 @@ var plateDown2 = false;
 var bothDown = false;
 var plateDown3 = false;
 var plateDown4 = false;
-var bothDown2 = true;
+var bothDown2 = false;
 
 //------------TESTING PURPOSES
 var isDebug = true;
@@ -193,6 +193,8 @@ Game.level1.prototype = {
         door2.scale.setTo(1,3);
         door3 = this.add.sprite(11700,1375, 'box');
         door3.scale.setTo(1,3);
+        door4 = this.add.sprite(13215,575, 'box');
+        door4.scale.setTo(1,3);
         pPlate = this.add.sprite(7000,1580, 'box');
         pPlate2 = this.add.sprite(7470, 1500, 'box');
         pPlate3 = this.add.sprite(11245,1105, 'box');
@@ -541,8 +543,11 @@ Game.level1.prototype = {
         //lower water tweening
         if(bothDown2){
             this.add.tween(water1).to( { y:1205+260 }, 1000, Phaser.Easing.Linear.None, true);
-            boxArray[5].body.y=water1.y;
-            boxArray[6].body.y=water1.y;
+            //boxArray[5].body.y=water1.y;
+            //boxArray[6].body.y=water1.y;
+            boxArray[5].body.y=20000;
+            boxArray[6].body.y=20000;
+
         }else{
             this.add.tween(water1).to( { y:1405-260 }, 1000, Phaser.Easing.Linear.None, true);
             boxArray[5].body.y=water1.y;
@@ -555,6 +560,10 @@ Game.level1.prototype = {
             player.body.y=door2.y;
         }
         //second door teleport thing
+        if(bothDown2&&(player.body.x>=door3.x&&player.body.x<=door3.x+32&&player.body.y>=door3.y&&player.body.y<=door3.y+84)){
+            player.body.x=door4.x;
+            player.body.y=door4.y;
+        }
 
         if(!paused){
             this.pausePanel.y = this.camera.y-100;
