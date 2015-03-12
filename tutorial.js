@@ -4,12 +4,13 @@ var cursors;
 var facing = 'left';
 var jumpButton;
 var pushButton;
-var isDebug = true;
+var isDebug = false;
 var ifCanJump = true;
 var star;
 var ladder;
 var pausePanel;
 var paused;
+var callStand;
 // text boxes
 var dangerText;
 var ladderText;
@@ -28,7 +29,7 @@ var Box;
 var boxX;
 var boxY;
 var onGround = true;
-var playerbox = true;
+var playerbox = false;
 
 Game.tutorial = function(game){
     this.music=null;
@@ -38,9 +39,7 @@ Game.tutorial.prototype={
         boxX = x;
         boxY = y;
         Box = this.add.sprite(x, y, index);
-        this.physics.p2.enableBody(Box);
-        Box.body.friction = 100;
-        Box.body.restitution = 0.0;
+        this.physics.p2.enableBody(Box, false);
         Box.body.gravity = 500;
         Box.body.static = false;
         Box.body.fixedRotation = true;
@@ -137,14 +136,14 @@ Game.tutorial.prototype={
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
 
         //trap for tutorial
-        this.createKillObj(500, 490, 'diamond', playerCollisionGroup, killCollisionGroup);
+        /*this.createKillObj(500, 490, 'diamond', playerCollisionGroup, killCollisionGroup);
         this.createKillObj(560, 490, 'diamond', playerCollisionGroup, killCollisionGroup);
         this.createKillObj(620, 490, 'diamond', playerCollisionGroup, killCollisionGroup);
         this.createKillObj(680, 490, 'diamond', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(740, 490, 'diamond', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(740, 490, 'diamond', playerCollisionGroup, killCollisionGroup);*/
 
 
-        this.createBox(200, 490, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+        this.createBox(200, 488.0928, 'Box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
         //sets camera to follow
         this.camera.follow(player);
 
@@ -175,17 +174,28 @@ Game.tutorial.prototype={
 
     update: function() {
         console.log("x ",player.body.x)
-        console.log("y ", player.body.y);
+        console.log("y ", Box.body.y);
         //  To move the UI along with the camera 
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
+
         if(pushButton.isDown && ((player.body.x >= 620 && player.body.x <= 620+20 && player.body.y >= 220 && player.body.y <= 220+150))){
+            callStand = true;
             console.log("on ladder");
             player.body.data.gravityScale=0.05;
             onLadder=true;
         }
         else{
+            if (callStand){
+                if (cursors.left.isDown){
+                    player.animations.play('left');
+                }else{
+                    player.animations.play('right');
+                }
+                callStand = false;
+            }
+            
             player.body.data.gravityScale=1;
             onLadder=false;
         }
@@ -258,24 +268,38 @@ Game.tutorial.prototype={
                 ifCanJump = false;
             }
             // moving a Box-----------------------------
-            if ((pushButton.isDown && playerbox) || (pushButton.isDown && playerbox)) {
+         
+            //if ((pushButton.isDown && playerbox)) {
+            if (pushButton.isDown) {
                 onGround = false;
                 if (checkCreated < 1){
                     onGround = false;
                     Box.body.destroy();
                     Box.kill();
-                    this.createBox(boxX, boxY, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+                    this.createBox(boxX, boxY, 'Box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
                     checkCreated++;
                 }
-            }else if (pushButton.isUp && onGround){
-            
+
+            }else if (pushButton.isUp){
+             //else if (pushButton.isUp && onGround){
                 Box.body.static = true;
                 boxX = Box.body.x;
-                boxY = Box.body.y;
+                //boxY = Box.body.y;
+                boxY = 488.0928;
                 checkCreated =0;
                 playerbox =false;
                 
             }
+            if (cursors.right.isUp && cursors.left.isUp){
+            //if (cursors.right.isUp && cursors.left.isUp && onGround){
+                Box.body.static = true;
+                boxX = Box.body.x;
+                //boxY = Box.body.y;
+                boxY = 488.0928;
+                checkCreated =0;
+                playerbox =false;
+            }
+            //end moving a Box---------------------------
 
         }
 
@@ -319,6 +343,7 @@ Game.tutorial.prototype={
             else
                 player.animations.stop();
         }
+
     },
 
      endGame: function(){
