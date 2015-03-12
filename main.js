@@ -400,35 +400,35 @@ Game.main.prototype={
         this.createEmitter(5);
 
         //after the "1" fire
-        this.createEmitter(6);
+        //this.createEmitter(6);
         this.createEmitter(7);
-        this.createEmitter(8);
+        //this.createEmitter(8);
         this.createEmitter(9);
-        this.createEmitter(10);
+        //this.createEmitter(10);
         this.createEmitter(11);
-        this.createEmitter(12);
+        //this.createEmitter(12);
         this.createEmitter(13);
-        this.createEmitter(14);
+        //this.createEmitter(14);
         this.createEmitter(15);
         //after fire"3"
-        this.createEmitter(16);
+        //this.createEmitter(16);
         this.createEmitter(17);
-        this.createEmitter(18);
+        //this.createEmitter(18);
         this.createEmitter(19);
-        this.createEmitter(20);
+        //this.createEmitter(20);
         //after fire"4"
-        this.createEmitter(21);
+        //this.createEmitter(21);
         this.createEmitter(22);
-        this.createEmitter(23);
+       // this.createEmitter(23);
         this.createEmitter(24);
         //after fire "5"
-        this.createEmitter(25);
+       // this.createEmitter(25);
         this.createEmitter(26);
-        this.createEmitter(27);
+        //this.createEmitter(27);
         this.createEmitter(28);
-        this.createEmitter(29);
+        //this.createEmitter(29);
         this.createEmitter(30);
-        this.createEmitter(31);
+        //this.createEmitter(31);
         this.createEmitter(32);
 
     },
@@ -707,35 +707,35 @@ Game.main.prototype={
         this.createfire(emitter[4], 0, 0, 5470, 1055);
         this.createfire(emitter[5], 0, 0, 4730, 1370);
         //fire after "1"
-        this.createfire(emitter[6], 0, 0, 4110+50, 1370);
+        //this.createfire(emitter[6], 0, 0, 4110+50, 1370);
         this.createfire(emitter[7], 0, 0, 4110+50+50, 1370);
-        this.createfire(emitter[8], 0, 0, 4110+50+50+50, 1370);
+        //this.createfire(emitter[8], 0, 0, 4110+50+50+50, 1370);
         this.createfire(emitter[9], 0, 0, 4110+50+50+50+50, 1370);
-        this.createfire(emitter[10], 0, 0, 4110+50+50+50+50+50, 1370);
+        //this.createfire(emitter[10], 0, 0, 4110+50+50+50+50+50, 1370);
         this.createfire(emitter[11], 0, 0, 4110+50+50+50+50+50+50, 1370);
-        this.createfire(emitter[12], 0, 0, 4110+50+50+50+50+50+50+50, 1370);
+        //this.createfire(emitter[12], 0, 0, 4110+50+50+50+50+50+50+50, 1370);
         this.createfire(emitter[13], 0, 0, 4110+50+50+50+50+50+50+50+50, 1370);
-        this.createfire(emitter[14], 0, 0, 4110+50+50+50+50+50+50+50+50+50, 1370);
+        //this.createfire(emitter[14], 0, 0, 4110+50+50+50+50+50+50+50+50+50, 1370);
         this.createfire(emitter[15], 0, 0, 4110+50+50+50+50+50+50+50+50+50+50, 1370);
         //fire after "3"
-        this.createfire(emitter[16], 0, 0, 5070+50, 1055);
+        //this.createfire(emitter[16], 0, 0, 5070+50, 1055);
         this.createfire(emitter[17], 0, 0, 5070+50+50, 1055);
-        this.createfire(emitter[18], 0, 0, 5070+50+50+50, 1055);
+        //this.createfire(emitter[18], 0, 0, 5070+50+50+50, 1055);
         this.createfire(emitter[19], 0, 0, 5070+50+50+50+50, 1055);
-        this.createfire(emitter[20], 0, 0, 5070+50+50+50+50+50, 1055);
+        //this.createfire(emitter[20], 0, 0, 5070+50+50+50+50+50, 1055);
         //fire after "4"
-        this.createfire(emitter[21], 0, 0, 5470+50, 1055);
+        //this.createfire(emitter[21], 0, 0, 5470+50, 1055);
         this.createfire(emitter[22], 0, 0, 5470+50+50, 1055);
-        this.createfire(emitter[23], 0, 0, 5470+50+50+50, 1055);
+        //this.createfire(emitter[23], 0, 0, 5470+50+50+50, 1055);
         this.createfire(emitter[24], 0, 0, 5470+50+50+50+50, 1055);
         //fire afrer "5"
-        this.createfire(emitter[25], 0, 0, 4730+50, 1370);
+        //this.createfire(emitter[25], 0, 0, 4730+50, 1370);
         this.createfire(emitter[26], 0, 0, 4730+50+50, 1370);
-        this.createfire(emitter[27], 0, 0, 4730+50+50+50, 1370);
+        //this.createfire(emitter[27], 0, 0, 4730+50+50+50, 1370);
         this.createfire(emitter[28], 0, 0, 4730+50+50+50+50, 1370);
-        this.createfire(emitter[29], 0, 0, 4730+50+50+50+50+50, 1370);
+        //this.createfire(emitter[29], 0, 0, 4730+50+50+50+50+50, 1370);
         this.createfire(emitter[30], 0, 0, 4730+50+50+50+50+50+50, 1370);
-        this.createfire(emitter[31], 0, 0, 4730+50+50+50+50+50+50+50, 1370);
+        //this.createfire(emitter[31], 0, 0, 4730+50+50+50+50+50+50+50, 1370);
         this.createfire(emitter[32], 0, 0, 4730+50+50+50+50+50+50+50+50, 1370);
 
 
