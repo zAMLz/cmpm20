@@ -17,7 +17,8 @@ var moveKillObj;
 var boxArray = new Array();
 var beltRight;
 var beltLeft;
-var beltBoxArray = new Array();
+var rightBeltBoxArray = new Array();
+var leftrightBeltBoxArray = new Array();
 var stool;
 
 //-------------Boxes------------------
@@ -190,25 +191,63 @@ Game.level1.prototype = {
         player.body.collides(beltCollisionGroup, function (){ifCanJump = true; touchdown=true;});
         
        
-        //boxes on belt
-        beltBoxArray[0] = this.add.sprite(2250, 1639, 'box');
-        this.physics.p2.enableBody(beltBoxArray[0], isDebug);
-        beltBoxArray[0].body.setCollisionGroup(beltCollisionGroup);
-        beltBoxArray[0].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
-        beltBoxArray[0].body.fixedRotation=true;
-       // beltBoxArray[0].body.static=true;
-        beltBoxArray[1] = this.add.sprite(2370, 1639, 'box');
-        this.physics.p2.enableBody(beltBoxArray[1], isDebug);
-        beltBoxArray[1].body.setCollisionGroup(beltCollisionGroup);
-        beltBoxArray[1].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
-        beltBoxArray[1].body.fixedRotation=true;
-       // beltBoxArray[1].body.static=true;
-       /* beltBoxArray[2] = this.add.sprite(2370, 1639, 'box');
-        this.physics.p2.enableBody(beltBoxArray[2], isDebug);
-        beltBoxArray[2].body.setCollisionGroup(beltCollisionGroup);
-        beltBoxArray[2].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
-        beltBoxArray[2].body.fixedRotation=true;*/
-      //  beltBoxArray[2].body.static=true;
+        //boxes on right belt
+        rightBeltBoxArray[0] = this.add.sprite(2250, 1639, 'box');
+        this.physics.p2.enableBody(rightBeltBoxArray[0], isDebug);
+        rightBeltBoxArray[0].body.setCollisionGroup(beltCollisionGroup);
+        rightBeltBoxArray[0].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
+        rightBeltBoxArray[0].body.fixedRotation=true;
+       // rightBeltBoxArray[0].body.static=true;
+        rightBeltBoxArray[1] = this.add.sprite(2370, 1639, 'box');
+        this.physics.p2.enableBody(rightBeltBoxArray[1], isDebug);
+        rightBeltBoxArray[1].body.setCollisionGroup(beltCollisionGroup);
+        rightBeltBoxArray[1].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
+        rightBeltBoxArray[1].body.fixedRotation=true;
+       // rightBeltBoxArray[1].body.static=true;
+       /* rightBeltBoxArray[2] = this.add.sprite(2370, 1639, 'box');
+        this.physics.p2.enableBody(rightBeltBoxArray[2], isDebug);
+        rightBeltBoxArray[2].body.setCollisionGroup(beltCollisionGroup);
+        rightBeltBoxArray[2].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
+        rightBeltBoxArray[2].body.fixedRotation=true;*/
+      //  rightBeltBoxArray[2].body.static=true;
+
+        //boxes on left belt
+        leftrightBeltBoxArray[0] = this.add.sprite(4870, 1683, 'box');
+        this.physics.p2.enableBody(leftrightBeltBoxArray[0], isDebug);
+        leftrightBeltBoxArray[0].body.setCollisionGroup(beltCollisionGroup);
+        leftrightBeltBoxArray[0].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
+        leftrightBeltBoxArray[0].body.fixedRotation=true;
+
+        leftrightBeltBoxArray[1] = this.add.sprite(5000, 1683, 'box');
+        this.physics.p2.enableBody(leftrightBeltBoxArray[1], isDebug);
+        leftrightBeltBoxArray[1].body.setCollisionGroup(beltCollisionGroup);
+        leftrightBeltBoxArray[1].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
+        leftrightBeltBoxArray[1].body.fixedRotation=true;
+
+        leftrightBeltBoxArray[2] = this.add.sprite(5120, 1683, 'box');
+        this.physics.p2.enableBody(leftrightBeltBoxArray[2], isDebug);
+        leftrightBeltBoxArray[2].body.setCollisionGroup(beltCollisionGroup);
+        leftrightBeltBoxArray[2].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
+        leftrightBeltBoxArray[2].body.fixedRotation=true;
+
+        leftrightBeltBoxArray[3] = this.add.sprite(5250, 1683, 'box');
+        this.physics.p2.enableBody(leftrightBeltBoxArray[3], isDebug);
+        leftrightBeltBoxArray[3].body.setCollisionGroup(beltCollisionGroup);
+        leftrightBeltBoxArray[3].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
+        leftrightBeltBoxArray[3].body.fixedRotation=true;
+
+        leftrightBeltBoxArray[4] = this.add.sprite(5380, 1683, 'box');
+        this.physics.p2.enableBody(leftrightBeltBoxArray[4], isDebug);
+        leftrightBeltBoxArray[4].body.setCollisionGroup(beltCollisionGroup);
+        leftrightBeltBoxArray[4].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
+        leftrightBeltBoxArray[4].body.fixedRotation=true;
+
+        leftrightBeltBoxArray[5] = this.add.sprite(5500, 1683, 'box');
+        this.physics.p2.enableBody(leftrightBeltBoxArray[5], isDebug);
+        leftrightBeltBoxArray[5].body.setCollisionGroup(beltCollisionGroup);
+        leftrightBeltBoxArray[5].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
+        leftrightBeltBoxArray[5].body.fixedRotation=true;
+
 
         //sets camera to follow
         this.camera.follow(player);
@@ -374,27 +413,42 @@ Game.level1.prototype = {
     update: function() {
         //console.log("x:"+this.camera.x);
         //console.log("y:"+this.camera.y);
-       // console.log("x: ",player.body.x);
+        //console.log("x: ",player.body.x);
         //console.log("y: ",player.body.y);
        // console.log("stool x:", stool.body.x);
         //console.log("stool y:", stool.body.y);
-        console.log("touchdown:", touchdown);
-      //  console.log("1", beltBoxArray[0].body.x);
-       // console.log("2", beltBoxArray[1].body.x);
-       // console.log("3", beltBoxArray[2].body.x);
-       // console.log(touchdown);
+       // console.log("touchdown:", touchdown);
+        //console.log("1x:", leftrightBeltBoxArray[0].body.x);
+        //console.log("2x:", leftrightBeltBoxArray[1].body.x);
+        //console.log("3x:", leftrightBeltBoxArray[2].body.x);
+        //console.log("1y:", leftrightBeltBoxArray[0].body.y);
+        //console.log("2y:", leftrightBeltBoxArray[1].body.y);
+        //console.log("3y:", leftrightBeltBoxArray[2].body.y);
         //  To move the UI along with the camera 
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
-        for(var i=0;i<beltBoxArray.length;i++){
-          // beltBoxArray[i].body.moveRight(400);
-          beltBoxArray[i].body.x+=1;
+        //move right belt boxes right
+        for(var i=0;i<rightBeltBoxArray.length;i++){
+          // rightBeltBoxArray[i].body.moveRight(400);
+          rightBeltBoxArray[i].body.x+=1;
         }
-        for(var i=0;i<beltBoxArray.length;i++){
-            if(beltBoxArray[i].body.x>=2440 || beltBoxArray[i].body.y>=2400){
-                beltBoxArray[i].body.x=2250;
-                beltBoxArray[i].body.y=1639;
+        //move left belt boxes left
+        for(var i=0;i<leftrightBeltBoxArray.length;i++){
+            leftrightBeltBoxArray[i].body.x-=1;
+        }
+        //replace boxes that fall off right belt
+        for(var i=0;i<rightBeltBoxArray.length;i++){
+            if(rightBeltBoxArray[i].body.x>=2440 || rightBeltBoxArray[i].body.y>=2400){
+                rightBeltBoxArray[i].body.x=2250;
+                rightBeltBoxArray[i].body.y=1639;
+            }
+        }
+        //replace boxes that fall off left belt
+        for(var i=0;i<leftrightBeltBoxArray.length;i++){
+            if(leftrightBeltBoxArray[i].body.y>=2000){
+                leftrightBeltBoxArray[i].body.x=5600;
+                leftrightBeltBoxArray[i].body.y=1683;
             }
         }
         if(!paused){
