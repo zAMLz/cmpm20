@@ -23,8 +23,13 @@ var stool;
 var pPlate;
 var pPlate2;
 var plateBox;
+var plateBox2;
 var door;
 var door2;
+var pPlate3;
+var door3;
+var door4;
+var pPlate4;
 
 //-------------Boxes------------------
 var checkCreated = 0;
@@ -44,6 +49,9 @@ var touchdown = false;
 var plateDown = false;
 var plateDown2 = false;
 var bothDown = false;
+var plateDown3 = false;
+var plateDown4 = false;
+var bothDown2 = false;
 
 //------------TESTING PURPOSES
 var isDebug = true;
@@ -90,7 +98,7 @@ Game.level1.prototype = {
         terrain.body.clearShapes();
         if(realTerrain){
             terrain.body.clearShapes();
-            terrain.body.loadPolygon('physicsdatafactory',image);
+            terrain.body.loadPolygon('physicsdatafactory','fact1');
           //  console.log(image);
             //1.Tells the ground to be part of the jumpable collision group
             //2.This effectively tells it that it collides with these collision groups.
@@ -183,20 +191,30 @@ Game.level1.prototype = {
         door.scale.setTo(1,3);
         door2 = this.add.sprite(7620,1050, 'box')
         door2.scale.setTo(1,3);
+        door3 = this.add.sprite(11700,1375, 'box');
+        door3.scale.setTo(1,3);
+        door4 = this.add.sprite(13215,575, 'box');
+        door4.scale.setTo(1,3);
         pPlate = this.add.sprite(7000,1580, 'box');
         pPlate2 = this.add.sprite(7470, 1500, 'box');
+        pPlate3 = this.add.sprite(11245,1105, 'box');
+        pPlate4 = this.add.sprite(12940,1105,'box');
         plateBox = this.add.sprite(5870,1580,'box');
         this.physics.p2.enableBody(plateBox, isDebug);
         plateBox.body.setCollisionGroup(isJumpCollisionGroup);
         plateBox.body.collides([playerCollisionGroup,isJumpCollisionGroup, BoxCollisionGroup,beltCollisionGroup]);
         plateBox.body.fixedRotation=true;
-
+        plateBox2 = this.add.sprite(10900,1105,'box');
+        this.physics.p2.enableBody(plateBox2, isDebug);
+        plateBox2.body.setCollisionGroup(isJumpCollisionGroup);
+        plateBox2.body.collides([playerCollisionGroup,isJumpCollisionGroup, BoxCollisionGroup,beltCollisionGroup]);
+        plateBox2.body.fixedRotation=true;
 
         //boxes for pressure plates;
 
         // The player aanimations and position
       //  player = this.add.sprite(32, 1600 - 150, 'courier');
-        player = this.add.sprite(7300, 1500, 'courier');
+        player = this.add.sprite(11245, 1000, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
@@ -282,8 +300,7 @@ Game.level1.prototype = {
         leftBeltBoxArray[5].body.setCollisionGroup(beltCollisionGroup);
         leftBeltBoxArray[5].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
         leftBeltBoxArray[5].body.fixedRotation=true;
-*/
-
+*/ 
         //sets camera to follow
         this.camera.follow(player);
         //Add water after adding the player so that way, water is layered ontop of the player
@@ -337,7 +354,7 @@ Game.level1.prototype = {
         //needs a smaller piece of null terrain
         //this.terraincreator('terr-null',11100,1530,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',12105,1030,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('terr-null',12185,1530,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
+       // this.terraincreator('terr-null',12185,1530,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',12740,1030,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
         this.terraincreator('terr-null',12740,1530,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',13375,1030,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
@@ -354,6 +371,8 @@ Game.level1.prototype = {
         this.terraincreator('terr-null',14645,1055,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         this.terraincreator('fact1',15280,555,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
         this.terraincreator('terr-null',15250,1055,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
+        this.terraincreator('fact1',11600,1355,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
+        this.terraincreator('terr-null',12185,1530,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
         
         //boxes floating in water
         this.floatingBox('box',10100,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,0);
@@ -505,11 +524,47 @@ Game.level1.prototype = {
         if(plateDown&&plateDown2){
             bothDown=true;
         }
+        //second pressure plate area stuff
+        if(plateBox2.body.x>=pPlate3.x&&plateBox2.body.x<=pPlate3.x+32&&plateBox2.body.y>=pPlate3.y&&plateBox2.body.y<=pPlate3.y+28){
+            plateDown3=true;
+        }else{
+            plateDown3=false;
+        }
 
+        if(player.body.x>=pPlate4.x&&player.body.x<=pPlate4.x+32&&player.body.y>=pPlate4.y&&player.body.y<=pPlate4.y+28){
+            plateDown4=true;
+        }else{
+            plateDown4=false;
+        }
+
+        if(plateDown3&&plateDown4){
+            bothDown2=true;
+        }
+        //lower water tweening
+        if(bothDown2){
+            this.add.tween(water1).to( { y:1205+260 }, 1000, Phaser.Easing.Linear.None, true);
+            //boxArray[5].body.y=water1.y;
+            //boxArray[6].body.y=water1.y;
+            boxArray[5].body.y=20000;
+            boxArray[6].body.y=20000;
+
+        }else{
+            this.add.tween(water1).to( { y:1405-260 }, 1000, Phaser.Easing.Linear.None, true);
+            boxArray[5].body.y=water1.y;
+            boxArray[6].body.y=water1.y;
+        }
+
+        //door teleport thing
         if(bothDown&&(player.body.x>=door.x&&player.body.x<=door.x+32&&player.body.y>=door.y&&player.body.y<=door.y+84)){
             player.body.x=door2.x;
             player.body.y=door2.y;
         }
+        //second door teleport thing
+        if(bothDown2&&(player.body.x>=door3.x&&player.body.x<=door3.x+32&&player.body.y>=door3.y&&player.body.y<=door3.y+84)){
+            player.body.x=door4.x;
+            player.body.y=door4.y;
+        }
+
         if(!paused){
             this.pausePanel.y = this.camera.y-100;
             this.pausePanel.update();    
@@ -563,26 +618,7 @@ Game.level1.prototype = {
             this.physics.p2.gravity.y = 500;
             counter = 0;
         }
-        //code for pressure plate lowering water
-        if(player.body.x> 11350 && player.body.x< 11400){
-            trigger = true;
-           // this.add.tween(water1).to( { y:1205+200 }, 200, Phaser.Easing.Linear.None, true);
-            //boxArray[5].body.moveDown(200);
-            //boxArray[6].body.moveDown(200);
-        }else{
-            trigger = false;
-        }
-
-        if(trigger){
-            this.add.tween(water1).to( { y:1205+200 }, 1000, Phaser.Easing.Linear.None, true);
-            boxArray[5].body.y=water1.y;
-            boxArray[6].body.y=water1.y;
-        }else{
-            this.add.tween(water1).to( { y:1405-200 }, 1000, Phaser.Easing.Linear.None, true);
-            boxArray[5].body.y=water1.y;
-            boxArray[6].body.y=water1.y;
-        }
-
+      
         //  Reset the players velocity (movement)
         player.body.velocity.x = 0;
         if(paused || inWater)
