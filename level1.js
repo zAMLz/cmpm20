@@ -20,6 +20,11 @@ var beltLeft;
 var rightBeltBoxArray = new Array();
 var leftBeltBoxArray = new Array();
 var stool;
+var pPlate;
+var pPlate2;
+var plateBox;
+var door;
+var door2;
 
 //-------------Boxes------------------
 var checkCreated = 0;
@@ -36,6 +41,9 @@ var trigger = false;
 var beltRightBool = false;
 var beltLeftBool = false;
 var touchdown = false;
+var plateDown = false;
+var plateDown2 = false;
+var bothDown = false;
 
 //------------TESTING PURPOSES
 var isDebug = true;
@@ -169,10 +177,26 @@ Game.level1.prototype = {
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
 
         this.createBox(258, 1678, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
-        
+       
+        //door sprite
+        door = this.add.sprite(7440,1524, 'box');
+        door.scale.setTo(1,3);
+        door2 = this.add.sprite(7620,1050, 'box')
+        door2.scale.setTo(1,3);
+        pPlate = this.add.sprite(7000,1580, 'box');
+        pPlate2 = this.add.sprite(7470, 1500, 'box');
+        plateBox = this.add.sprite(5870,1580,'box');
+        this.physics.p2.enableBody(plateBox, isDebug);
+        plateBox.body.setCollisionGroup(isJumpCollisionGroup);
+        plateBox.body.collides([playerCollisionGroup,isJumpCollisionGroup, BoxCollisionGroup,beltCollisionGroup]);
+        plateBox.body.fixedRotation=true;
+
+
+        //boxes for pressure plates;
+
         // The player aanimations and position
       //  player = this.add.sprite(32, 1600 - 150, 'courier');
-        player = this.add.sprite(5200, 1655, 'courier');
+        player = this.add.sprite(7300, 1500, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
@@ -267,6 +291,7 @@ Game.level1.prototype = {
         this.add.tween(water).to({alpha:0.95}, 1, Phaser.Easing.Linear.NONE, true);//Transparency
         water.scale.setTo(2,1);//change size of water
         water1 = this.add.sprite(11400, 1205, 'water1-1');
+
          //ADD TERRAIN HERE
         this.terraincreator('fact1',200,1600,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
         this.terraincreator('terr-null',200,2100,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
@@ -426,6 +451,7 @@ Game.level1.prototype = {
         //console.log("y:"+this.camera.y);
         console.log("x: ",player.body.x);
         console.log("y: ",player.body.y);
+     //   console.log("platedown:", plateDown);
        // console.log("stool x:", stool.body.x);
         //console.log("stool y:", stool.body.y);
        // console.log("touchdown:", touchdown);
@@ -434,7 +460,7 @@ Game.level1.prototype = {
         //console.log("3x:", leftBeltBoxArray[2].body.x);
         //console.log("1y:", leftBeltBoxArray[0].body.y);
         //console.log("2y:", leftBeltBoxArray[1].body.y);
-        console.log("3y:", leftBeltBoxArray[2].body.y);
+      //  console.log("3y:", leftBeltBoxArray[2].body.y);
         //  To move the UI along with the camera 
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
@@ -461,6 +487,28 @@ Game.level1.prototype = {
                 leftBeltBoxArray[i].body.x=5600;
                 leftBeltBoxArray[i].body.y=1683;
             }
+        }
+        //pressure plate boolean change
+        if((plateBox.body.x>=pPlate.x&&plateBox.body.x<=pPlate.x+32&&plateBox.body.y>=pPlate.y&&plateBox.body.y<=pPlate.y+28) ||
+            (player.body.x>=pPlate.x&&player.body.x<=pPlate.x+32&&player.body.y>=pPlate.y&&player.body.y<=pPlate.y+28)){
+            plateDown=true;
+        }else{
+            plateDown=false;
+        }
+
+        if(player.body.x>=pPlate2.x&&player.body.x<=pPlate2.x+32&&player.body.y>=pPlate2.y&&player.body.y<=pPlate2.y+28){
+            plateDown2=true;
+        }else{
+            plateDown2=false;
+        }
+
+        if(plateDown&&plateDown2){
+            bothDown=true;
+        }
+
+        if(bothDown&&(player.body.x>=door.x&&player.body.x<=door.x+32&&player.body.y>=door.y&&player.body.y<=door.y+84)){
+            player.body.x=door2.x;
+            player.body.y=door2.y;
         }
         if(!paused){
             this.pausePanel.y = this.camera.y-100;
