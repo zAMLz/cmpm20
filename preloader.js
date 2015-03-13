@@ -77,6 +77,9 @@ Game.preloader.prototype = {
     this.load.image('fire3', 'assets/fire/fire3.png');
     this.load.image('smoke', 'assets/fire/smoke-puff.png');
     this.load.spritesheet('ball', 'assets/fire/plasmaball.png', 128, 128);
+
+    this.load.spritesheet('child', 'assets/world/work/othersprites/Child.png', 32, 48);
+    this.load.spritesheet('president', 'assets/world/work/othersprites/president.png', 32, 48);
 	},
 
 	create: function(){
