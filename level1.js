@@ -17,6 +17,7 @@ var moveKillObj;
 var boxArray = new Array();
 var beltRight;
 var beltLeft;
+var beltLeft2;
 var rightBeltBoxArray = new Array();
 var leftBeltBoxArray = new Array();
 var stool;
@@ -176,6 +177,10 @@ Game.level1.prototype = {
         moveKillObj[3].anchor.setTo(0.5,0.5);
         moveKillObj[4] = this.add.sprite(4870,1683,'sawblade');
         moveKillObj[4].anchor.setTo(0.5,0.5);
+        moveKillObj[5] = this.add.sprite(15300,550, 'sawblade');
+        moveKillObj[5].anchor.setTo(0.5,0.5);
+        moveKillObj[6] = this.add.sprite(14850,550, 'sawblade');
+        moveKillObj[6].anchor.setTo(0.5,0.5);
 
 
         //if the player collides with the star next level starts
@@ -209,8 +214,8 @@ Game.level1.prototype = {
         //boxes for pressure plates;
 
         // The player aanimations and position
-        player = this.add.sprite(32, 1600 - 150, 'courier');
-      //  player = this.add.sprite(11245, 1000, 'courier');
+        //player = this.add.sprite(32, 1600 - 150, 'courier');
+        player = this.add.sprite(14700, 500, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
@@ -396,6 +401,14 @@ Game.level1.prototype = {
      //   beltLeft.body.static = true;
      //   beltLeft.body.onEndContact.add(function(){tounchdown = false;},this);
         //stepping stool box
+        // last left belt
+        beltLeft2 = this.add.sprite(15200, 607, 'continue');
+        beltLeft2.scale.setTo(8,2);
+        this.physics.p2.enableBody(beltLeft2, isDebug);
+        beltLeft2.body.setCollisionGroup(beltCollisionGroup);
+        beltLeft2.body.collides([isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
+        beltLeft2.body.collides(playerCollisionGroup, function(){tounchdown=true; isJumpCollisionGroup=true;});
+
         stool = this.add.sprite(4779,1783,'box');
         this.physics.p2.enableBody(stool, isDebug);
         stool.body.setCollisionGroup(isJumpCollisionGroup);
@@ -465,7 +478,10 @@ Game.level1.prototype = {
         //console.log("x:"+this.camera.x);
         //console.log("y:"+this.camera.y);
         console.log("x: ",player.body.x);
-        console.log("y: ",plateBox.body.y);
+        console.log("y: ",player.body.y);
+        console.log("xleft:", beltLeft2.body.x);
+        console.log("yleft:", beltLeft2.body.y);
+
      //   console.log("platedown:", plateDown);
        // console.log("stool x:", stool.body.x);
         //console.log("stool y:", stool.body.y);
@@ -568,6 +584,9 @@ Game.level1.prototype = {
             this.moveKill(moveKillObj[0],5250,5650,'400',4000,'+57');
             this.moveKill(moveKillObj[1],6250,7250,'1000',4000,'+57');
             this.moveKill(moveKillObj[4],4870,5500, '630',3000,'+57');
+            this.moveKill(moveKillObj[5],15300,15730,'430',3000,'+57');
+            this.moveKill(moveKillObj[6],14850,15280,'430',3000,'+57');
+            
             //stationary move kill rotation tween;           
             this.add.tween(moveKillObj[2]).to({angle: '+57'}, 1, Phaser.Easing.Linear.None, true, 100);
             this.add.tween(moveKillObj[3]).to({angle: '+57'}, 1, Phaser.Easing.Linear.None, true, 100);
@@ -582,7 +601,8 @@ Game.level1.prototype = {
         //check if on rightBelt
         if(player.body.x >=2200 && player.body.x<=2404 && player.body.y>=1600 && player.body.y<=1670){
             beltRightBool = true;
-        }else if(player.body.x >=4780 && player.body.x<=5600 && player.body.y>=1500 && player.body.y<=1700){
+        }else if((player.body.x >=4780 && player.body.x<=5600 && player.body.y>=1500 && player.body.y<=1700)||
+            (player.body.x>=15200-415 && player.body.x<=15200+405 && player.body.y>=607-180 && player.body.y<=607-48)){
             beltLeftBool = true;
         }
         else{
