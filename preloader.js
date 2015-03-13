@@ -42,6 +42,7 @@ Game.preloader.prototype = {
     this.load.image('blank','assets/blank.png');
     this.load.image('check','assets/check.png');
     this.load.image('ladder','assets/ladder.png');
+    this.load.image('ladder2','assets/ladder2.png');
      //Terrain details
     this.load.physics('physicsdataforest','assets/world/forest/forest.json');
     this.load.image('terr-null','assets/world/forest/terr-null.png');
