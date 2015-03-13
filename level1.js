@@ -45,6 +45,8 @@ var box2X;
 var box2Y;
 var onGround = true;
 var playerbox = true;
+var bool = true;
+var bool2 = true;
 //----------Player Control Variables---
 var facing = 'left';
 var jumpButton;
@@ -99,7 +101,7 @@ Game.level1.prototype = {
         plateBox.body.fixedRotation = true;
         plateBox.body.setCollisionGroup(BoxCollisionGroup);
         plateBox.body.collides(isJumpCollisionGroup,function (){onGround = true;},this);
-        plateBox.body.collides([playerCollisionGroup]);
+        plateBox.body.collides([playerCollisionGroup, beltCollisionGroup]);
 
     },
 
@@ -543,10 +545,12 @@ Game.level1.prototype = {
     update: function() {
         //console.log("x:"+this.camera.x);
         //console.log("y:"+this.camera.y);
-        console.log("x: ",player.body.x);
-        console.log("y: ",player.body.y);
-        console.log("xleft:", beltLeft2.body.x);
-        console.log("yleft:", beltLeft2.body.y);
+        //console.log("x: ",player.body.x);
+        //console.log("y: ",player.body.y);
+        console.log("x: ",plateBox.body.x);
+        console.log("y: ",plateBox.body.y);
+        //console.log("xleft:", beltLeft2.body.x);
+        //console.log("yleft:", beltLeft2.body.y);
 
      //   console.log("platedown:", plateDown);
        // console.log("stool x:", stool.body.x);
@@ -806,92 +810,110 @@ Game.level1.prototype = {
             }
 
             // moving a Box-----------------------------
-            if (pushButton.isDown && cursors.right.isDown) {
-                //onGround = false;
-                if (checkCreated < 1){
-                    //onGround = false;
+            if (plateBox.body.y > 1593.1001281738281){
+                if (bool){
                     plateBox.body.destroy();
                     plateBox.kill();
                     this.createBox( boxX, boxY, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
-                    checkCreated++;
-                }
-                while (pushButton.isUp || cursors.right.isUp){
-                    plateBox.body.static = true;
-                    boxX = plateBox.body.x;
-                    boxY = plateBox.body.y;
-                    checkCreated =0;
-                    //playerbox =false;                   
+                    bool = false;
                 }
             }else{
-                plateBox.body.static = true;
-                boxX = plateBox.body.x;
-                boxY = plateBox.body.y;
-                checkCreated =0;
-                //playerbox =false;
-                
-            }
-
-            if (pushButton.isDown && cursors.left.isDown) {
-                //onGround = false;
-                if (checkCreated < 1){
+                if (pushButton.isDown && cursors.right.isDown) {
                     //onGround = false;
-                    plateBox.body.destroy();
-                    plateBox.kill();
-                    this.createBox( boxX, boxY, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
-                    checkCreated++;
-                }
-                while (pushButton.isUp || cursors.left.isUp){
+                    if (checkCreated < 1){
+                        //onGround = false;
+                        plateBox.body.destroy();
+                        plateBox.kill();
+                        this.createBox( boxX, boxY, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+                        checkCreated++;
+                    }
+                    while (pushButton.isUp || cursors.right.isUp){
+                        plateBox.body.static = true;
+                        boxX = plateBox.body.x;
+                        boxY = plateBox.body.y;
+                        checkCreated =0;
+                        //playerbox =false;                   
+                    }
+                }else{
                     plateBox.body.static = true;
                     boxX = plateBox.body.x;
                     boxY = plateBox.body.y;
                     checkCreated =0;
-                    //playerbox =false;                   
+                    //playerbox =false;
+                    
+                }
+
+                if (pushButton.isDown && cursors.left.isDown) {
+                    //onGround = false;
+                    if (checkCreated < 1){
+                        //onGround = false;
+                        plateBox.body.destroy();
+                        plateBox.kill();
+                        this.createBox( boxX, boxY, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+                        checkCreated++;
+                    }
+                    while (pushButton.isUp || cursors.left.isUp){
+                        plateBox.body.static = true;
+                        boxX = plateBox.body.x;
+                        boxY = plateBox.body.y;
+                        checkCreated =0;
+                        //playerbox =false;                   
+                    }
                 }
             }
 
             // moving a Box2-----------------------------
-            if (pushButton.isDown && cursors.right.isDown) {
-                //onGround = false;
-                if (checkCreated2 < 1){
-                    //onGround = false;
+            if (plateBox2.body.y > 1118.8909912109375){
+                if (bool2){
                     plateBox2.body.destroy();
                     plateBox2.kill();
                     this.createBox2( box2X, box2Y, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
-                    checkCreated2++;
-                }
-                while (pushButton.isUp || cursors.right.isUp){
-                    plateBox2.body.static = true;
-                    box2X = plateBox2.body.x;
-                    box2Y = plateBox2.body.y;
-                    checkCreated2 =0;
-                    //playerbox =false;                   
+                    bool2 = false;
                 }
             }else{
-                plateBox2.body.static = true;
-                box2X = plateBox2.body.x;
-                box2Y = plateBox2.body.y;
-                checkCreated2 =0;
-                //playerbox =false;
-                
-            }
-
-            if (pushButton.isDown && cursors.left.isDown) {
-                onGround = false;
-                if (checkCreated2 < 1){
-                    onGround = false;
-                    plateBox2.body.destroy();
-                    plateBox2.kill();
-                    this.createBox2( box2X, box2Y, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
-                    checkCreated2++;
-                }
-                while (pushButton.isUp || cursors.left.isUp){
+                if (pushButton.isDown && cursors.right.isDown) {
+                    //onGround = false;
+                    if (checkCreated2 < 1){
+                        //onGround = false;
+                        plateBox2.body.destroy();
+                        plateBox2.kill();
+                        this.createBox2( box2X, box2Y, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+                        checkCreated2++;
+                    }
+                    while (pushButton.isUp || cursors.right.isUp){
+                        plateBox2.body.static = true;
+                        box2X = plateBox2.body.x;
+                        box2Y = plateBox2.body.y;
+                        checkCreated2 =0;
+                        //playerbox =false;                   
+                    }
+                }else{
                     plateBox2.body.static = true;
                     box2X = plateBox2.body.x;
                     box2Y = plateBox2.body.y;
                     checkCreated2 =0;
-                    //playerbox =false;                   
+                    //playerbox =false;    
+                }
+
+                if (pushButton.isDown && cursors.left.isDown) {
+                    onGround = false;
+                    if (checkCreated2 < 1){
+                        onGround = false;
+                        plateBox2.body.destroy();
+                        plateBox2.kill();
+                        this.createBox2( box2X, box2Y, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+                        checkCreated2++;
+                    }
+                    while (pushButton.isUp || cursors.left.isUp){
+                        plateBox2.body.static = true;
+                        box2X = plateBox2.body.x;
+                        box2Y = plateBox2.body.y;
+                        checkCreated2 =0;
+                        //playerbox =false;                   
+                    }
                 }
             }
+
             //end moving Boxes-----------------------------------------
         }
 
