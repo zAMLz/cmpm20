@@ -177,10 +177,10 @@ Game.level1.prototype = {
         //Create a moveKill object
         //moveKillObj = this.add.sprite(500, 1678, 'boulder');
         moveKillObj = new Array();
-        moveKillObj[0] = this.add.sprite(5250,1795,'sawblade');
-        moveKillObj[0].anchor.setTo(0.5,0.5);
-       // moveKillObj[1] = this.add.sprite(6250, 1613, 'sawblade');
-       // moveKillObj[1].anchor.setTo(0.5,0.5);
+       // moveKillObj[0] = this.add.sprite(5250,1795,'sawblade');
+        //moveKillObj[0].anchor.setTo(0.5,0.5);
+        moveKillObj[1] = this.add.sprite(6250, 1613, 'sawblade');
+        moveKillObj[1].anchor.setTo(0.5,0.5);
         moveKillObj[2] = this.add.sprite(2430,1610,'sawblade');
         moveKillObj[2].anchor.setTo(0.5,0.5);
         moveKillObj[3] = this.add.sprite(4700,1790,'sawblade');
@@ -211,11 +211,27 @@ Game.level1.prototype = {
         door3.scale.setTo(1,3);
         door4 = this.add.sprite(13215,575, 'box');
         door4.scale.setTo(1,3);
-        pPlate = this.add.sprite(7000,1580, 'box');
-        pPlate2 = this.add.sprite(7470, 1500, 'box');
-        pPlate3 = this.add.sprite(11245,1105, 'box');
-        pPlate4 = this.add.sprite(12940,1105,'box');
-        pPlate5 = this.add.sprite(15550,530, 'box');
+        pPlate = this.add.sprite(7000,1580, 'plateSheet');
+        pPlate2 = this.add.sprite(7370, 1580, 'plateSheet');
+        pPlate3 = this.add.sprite(11245,1105, 'plateSheet');
+        pPlate4 = this.add.sprite(12940,1105,'plateSheet');
+        pPlate5 = this.add.sprite(15550,530, 'plateSheet');
+        pPlate.animations.add('up', [5], 10, true);
+        pPlate.animations.add('down', [1], 10, true);
+        pPlate.animations.play('up');
+        pPlate2.animations.add('up', [5], 10, true);
+        pPlate2.animations.add('down', [1], 10, true);
+        pPlate2.animations.play('up');
+        pPlate3.animations.add('up', [5], 10, true);
+        pPlate3.animations.add('down', [1], 10, true);
+        pPlate3.animations.play('up');
+        pPlate4.animations.add('up', [5], 10, true);
+        pPlate4.animations.add('down', [1], 10, true);
+        pPlate4.animations.play('up');
+        pPlate5.animations.add('up', [5], 10, true);
+        pPlate5.animations.add('down', [1], 10, true);
+        pPlate5.animations.play('up');
+
         plateBox2 = this.add.sprite(10900,1105,'box');
         this.physics.p2.enableBody(plateBox2, isDebug);
         plateBox2.body.setCollisionGroup(isJumpCollisionGroup);
@@ -237,7 +253,7 @@ Game.level1.prototype = {
 
         //boxes for pressure plates;
 
-        // The player aanimations and position
+        // The player animations and position
 
         player = this.add.sprite(32, 1600 - 150, 'courier');
         //player = this.add.sprite(7600,1000, 'courier');
@@ -566,14 +582,19 @@ Game.level1.prototype = {
         if((plateBox.body.x>=pPlate.x&&plateBox.body.x<=pPlate.x+32&&plateBox.body.y>=pPlate.y&&plateBox.body.y<=pPlate.y+28) ||
             (player.body.x>=pPlate.x&&player.body.x<=pPlate.x+32&&player.body.y>=pPlate.y&&player.body.y<=pPlate.y+28)){
             plateDown=true;
+            pPlate.animations.play('down');
         }else{
             plateDown=false;
+            pPlate.animations.play('up');
         }
 
-        if(player.body.x>=pPlate2.x&&player.body.x<=pPlate2.x+32&&player.body.y>=pPlate2.y&&player.body.y<=pPlate2.y+28){
+        if((player.body.x>=pPlate2.x&&player.body.x<=pPlate2.x+32&&player.body.y>=pPlate2.y&&player.body.y<=pPlate2.y+28)||
+            (plateBox.body.x>=pPlate2.x&&plateBox.body.x<=pPlate2.x+32&&plateBox.body.y>=pPlate2.y&&plateBox.body.y<=pPlate2.y+28)) {
             plateDown2=true;
-        }else{
+            pPlate2.animations.play('down');
+        }else if(!bothDown){
             plateDown2=false;
+            pPlate2.animations.play('up');
         }
 
         if(plateDown&&plateDown2){
@@ -582,14 +603,18 @@ Game.level1.prototype = {
         //second pressure plate area stuff
         if(plateBox2.body.x>=pPlate3.x&&plateBox2.body.x<=pPlate3.x+32&&plateBox2.body.y>=pPlate3.y&&plateBox2.body.y<=pPlate3.y+28){
             plateDown3=true;
+            pPlate3.animations.play('down');
         }else{
             plateDown3=false;
+            pPlate3.animations.play('up');
         }
 
         if(player.body.x>=pPlate4.x&&player.body.x<=pPlate4.x+32&&player.body.y>=pPlate4.y&&player.body.y<=pPlate4.y+28){
             plateDown4=true;
-        }else{
+            pPlate4.animations.play('down');
+        }else if(!bothDown2){
             plateDown4=false;
+            pPlate4.animations.play('up');
         }
 
         if(plateDown3&&plateDown4){
@@ -598,6 +623,7 @@ Game.level1.prototype = {
 
         if(player.body.x>=pPlate5.x&&player.body.x<=pPlate5.x+32&&player.body.y>=pPlate5.y&&player.body.y<=pPlate5.y+28){
             plateDown5=true;
+            pPlate5.animations.play('down');
         }
 
         if(plateDown5){
@@ -633,8 +659,8 @@ Game.level1.prototype = {
             this.pausePanel.y = this.camera.y-100;
             this.pausePanel.update();    
 
-            this.moveKill(moveKillObj[0],5250,5650,'400',4000,'+57');
-            //this.moveKill(moveKillObj[1],6250,7250,'1000',4000,'+57');
+            //this.moveKill(moveKillObj[0],5250,5650,'400',4000,'+57');
+            this.moveKill(moveKillObj[1],6250,7250,'1000',4000,'+57');
             this.moveKill(moveKillObj[4],4870,5500, '630',3000,'+57');
             this.moveKill(moveKillObj[5],15300,15730,'430',3000,'+57');
             this.moveKill(moveKillObj[6],14850,15300,'450',3000,'+57');

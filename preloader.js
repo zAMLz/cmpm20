@@ -44,6 +44,9 @@ Game.preloader.prototype = {
     this.load.image('ladder','assets/ladder.png');
     this.load.image('ladder2','assets/ladder2.png');
     this.load.image('conveyor', 'assets/world/work/othersprite/conveyor.png');
+    this.load.spritesheet('plateSheet', 'assets/world/work/othersprite/pressurePlate.png',32,28);
+    this.load.spritesheet('doorSheet','assets/world/work/othersprite/doorsheet.png',32,84);
+
      //Terrain details
     this.load.physics('physicsdataforest','assets/world/forest/forest.json');
     this.load.image('terr-null','assets/world/forest/terr-null.png');
