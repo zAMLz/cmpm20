@@ -1,0 +1,4 @@
+ChildSprite = 0 0 32 48
+ChildSpriteRE = 33 0 32 48
+ChildSpriteWithMail = 66 0 32 48
+ChildSpriteWithMailRE = 0 49 32 48
