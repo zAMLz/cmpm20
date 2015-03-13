@@ -33,9 +33,12 @@ var pPlate4;
 
 //-------------Boxes------------------
 var checkCreated = 0;
+var checkCreated2 = 0;
 var Box;
 var boxX;
 var boxY;
+var box2X;
+var box2Y;
 var onGround = true;
 var playerbox = true;
 //----------Player Control Variables---
@@ -62,33 +65,39 @@ var paused;
 var pausePanel;
 var mehSpeed;
 
-//---------Other Variables---------
-var diamond;
-var diamond2;
-
 //----------fire-------------
 var sprite;
-var emitter;
-var emitter2;
+
 Game.level1 = function (game){
 	this.music = null;
 };
 
 Game.level1.prototype = {
 
-    createBox: function(x, y, index, playerCollisionGroup, isJumpCollisionGroup,BoxCollisionGroup ){
+    createBox: function(x, y, index, playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup){
         boxX = x;
         boxY = y;
         plateBox = this.add.sprite(x, y, index);
         this.physics.p2.enableBody(plateBox);
-        plateBox.body.friction = 100;
-        plateBox.body.restitution = 0.0;
-        plateBox.body.gravity = 500;
         plateBox.body.static = false;
         plateBox.body.fixedRotation = true;
         plateBox.body.setCollisionGroup(BoxCollisionGroup);
         plateBox.body.collides(isJumpCollisionGroup,function (){onGround = true;},this);
         plateBox.body.collides([playerCollisionGroup]);
+
+    },
+
+    createBox2: function(x, y, index, playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup ){
+        box2X = x;
+        box2Y = y;
+        plateBox2 = this.add.sprite(x, y, index);
+        this.physics.p2.enableBody(plateBox2);
+        plateBox2.body.gravity = 0;
+        plateBox2.body.static = false;
+        plateBox2.body.fixedRotation = true;
+        plateBox2.body.setCollisionGroup(BoxCollisionGroup);
+        plateBox2.body.collides(isJumpCollisionGroup,function (){onGround = true;},this);
+        plateBox2.body.collides([playerCollisionGroup]);
 
     },
 
@@ -99,7 +108,6 @@ Game.level1.prototype = {
         if(realTerrain){
             terrain.body.clearShapes();
             terrain.body.loadPolygon('physicsdatafactory','fact1');
-          //  console.log(image);
             //1.Tells the ground to be part of the jumpable collision group
             //2.This effectively tells it that it collides with these collision groups.
             terrain.body.setCollisionGroup(isJumpCollisionGroup);
@@ -185,7 +193,8 @@ Game.level1.prototype = {
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
 
         this.createBox(5870, 1593.0963, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
-       
+        this.createBox2(10930, 1118.1166, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+
         //door sprite
         door = this.add.sprite(7440,1524, 'box');
         door.scale.setTo(1,3);
@@ -199,18 +208,14 @@ Game.level1.prototype = {
         pPlate2 = this.add.sprite(7470, 1500, 'box');
         pPlate3 = this.add.sprite(11245,1105, 'box');
         pPlate4 = this.add.sprite(12940,1105,'box');
-        plateBox2 = this.add.sprite(10900,1105,'box');
-        this.physics.p2.enableBody(plateBox2, isDebug);
-        plateBox2.body.setCollisionGroup(isJumpCollisionGroup);
-        plateBox2.body.collides([playerCollisionGroup,isJumpCollisionGroup, BoxCollisionGroup,beltCollisionGroup]);
-        plateBox2.body.fixedRotation=true;
-
 
         //boxes for pressure plates;
 
         // The player aanimations and position
-      //  player = this.add.sprite(32, 1600 - 150, 'courier');
-        player = this.add.sprite(5951, 1563, 'courier');
+        player = this.add.sprite(32, 1600 - 150, 'courier');
+        //player = this.add.sprite(10920, 1000, 'courier');
+        //player = this.add.sprite(5831, 1000, 'courier');
+        //player = this.add.sprite(50, 1600 - 200, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
@@ -231,7 +236,7 @@ Game.level1.prototype = {
         player.body.collides(killCollisionGroup, this.endGame, this);
         player.body.collides(winCollisionGroup, this.nextLevel,this);
         player.body.collides(BoxCollisionGroup,function(){playerbox = true; ifCanJump = true;},this);
-        player.body.collides(beltCollisionGroup, function (){ifCanJump = true; touchdown=true;});
+        player.body.collides(beltCollisionGroup, function (){ifCanJump = true; touchdown=true;},this);
         
        
         //boxes on right belt
@@ -385,15 +390,16 @@ Game.level1.prototype = {
         beltRight.body.setCollisionGroup(beltCollisionGroup);
         beltRight.body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
         beltRight.body.static = true;
-      //  beltRight.body.onEndContact.add(function(){touchdown=false;},this);
+        //  beltRight.body.onEndContact.add(function(){touchdown=false;},this);
         //left direction belt
         beltLeft = this.add.sprite(5195,1748,'continue');
         beltLeft.scale.setTo(8,2);
         this.physics.p2.enableBody(beltLeft, isDebug);
         beltLeft.body.setCollisionGroup(beltCollisionGroup);
         beltLeft.body.collides([isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
-        beltLeft.body.collides(playerCollisionGroup, function(){tounchdown=true; isJumpCollisionGroup=true;});
-     //   beltLeft.body.static = true;
+        //beltLeft.body.collides(playerCollisionGroup, function(){tounchdown=true; isJumpCollisionGroup=true;},this);
+        beltLeft.body.collides(playerCollisionGroup, function(){ifCanJump=true;},this);
+        beltLeft.body.static = true;
      //   beltLeft.body.onEndContact.add(function(){tounchdown = false;},this);
         //stepping stool box
         stool = this.add.sprite(4779,1783,'box');
@@ -464,18 +470,8 @@ Game.level1.prototype = {
     update: function() {
         //console.log("x:"+this.camera.x);
         //console.log("y:"+this.camera.y);
-        console.log("x: ",player.body.x);
-        console.log("y: ",plateBox.body.y);
-     //   console.log("platedown:", plateDown);
-       // console.log("stool x:", stool.body.x);
-        //console.log("stool y:", stool.body.y);
-       // console.log("touchdown:", touchdown);
-        //console.log("1x:", leftBeltBoxArray[0].body.x);
-        //console.log("2x:", leftBeltBoxArray[1].body.x);
-        //console.log("3x:", leftBeltBoxArray[2].body.x);
-        //console.log("1y:", leftBeltBoxArray[0].body.y);
-        //console.log("2y:", leftBeltBoxArray[1].body.y);
-      //  console.log("3y:", leftBeltBoxArray[2].body.y);
+        //console.log("x: ",player.body.x);
+        //console.log("y: ",plateBox2.body.y);
         //  To move the UI along with the camera 
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
@@ -572,24 +568,31 @@ Game.level1.prototype = {
             this.add.tween(moveKillObj[2]).to({angle: '+57'}, 1, Phaser.Easing.Linear.None, true, 100);
             this.add.tween(moveKillObj[3]).to({angle: '+57'}, 1, Phaser.Easing.Linear.None, true, 100);
         //Check the collision bounds for stationary sawblade
-        if((player.body.x >= moveKillObj[2].x-50 && player.body.x <= moveKillObj[2].x+100-50 && player.body.y >= moveKillObj[2].y-50 && player.body.y <= moveKillObj[2].y+100-50) || 
-            (player.body.x >= moveKillObj[3].x-50 && player.body.x <= moveKillObj[3].x+100-50 && player.body.y >= moveKillObj[3].y-50 && player.body.y <= moveKillObj[3].y+100-50)){
-            //console.log('DEAD');
-            this.endGame();   
-                }
+            if((player.body.x >= moveKillObj[2].x-50 && player.body.x <= moveKillObj[2].x+100-50 && player.body.y >= moveKillObj[2].y-50 && player.body.y <= moveKillObj[2].y+100-50) || 
+                (player.body.x >= moveKillObj[3].x-50 && player.body.x <= moveKillObj[3].x+100-50 && player.body.y >= moveKillObj[3].y-50 && player.body.y <= moveKillObj[3].y+100-50)){
+                //console.log('DEAD');
+                this.endGame();   
+            }
         }
 
         //check if on rightBelt
-        if(player.body.x >=2200 && player.body.x<=2404 && player.body.y>=1600 && player.body.y<=1670){
-            beltRightBool = true;
-        }else if(player.body.x >=4780 && player.body.x<=5600 && player.body.y>=1500 && player.body.y<=1700){
-            beltLeftBool = true;
-        }
-        else{
-            beltRightBool = false;
-            beltLeftBool = false;
-            touchdown = false;
-        }
+        //if (ifCanJump){
+            if(player.body.x >=2200 && player.body.x<=2404 && player.body.y>=1600 && player.body.y<=1670){
+                beltRightBool = true;
+            }else if(player.body.x >=4780 && player.body.x<=5600 && player.body.y>=1500 && player.body.y<=1700){
+                beltLeftBool = true;
+            }
+            else{
+                beltRightBool = false;
+                beltLeftBool = false;
+                touchdown = false;
+            }
+       // }else{
+                //beltRightBool = false;
+                //beltLeftBool = false;
+                //touchdown = false;
+        //}
+
 
         //CHECK IF IN WATER -- This must be modified is water's position is modified...
         if((player.body.x >= water.x && player.body.x <= water.x+400 && player.body.y >= water.y && player.body.y <= water.y+1000) ||
@@ -680,49 +683,92 @@ Game.level1.prototype = {
 
             // moving a Box-----------------------------
             if (pushButton.isDown && cursors.right.isDown) {
-                onGround = false;
+                //onGround = false;
                 if (checkCreated < 1){
-                    onGround = false;
+                    //onGround = false;
                     plateBox.body.destroy();
                     plateBox.kill();
                     this.createBox( boxX, boxY, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
                     checkCreated++;
                 }
                 while (pushButton.isUp || cursors.right.isUp){
-                plateBox.body.static = true;
-                boxX = plateBox.body.x;
-                boxY = plateBox.body.y;
-                checkCreated =0;
-                playerbox =false;                   
+                    plateBox.body.static = true;
+                    boxX = plateBox.body.x;
+                    boxY = plateBox.body.y;
+                    checkCreated =0;
+                    //playerbox =false;                   
                 }
             }else{
                 plateBox.body.static = true;
                 boxX = plateBox.body.x;
                 boxY = plateBox.body.y;
                 checkCreated =0;
-                playerbox =false;
+                //playerbox =false;
                 
             }
 
-
             if (pushButton.isDown && cursors.left.isDown) {
-                onGround = false;
+                //onGround = false;
                 if (checkCreated < 1){
-                    onGround = false;
+                    //onGround = false;
                     plateBox.body.destroy();
                     plateBox.kill();
                     this.createBox( boxX, boxY, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
                     checkCreated++;
                 }
                 while (pushButton.isUp || cursors.left.isUp){
-                plateBox.body.static = true;
-                boxX = plateBox.body.x;
-                boxY = plateBox.body.y;
-                checkCreated =0;
-                playerbox =false;                   
+                    plateBox.body.static = true;
+                    boxX = plateBox.body.x;
+                    boxY = plateBox.body.y;
+                    checkCreated =0;
+                    //playerbox =false;                   
                 }
             }
 
+            // moving a Box2-----------------------------
+            if (pushButton.isDown && cursors.right.isDown) {
+                //onGround = false;
+                if (checkCreated2 < 1){
+                    //onGround = false;
+                    plateBox2.body.destroy();
+                    plateBox2.kill();
+                    this.createBox2( box2X, box2Y, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+                    checkCreated2++;
+                }
+                while (pushButton.isUp || cursors.right.isUp){
+                    plateBox2.body.static = true;
+                    box2X = plateBox2.body.x;
+                    box2Y = plateBox2.body.y;
+                    checkCreated2 =0;
+                    //playerbox =false;                   
+                }
+            }else{
+                plateBox2.body.static = true;
+                box2X = plateBox2.body.x;
+                box2Y = plateBox2.body.y;
+                checkCreated2 =0;
+                //playerbox =false;
+                
+            }
+
+            if (pushButton.isDown && cursors.left.isDown) {
+                onGround = false;
+                if (checkCreated2 < 1){
+                    onGround = false;
+                    plateBox2.body.destroy();
+                    plateBox2.kill();
+                    this.createBox2( box2X, box2Y, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+                    checkCreated2++;
+                }
+                while (pushButton.isUp || cursors.left.isUp){
+                    plateBox2.body.static = true;
+                    box2X = plateBox2.body.x;
+                    box2Y = plateBox2.body.y;
+                    checkCreated2 =0;
+                    //playerbox =false;                   
+                }
+            }
+            //end moving Boxes-----------------------------------------
         }
 
         if (!paused && inWater){
@@ -755,7 +801,7 @@ Game.level1.prototype = {
             }
         }
         //if on rightBelt
-       if (!paused && touchdown && beltRightBool){
+        if (!paused && touchdown && beltRightBool){
             if (cursors.left.isDown)
             {
                 player.body.moveLeft(50+godmode);
@@ -871,9 +917,6 @@ Game.level1.prototype = {
             }
 
         }
-        //-----------------------player moveKill
-        //if (player.body.x >= 226){
-        //}
 
         //-----------------------player Kill zone
         if (player.body.y >= 1850+200){
