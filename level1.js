@@ -226,12 +226,13 @@ Game.level1.prototype = {
         pPlate4 = this.add.sprite(12940,1105,'box');
 
         pPlate5 = this.add.sprite(15550,530, 'box');
-        plateBox2 = this.add.sprite(10900,1105,'box');
+        /*
+		plateBox2 = this.add.sprite(10900,1105,'box');
         this.physics.p2.enableBody(plateBox2, isDebug);
         plateBox2.body.setCollisionGroup(isJumpCollisionGroup);
         plateBox2.body.collides([playerCollisionGroup,isJumpCollisionGroup, BoxCollisionGroup,beltCollisionGroup]);
         plateBox2.body.fixedRotation=true;
-
+		*/
         var ledge = this.add.sprite(14970,390, 'ground');
         ledge.scale.setTo(0.5,1);
         this.physics.p2.enableBody(ledge);
