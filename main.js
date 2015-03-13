@@ -184,6 +184,9 @@ Game.main.prototype={
 
         this.createKillObj(2638, 1770, 'blank', playerCollisionGroup, killCollisionGroup);
         this.createKillObj(2658, 1790, 'blank', playerCollisionGroup, killCollisionGroup);
+		
+		this.createKillObj(2750,1824, 'blank', playerCollisionGroup, killCollisionGroup);
+		this.createKillObj(2775,1824, 'blank', playerCollisionGroup, killCollisionGroup);
 
         this.createKillObj(2883, 1840, 'blank', playerCollisionGroup, killCollisionGroup);
         this.createKillObj(2913, 1840, 'blank', playerCollisionGroup, killCollisionGroup);
@@ -466,8 +469,8 @@ Game.main.prototype={
         console.log(gameStart);
         //console.log("x:"+this.camera.x);
         //console.log("y:"+this.camera.y);
-        //console.log("x:"+player.body.x);
-        //console.log("y:"+player.body.y);
+        console.log("x:"+player.body.x);
+        console.log("y:"+player.body.y);
         //  To move the UI along with the camera
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
