@@ -209,8 +209,8 @@ Game.level1.prototype = {
         //boxes for pressure plates;
 
         // The player aanimations and position
-      //  player = this.add.sprite(32, 1600 - 150, 'courier');
-        player = this.add.sprite(5951, 1563, 'courier');
+        player = this.add.sprite(32, 1600 - 150, 'courier');
+      //  player = this.add.sprite(11245, 1000, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
@@ -890,7 +890,7 @@ Game.level1.prototype = {
     },
     nextLevel: function(){
         this.music.stop();
-        this.state.start('level1');
+        this.state.start('level2');
     },
     restartLevel: function(){
         this.music.stop();
