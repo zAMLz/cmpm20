@@ -77,6 +77,8 @@ var cutsceneFlag;
 var gameStart = true;
 var gameEnd = false;
 var inCutsceneDoor1 = false;
+var intro;
+var starcut;
 
 Game.level1 = function (game){
 	this.music = null;
@@ -150,7 +152,7 @@ Game.level1.prototype = {
 
         gameStart = true;
         gameEnd = false;
-        inCutscene = false;
+        inCutsceneDoor1 = false;
 
         //changes bounds of the world and add a background for the world
         this.world.setBounds(0,0,15600,2800);
@@ -191,7 +193,8 @@ Game.level1.prototype = {
 
 
         //if the player collides with the star next level starts
-        star = this.add.sprite(15500,500,'star');
+        star = this.add.sprite(15500,500,'letter');
+        starcut = this.add.sprite(92,1680,'letter');
         this.physics.p2.enableBody(star, isDebug);
         star.body.setCollisionGroup(winCollisionGroup);
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
@@ -221,8 +224,9 @@ Game.level1.prototype = {
         //boxes for pressure plates;
 
         // The player aanimations and position
+        player = this.add.sprite(32, 1680, 'courier');
         //player = this.add.sprite(32, 1600 - 150, 'courier');
-        player = this.add.sprite(7603, 0, 'courier');
+        //player = this.add.sprite(7603, 0, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
@@ -433,8 +437,8 @@ Game.level1.prototype = {
 
         //Create cutscenen stuff here
         blacker = this.add.sprite(0,1378,'black');
-        this.game.add.tween(blacker).to({alpha:0.0}, 1, Phaser.Easing.Linear.NONE, true);
-        
+        this.game.add.tween(blacker).to({alpha:0.9}, 1, Phaser.Easing.Linear.NONE, true);
+        intro = this.add.sprite(0,1378+600,'introfactory');
         cutsceneFlag = this.add.sprite(0,0,'star');
 
         this.playGame();
@@ -646,7 +650,7 @@ Game.level1.prototype = {
             player.body.velocity.y = 0;
 
         //Control Player Movement;
-        if (!paused && !inWater){
+        if (!paused && !inWater && !inCutsceneDoor1){
             if (cursors.left.isDown)
             {
                 player.body.moveLeft(200+godmode);
@@ -920,6 +924,39 @@ Game.level1.prototype = {
                 inCutsceneDoor1 = false;
                 this.add.tween(cutsceneFlag).to( { x: 0 }, 1000, Phaser.Easing.Linear.None, true);
                 this.add.tween(blacker).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true)
+            }
+        }
+        if(gameStart){
+            if(cutsceneFlag.x == 0){
+                player.animations.play('right_idle');
+                this.add.tween(cutsceneFlag).to( { x: '+50' }, 3000, Phaser.Easing.Linear.None, true);
+                this.add.tween(intro).to( { y: '-500' }, 1000, Phaser.Easing.Linear.None, true);
+            }
+            if(cutsceneFlag.x == 50){
+                this.add.tween(cutsceneFlag).to( { x: '+50' }, 1000, Phaser.Easing.Linear.None, true);
+                this.add.tween(blacker).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+                this.add.tween(intro).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+            }
+            if(cutsceneFlag.x == 100){
+                player.animations.play('right_idle');
+                this.add.tween(cutsceneFlag).to( { x: '+100' }, 400, Phaser.Easing.Linear.None, true);
+            }
+            if(cutsceneFlag.x>= 150 && cutsceneFlag.x<200){
+                player.animations.play('right');
+                player.body.moveRight(100);
+            }
+            if(cutsceneFlag.x == 200){
+                player.animations.play('right_idle');
+                this.add.tween(cutsceneFlag).to( { x: '+100' }, 2000, Phaser.Easing.Linear.None, true);
+                this.add.tween(starcut).to( { x: 675*2 }, 4000, Phaser.Easing.Linear.None, true);
+                this.add.tween(starcut).to( { y: 1389/2 }, 4000, Phaser.Easing.Linear.None, true);
+                this.add.tween(starcut).to( { angle: '+1500' }, 4000, Phaser.Easing.Linear.None, true);
+            }
+            if(cutsceneFlag.x == 300){
+                starcut.x = 0;
+                starcut.y = 0;
+                gameStart = false;
+                this.add.tween(cutsceneFlag).to({ x: 0 }, 1, Phaser.Easing.Linear.None, true);
             }
         }
 
