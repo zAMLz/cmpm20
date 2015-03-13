@@ -190,7 +190,7 @@ Game.main.prototype={
 
 
         //create a moveable Boxs
-        this.createBox(100, 2500, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+        //this.createBox(100, 2500, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
 
         //Safe Boulder, used for jumping off the ground.
         boulder = this.add.sprite(1300,128,'boulder');

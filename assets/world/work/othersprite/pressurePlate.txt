@@ -1,0 +1,4 @@
+pressurePlateClosed = 0 0 32 28
+pressurePlateClosed2 = 0 29 32 28
+pressurePlateClosed3 = 33 0 32 28
+pressurePlateOpen = 33 29 32 28
