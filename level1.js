@@ -233,7 +233,7 @@ Game.level1.prototype = {
         letter.body.setCollisionGroup(winCollisionGroup);
         letter.body.collides([playerCollisionGroup,isJumpCollisionGroup,winCollisionGroup]);
         ladder = new Array();
-        ladder[0] = this.add.sprite(15100, 280,'ladder2');
+        ladder[0] = this.add.sprite(15075, 280,'ladder2');
 
         //boxes for pressure plates;
 
