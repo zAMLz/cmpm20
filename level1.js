@@ -953,6 +953,12 @@ PausePanel.prototype.show = function(){
     this.game.add.tween(btnRestart).to({y:this.game.camera.y+175}, 500, Phaser.Easing.Bounce.Out, true);
     this.game.add.tween(btnHelp).to({y:this.game.camera.y+250}, 500, Phaser.Easing.Bounce.Out, true);
     this.game.add.tween(btnQuit).to({y:this.game.camera.y+325}, 500, Phaser.Easing.Bounce.Out, true);
+    
+    this.game.add.tween(this).to({alpha:1}, 1, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnRestart).to({alpha:1}, 1, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnHelp).to({alpha:1}, 1, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnQuit).to({alpha:1}, 1, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnHelpScreen).to({alpha:1}, 1, Phaser.Easing.Linear.NONE, true);
 };
 PausePanel.prototype.update = function(){
     if(!paused){
@@ -974,5 +980,11 @@ PausePanel.prototype.hide = function(){
     this.game.add.tween(btnRestart).to({y:this.game.camera.y-225}, 200, Phaser.Easing.Linear.NONE, true);
     this.game.add.tween(btnHelp).to({y:this.game.camera.y-150}, 200, Phaser.Easing.Linear.NONE, true);
     this.game.add.tween(btnQuit).to({y:this.game.camera.y-75}, 200, Phaser.Easing.Linear.NONE, true);
+    
+    this.game.add.tween(btnHelpScreen).to({alpha:0}, 1, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(this).to({alpha:0}, 1, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnRestart).to({alpha:0}, 1, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnHelp).to({alpha:0}, 1, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnQuit).to({alpha:0.50}, 1, Phaser.Easing.Linear.NONE, true);
 };
 
