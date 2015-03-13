@@ -188,6 +188,7 @@ Game.level1.prototype = {
         moveKillObj[4] = this.add.sprite(4870,1683,'sawblade');
         moveKillObj[4].anchor.setTo(0.5,0.5);
         moveKillObj[5] = this.add.sprite(15300,550, 'sawblade');
+        //moveKillObj[5] = this.add.sprite(15630,550, 'sawblade');
         moveKillObj[5].anchor.setTo(0.5,0.5);
         moveKillObj[6] = this.add.sprite(14850,550, 'sawblade');
         moveKillObj[6].anchor.setTo(0.5,0.5);
@@ -221,8 +222,18 @@ Game.level1.prototype = {
         plateBox2.body.collides([playerCollisionGroup,isJumpCollisionGroup, BoxCollisionGroup,beltCollisionGroup]);
         plateBox2.body.fixedRotation=true;
 
+        var ledge = this.add.sprite(14970,390, 'ground');
+        ledge.scale.setTo(0.5,1);
+        this.physics.p2.enableBody(ledge);
+        ledge.body.setCollisionGroup(isJumpCollisionGroup);
+        ledge.body.collides([playerCollisionGroup,isJumpCollisionGroup,winCollisionGroup]);
+        ledge.body.static = true;
+        var letter = this.add.sprite(14990,300, 'letter');
+        this.physics.p2.enableBody(letter);
+        letter.body.setCollisionGroup(winCollisionGroup);
+        letter.body.collides([playerCollisionGroup,isJumpCollisionGroup,winCollisionGroup]);
         ladder = new Array();
-        ladder[0] = this.add.sprite(15000, 220,'ladder');
+        ladder[0] = this.add.sprite(15100, 280,'ladder2');
 
         //boxes for pressure plates;
 
@@ -565,6 +576,15 @@ Game.level1.prototype = {
         if(plateDown3&&plateDown4){
             bothDown2=true;
         }
+
+        if(player.body.x>=pPlate5.x&&player.body.x<=pPlate5.x+32&&player.body.y>=pPlate5.y&&player.body.y<=pPlate5.y+28){
+            plateDown5=true;
+        }
+
+        if(plateDown5){
+            this.add.tween(ladder[0]).to({ y:280+50},200, Phaser.Easing.Linear.None, true);
+        }
+
         //lower water tweening
         if(bothDown2){
             this.add.tween(water1).to( { y:1205+260 }, 1000, Phaser.Easing.Linear.None, true);
@@ -598,8 +618,8 @@ Game.level1.prototype = {
             this.moveKill(moveKillObj[1],6250,7250,'1000',4000,'+57');
             this.moveKill(moveKillObj[4],4870,5500, '630',3000,'+57');
             this.moveKill(moveKillObj[5],15300,15730,'430',3000,'+57');
-            this.moveKill(moveKillObj[6],14850,15130,'380',3000,'+57');
-           // this.moveKill(moveKillObj[6],15130,14850,'-380',3000,'+57');
+            this.moveKill(moveKillObj[6],14850,15300,'450',3000,'+57');
+            //this.moveKill(moveKillObj[5],15630,15300,'-330',3000,'+57');
             
             //stationary move kill rotation tween;           
             this.add.tween(moveKillObj[2]).to({angle: '+57'}, 1, Phaser.Easing.Linear.None, true, 100);
@@ -927,6 +947,31 @@ Game.level1.prototype = {
             }
 
         }
+        if (!paused && touchdown && beltLeftBool && onLadder){
+            if(cursors.up.isDown){
+                player.animations.play('climb');
+                player.body.moveUp(80);
+            }
+            else if(cursors.down.isDown){
+                player.animations.play('climb');
+                player.body.moveDown(80);
+            }
+            else
+                player.animations.stop();
+        }
+
+        if(!paused && !inWater && onLadder && !gameEnd && !gameStart){
+            if(cursors.up.isDown){
+                player.animations.play('climb');
+                player.body.moveUp(80);
+            }
+            else if(cursors.down.isDown){
+                player.animations.play('climb');
+                player.body.moveDown(80);
+            }
+            else
+                player.animations.stop();
+        }
         //-----------------------player moveKill
         //if (player.body.x >= 226){
         //}
@@ -942,6 +987,9 @@ Game.level1.prototype = {
 // correct the endGame function
     endGame: function(){
         this.music.stop();
+        plateDown5=false;
+        bothDown2=false;
+        bothDown=false;
         this.state.start('level1gg');
     },
     nextLevel: function(){

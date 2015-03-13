@@ -169,7 +169,11 @@ Game.level2.prototype = {
         star.body.setCollisionGroup(winCollisionGroup);
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
 
-       
+        door = this.add.sprite(1824, 1618, 'box');
+        door.scale.setTo(1,3);
+        door2 = this.add.sprite(1995,1018, 'box');
+        door2.scale.setTo(1,3);
+        
         // The player aanimations and position
         player = this.add.sprite(32, 1600 - 150, 'courier');
       //  player = this.add.sprite(11245, 1000, 'courier');
@@ -214,10 +218,6 @@ Game.level2.prototype = {
         this.floatingBox('box',1020,1730,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,3);
         this.floatingBox('box',1230,1730,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,4);
 
-        door = this.add.sprite(1824, 1618, 'box');
-        door.scale.setTo(1,3);
-        door2 = this.add.sprite(1995,1018, 'box');
-        door2.scale.setTo(1,3);
 
         //Sets the jump button to up
         jumpButton = this.input.keyboard.addKey(Phaser.Keyboard.UP);
