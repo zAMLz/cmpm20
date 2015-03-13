@@ -209,7 +209,7 @@ Game.level1.prototype = {
         //boxes for pressure plates;
 
         // The player aanimations and position
-      //  player = this.add.sprite(32, 1600 - 150, 'courier');
+        //player = this.add.sprite(32, 1600 - 150, 'courier');
         player = this.add.sprite(15000, 0, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
@@ -971,6 +971,12 @@ PausePanel.prototype.update = function(){
         this.game.add.tween(btnHelp).to({y:this.game.camera.y-150}, 1, Phaser.Easing.Linear.NONE, true);
         this.game.add.tween(btnQuit).to({y:this.game.camera.y-75}, 1, Phaser.Easing.Linear.NONE, true);
         this.game.add.tween(btnHelpScreen).to({y:this.game.camera.y-600}, 1, Phaser.Easing.Linear.NONE, true);
+        //for transpaceny        
+        this.game.add.tween(btnHelpScreen).to({alpha:0}, 1, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(this).to({alpha:0}, 1, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(btnRestart).to({alpha:0}, 1, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(btnHelp).to({alpha:0}, 1, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(btnQuit).to({alpha:0.50}, 1, Phaser.Easing.Linear.NONE, true);
     }
 }
 
