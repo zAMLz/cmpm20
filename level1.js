@@ -209,8 +209,8 @@ Game.level1.prototype = {
         //boxes for pressure plates;
 
         // The player aanimations and position
-        player = this.add.sprite(32, 1600 - 150, 'courier');
-      //  player = this.add.sprite(11245, 1000, 'courier');
+      //  player = this.add.sprite(32, 1600 - 150, 'courier');
+        player = this.add.sprite(15000, 0, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
@@ -480,7 +480,14 @@ Game.level1.prototype = {
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
-        //move right belt boxes right
+        
+		if( (player.body.x >= 7483 && player.body.x <= 7483+50 && player.body.y >= 1108 && player.body.y <= 1583) ||
+			(player.body.x >= 3710 && player.body.x <= 3710+50  && player.body.y >= 1583 && player.body.y <= 1773) ||
+			(player.body.x >= 13039 && player.body.x <= 13050 && player.body.y >= 633 && player.body.y <= 1108))
+            ifCanJump=false;
+			
+		
+		//move right belt boxes right
         for(var i=0;i<rightBeltBoxArray.length;i++){
           // rightBeltBoxArray[i].body.moveRight(400);
           rightBeltBoxArray[i].body.x+=1;
