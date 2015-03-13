@@ -203,14 +203,22 @@ Game.level1.prototype = {
         this.createBox(5870, 1593.0963, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
        
         //door sprite
-        door = this.add.sprite(7440,1524, 'box');
-        door.scale.setTo(1,3);
-        door2 = this.add.sprite(7620,1050, 'box')
-        door2.scale.setTo(1,3);
-        door3 = this.add.sprite(11700,1375, 'box');
-        door3.scale.setTo(1,3);
-        door4 = this.add.sprite(13215,575, 'box');
-        door4.scale.setTo(1,3);
+        door = this.add.sprite(7440,1524, 'doorSheet');
+        door2 = this.add.sprite(7620,1050, 'doorSheet')
+        door3 = this.add.sprite(11700,1375, 'doorSheet');
+        door4 = this.add.sprite(13215,575, 'doorSheet');
+        door.animations.add('closed', [0,1],3,true);
+        door.animations.add('open',[2],10,true);
+        door.animations.play('closed');
+        door2.animations.add('closed', [0,1],3,true);
+        door2.animations.add('open',[2],10,true);
+        door2.animations.play('open');
+        door3.animations.add('closed', [0,1],3,true);
+        door3.animations.add('open',[2],10,true);
+        door3.animations.play('closed');
+        door4.animations.add('closed', [0,1],3,true);
+        door4.animations.add('open',[2],10,true);
+        door4.animations.play('open');
         pPlate = this.add.sprite(7000,1580, 'plateSheet');
         pPlate2 = this.add.sprite(7370, 1580, 'plateSheet');
         pPlate3 = this.add.sprite(11245,1105, 'plateSheet');
@@ -255,8 +263,8 @@ Game.level1.prototype = {
 
         // The player animations and position
 
-        player = this.add.sprite(32, 1600 - 150, 'courier');
-        //player = this.add.sprite(7600,1000, 'courier');
+       // player = this.add.sprite(32, 1600 - 150, 'courier');
+        player = this.add.sprite(7600,1000, 'courier');
 
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
@@ -529,14 +537,14 @@ Game.level1.prototype = {
     update: function() {
         //console.log("x:"+this.camera.x);
         //console.log("y:"+this.camera.y);
-       // console.log("x: ",player.body.x);
-        //console.log("y: ",player.body.y);
+        console.log("x: ",player.body.x);
+        console.log("y: ",player.body.y);
         //console.log("xleft:", beltLeft2.body.x);
         //console.log("yleft:", beltLeft2.body.y);
 
      //   console.log("platedown:", plateDown);
-        console.log("stool x:", stool2.body.x);
-        console.log("stool y:", stool2.body.y);
+      //  console.log("stool x:", stool2.body.x);
+       // console.log("stool y:", stool2.body.y);
        // console.log("touchdown:", touchdown);
         //console.log("1x:", leftBeltBoxArray[0].body.x);
         //console.log("2x:", leftBeltBoxArray[1].body.x);
@@ -599,9 +607,11 @@ Game.level1.prototype = {
 
         if(plateDown&&plateDown2){
             bothDown=true;
+            door.animations.play('open');
         }
         //second pressure plate area stuff
-        if(plateBox2.body.x>=pPlate3.x&&plateBox2.body.x<=pPlate3.x+32&&plateBox2.body.y>=pPlate3.y&&plateBox2.body.y<=pPlate3.y+28){
+        if((plateBox2.body.x>=pPlate3.x&&plateBox2.body.x<=pPlate3.x+32&&plateBox2.body.y>=pPlate3.y&&plateBox2.body.y<=pPlate3.y+28)||
+            (player.body.x>=pPlate3.x&&player.body.x<=pPlate3.x+32&&player.body.y>=pPlate3.y&&player.body.y<=pPlate3.y+28)){
             plateDown3=true;
             pPlate3.animations.play('down');
         }else{
@@ -609,7 +619,9 @@ Game.level1.prototype = {
             pPlate3.animations.play('up');
         }
 
-        if(player.body.x>=pPlate4.x&&player.body.x<=pPlate4.x+32&&player.body.y>=pPlate4.y&&player.body.y<=pPlate4.y+28){
+        if((player.body.x>=pPlate4.x&&player.body.x<=pPlate4.x+32&&player.body.y>=pPlate4.y&&player.body.y<=pPlate4.y+28)||
+            (plateBox2.body.x>=pPlate4.x&&plateBox2.body.x<=pPlate4.x+32&&plateBox2.body.y>=pPlate4.y&&plateBox2.body.y<=pPlate4.y+28))
+        {
             plateDown4=true;
             pPlate4.animations.play('down');
         }else if(!bothDown2){
@@ -619,6 +631,7 @@ Game.level1.prototype = {
 
         if(plateDown3&&plateDown4){
             bothDown2=true;
+            door3.animations.play('open');
         }
 
         if(player.body.x>=pPlate5.x&&player.body.x<=pPlate5.x+32&&player.body.y>=pPlate5.y&&player.body.y<=pPlate5.y+28){
