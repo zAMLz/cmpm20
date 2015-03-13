@@ -1,0 +1,4 @@
+PresidentSpriteMail = 0 0 32 48
+PresidentSpriteMailRE = 33 0 32 48
+PresidentSpriteNoMail = 66 0 32 48
+PresidentSpriteNoMailRE = 0 49 32 48
