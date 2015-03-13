@@ -12,11 +12,13 @@ var BoxCollisionGroup;
 var isJumpCollisionGroup;
 var killCollisionGroup;
 var counter = 0;
+var callStand = false;
 var gameEnd=false;
 var gameStart=true;
 
 //-------------OBJECTS---------------
 var boulder;
+var killObj;
 var badboulder;
 var BBnotcreated = true;
 var index;
@@ -50,30 +52,10 @@ var paused;
 var pausePanel;
 var mehSpeed;
 
-//---------Other Variables---------
-var diamond;
-var diamond2;
-
 Game.main = function(game){
     this.music=null;
 }
 Game.main.prototype={
-
-    createBox: function(x, y, index, playerCollisionGroup, isJumpCollisionGroup,BoxCollisionGroup ){
-        boxX = x;
-        boxY = y;
-        Box = this.add.sprite(x, y, index);
-        this.physics.p2.enableBody(Box);
-        Box.body.friction = 100;
-        Box.body.restitution = 0.0;
-        Box.body.gravity = 500;
-        Box.body.static = false;
-        Box.body.fixedRotation = true;
-        Box.body.setCollisionGroup(BoxCollisionGroup);
-        Box.body.collides(isJumpCollisionGroup,function (){onGround = true;},this);
-        Box.body.collides([playerCollisionGroup]);
-
-    },
 
     terraincreator: function(image,x,y,playerCollisionGroup,isJumpCollisionGroup, BoxCollisionGroup, realTerrain){
         isDebug = false;
@@ -92,12 +74,12 @@ Game.main.prototype={
     },
 
     createKillObj: function(x, y, index, playerCollisionGroup, killCollisionGroup){
-        diamond = this.add.sprite(x, y, index);
-        this.physics.p2.enableBody(diamond,isDebug);
-        diamond.body.static = true;
-        diamond.body.fixedRotation = true;
-        diamond.body.setCollisionGroup(killCollisionGroup);
-        diamond.body.collides([playerCollisionGroup]);
+        killObj = this.add.sprite(x, y, index);
+        this.physics.p2.enableBody(killObj,isDebug);
+        killObj.body.static = true;
+        killObj.body.fixedRotation = true;
+        killObj.body.setCollisionGroup(killCollisionGroup);
+        killObj.body.collides([playerCollisionGroup]);
     },
 
     ladderUpdater: function(ladd){
@@ -122,6 +104,8 @@ Game.main.prototype={
     createfire: function(tempFire,speedX, speedY, fireX, fireY){
         var px = speedX;
         var py = speedY;
+
+
 
         px *= -1;
         py *= -1;
@@ -327,8 +311,6 @@ Game.main.prototype={
         this.createKillObj(5664-32-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
         this.createKillObj(5664-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
         this.createKillObj(5664-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5664-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5664, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
 
         ladder[32] = this.add.sprite(4975 ,850 ,'ladder');
         ladder[33] = this.add.sprite(5075 ,750 ,'ladder');
@@ -426,10 +408,10 @@ Game.main.prototype={
         //after fire"4"
         //this.createEmitter(21);
         this.createEmitter(22);
-       // this.createEmitter(23);
+        //this.createEmitter(23);
         this.createEmitter(24);
         //after fire "5"
-       // this.createEmitter(25);
+        //this.createEmitter(25);
         this.createEmitter(26);
         //this.createEmitter(27);
         this.createEmitter(28);
@@ -470,12 +452,6 @@ Game.main.prototype={
             player.body.data.gravityScale=0.05;
             player.body.velocity.x=0;
             player.body.velocity.y=0;
-            
-            //Set the vbelocities to zero to make sure they dont move anymore.
-            //checkmark.body.velocity.x = 0;
-            //checkmark.body.velocity.y = 0;
-            
-            //fix the objects from rotating and make them static
         }
     },
 
@@ -486,12 +462,6 @@ Game.main.prototype={
             this.camera.follow(player,this.camera.FOLLOW_PLATFORMER);
             this.physics.p2.gravity.y = 500;
             player.body.data.gravityScale=1;
-            
-            //Push out velocties affected by gravity for objects here.
-            //checkmark.body.velocity.y = mehSpeed.pop();
-            //checkmark.body.velocity.x = mehSpeed.pop();
-            
-            //allow for totations and disable static.
         }
     },
 
@@ -526,13 +496,22 @@ Game.main.prototype={
         this.ladderUpdater(ladder[29])|| this.ladderUpdater(ladder[30])|| this.ladderUpdater(ladder[31])|| this.ladderUpdater(ladder[32])|| this.ladderUpdater(ladder[33])|| 
         this.ladderUpdater(ladder[34])|| this.ladderUpdater(ladder[35])|| this.ladderUpdater(ladder[36])|| this.ladderUpdater(ladder[37])))
         {
-
+            callStand = true;
             ifCanJump=false;
             console.log("on ladder");
             player.body.data.gravityScale=0.05;
             onLadder=true;
         }
         else{
+            if (callStand){
+                if (cursors.left.isDown){
+                    player.animations.play('left');
+                }else{
+                    player.animations.play('right');
+                }
+                callStand = false;
+            }
+            
             player.body.data.gravityScale=1;
             onLadder=false;
         }
@@ -633,25 +612,6 @@ Game.main.prototype={
             if (jumpButton.isDown && ifCanJump){
                 player.body.moveUp(300+godmode);
                 ifCanJump = false;
-            }
-            // moving a Box-----------------------------
-            if ((pushButton.isDown && playerbox) || (pushButton.isDown && playerbox)) {
-                onGround = false;
-                if (checkCreated < 1){
-                    onGround = false;
-                    Box.body.destroy();
-                    Box.kill();
-                    this.createBox(boxX, boxY, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
-                    checkCreated++;
-                }
-            }else if (pushButton.isUp && onGround){
-            
-                Box.body.static = true;
-                boxX = Box.body.x;
-                boxY = Box.body.y;
-                checkCreated =0;
-                playerbox =false;
-                
             }
 
         }
@@ -793,14 +753,11 @@ Game.main.prototype={
         this.createfire(emitter[32], 0, 0, 4730+50+50+50+50+50+50+50+50, 1370);
         */
 
-
-
-        //if (player.body.x >= 2130 && player.body.x <= 2159 && player.body.y <= 1565 && player.body.y >= 1360){
-        //    this.endGame();
-        //}
+        if (player.body.x >= 2130 && player.body.x <= 2159 && player.body.y <= 1585 && player.body.y >= 1360){
+            this.endGame();
+        }
         
     },
-
 
 // correct the endGame function
     endGame: function(){

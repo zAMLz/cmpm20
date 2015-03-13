@@ -143,7 +143,7 @@ Game.tutorial.prototype={
         this.createKillObj(740, 490, 'blank', playerCollisionGroup, killCollisionGroup);
 
 
-        this.createBox(200, 488.0928, 'Box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+        this.createBox(200, 488.0928, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
         //sets camera to follow
         this.camera.follow(player);
 
@@ -269,36 +269,50 @@ Game.tutorial.prototype={
             }
             // moving a Box-----------------------------
          
-            //if ((pushButton.isDown && playerbox)) {
-            if (pushButton.isDown) {
+            if (pushButton.isDown && cursors.right.isDown) {
                 onGround = false;
                 if (checkCreated < 1){
                     onGround = false;
                     Box.body.destroy();
                     Box.kill();
-                    this.createBox(boxX, boxY, 'Box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+                    this.createBox( boxX, boxY, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
                     checkCreated++;
                 }
-
-            }else if (pushButton.isUp){
-             //else if (pushButton.isUp && onGround){
+                while (pushButton.isUp || cursors.right.isUp){
                 Box.body.static = true;
                 boxX = Box.body.x;
-                //boxY = Box.body.y;
-                boxY = 488.0928;
+                boxY = Box.body.y;
+                checkCreated =0;
+                playerbox =false;                   
+                }
+            }else{
+                Box.body.static = true;
+                boxX = Box.body.x;
+                boxY = Box.body.y;
                 checkCreated =0;
                 playerbox =false;
                 
             }
-            if (cursors.right.isUp && cursors.left.isUp){
-            //if (cursors.right.isUp && cursors.left.isUp && onGround){
+
+
+            if (pushButton.isDown && cursors.left.isDown) {
+                onGround = false;
+                if (checkCreated < 1){
+                    onGround = false;
+                    Box.body.destroy();
+                    Box.kill();
+                    this.createBox( boxX, boxY, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+                    checkCreated++;
+                }
+                while (pushButton.isUp || cursors.left.isUp){
                 Box.body.static = true;
                 boxX = Box.body.x;
-                //boxY = Box.body.y;
-                boxY = 488.0928;
+                boxY = Box.body.y;
                 checkCreated =0;
-                playerbox =false;
+                playerbox =false;                   
+                }
             }
+
             //end moving a Box---------------------------
 
         }
