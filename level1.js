@@ -79,16 +79,16 @@ Game.level1.prototype = {
     createBox: function(x, y, index, playerCollisionGroup, isJumpCollisionGroup,BoxCollisionGroup ){
         boxX = x;
         boxY = y;
-        Box = this.add.sprite(x, y, index);
-        this.physics.p2.enableBody(Box);
-        Box.body.friction = 100;
-        Box.body.restitution = 0.0;
-        Box.body.gravity = 500;
-        Box.body.static = false;
-        Box.body.fixedRotation = true;
-        Box.body.setCollisionGroup(BoxCollisionGroup);
-        Box.body.collides(isJumpCollisionGroup,function (){onGround = true;},this);
-        Box.body.collides([playerCollisionGroup]);
+        plateBox = this.add.sprite(x, y, index);
+        this.physics.p2.enableBody(plateBox);
+        plateBox.body.friction = 100;
+        plateBox.body.restitution = 0.0;
+        plateBox.body.gravity = 500;
+        plateBox.body.static = false;
+        plateBox.body.fixedRotation = true;
+        plateBox.body.setCollisionGroup(BoxCollisionGroup);
+        plateBox.body.collides(isJumpCollisionGroup,function (){onGround = true;},this);
+        plateBox.body.collides([playerCollisionGroup]);
 
     },
 
@@ -184,7 +184,7 @@ Game.level1.prototype = {
         star.body.setCollisionGroup(winCollisionGroup);
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
 
-        this.createBox(258, 1678, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+        this.createBox(5870, 1593.0963, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
        
         //door sprite
         door = this.add.sprite(7440,1524, 'box');
@@ -199,22 +199,18 @@ Game.level1.prototype = {
         pPlate2 = this.add.sprite(7470, 1500, 'box');
         pPlate3 = this.add.sprite(11245,1105, 'box');
         pPlate4 = this.add.sprite(12940,1105,'box');
-        plateBox = this.add.sprite(5870,1580,'box');
-        this.physics.p2.enableBody(plateBox, isDebug);
-        plateBox.body.setCollisionGroup(isJumpCollisionGroup);
-        plateBox.body.collides([playerCollisionGroup,isJumpCollisionGroup, BoxCollisionGroup,beltCollisionGroup]);
-        plateBox.body.fixedRotation=true;
         plateBox2 = this.add.sprite(10900,1105,'box');
         this.physics.p2.enableBody(plateBox2, isDebug);
         plateBox2.body.setCollisionGroup(isJumpCollisionGroup);
         plateBox2.body.collides([playerCollisionGroup,isJumpCollisionGroup, BoxCollisionGroup,beltCollisionGroup]);
         plateBox2.body.fixedRotation=true;
 
+
         //boxes for pressure plates;
 
         // The player aanimations and position
       //  player = this.add.sprite(32, 1600 - 150, 'courier');
-        player = this.add.sprite(11245, 1000, 'courier');
+        player = this.add.sprite(5951, 1563, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
@@ -469,7 +465,7 @@ Game.level1.prototype = {
         //console.log("x:"+this.camera.x);
         //console.log("y:"+this.camera.y);
         console.log("x: ",player.body.x);
-        console.log("y: ",player.body.y);
+        console.log("y: ",plateBox.body.y);
      //   console.log("platedown:", plateDown);
        // console.log("stool x:", stool.body.x);
         //console.log("stool y:", stool.body.y);
@@ -683,23 +679,48 @@ Game.level1.prototype = {
             }
 
             // moving a Box-----------------------------
-            if ((pushButton.isDown && playerbox) || (pushButton.isDown && playerbox)) {
+            if (pushButton.isDown && cursors.right.isDown) {
                 onGround = false;
                 if (checkCreated < 1){
                     onGround = false;
-                    Box.body.destroy();
-                    Box.kill();
-                    this.createBox(boxX, boxY, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+                    plateBox.body.destroy();
+                    plateBox.kill();
+                    this.createBox( boxX, boxY, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
                     checkCreated++;
                 }
-            }else if (pushButton.isUp && onGround){
-            
-                Box.body.static = true;
-                boxX = Box.body.x;
-                boxY = Box.body.y;
+                while (pushButton.isUp || cursors.right.isUp){
+                plateBox.body.static = true;
+                boxX = plateBox.body.x;
+                boxY = plateBox.body.y;
+                checkCreated =0;
+                playerbox =false;                   
+                }
+            }else{
+                plateBox.body.static = true;
+                boxX = plateBox.body.x;
+                boxY = plateBox.body.y;
                 checkCreated =0;
                 playerbox =false;
                 
+            }
+
+
+            if (pushButton.isDown && cursors.left.isDown) {
+                onGround = false;
+                if (checkCreated < 1){
+                    onGround = false;
+                    plateBox.body.destroy();
+                    plateBox.kill();
+                    this.createBox( boxX, boxY, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+                    checkCreated++;
+                }
+                while (pushButton.isUp || cursors.left.isUp){
+                plateBox.body.static = true;
+                boxX = plateBox.body.x;
+                boxY = plateBox.body.y;
+                checkCreated =0;
+                playerbox =false;                   
+                }
             }
 
         }
@@ -790,27 +811,6 @@ Game.level1.prototype = {
                 player.body.moveUp(300+godmode);
                 ifCanJump = false;
             }
-
-            // moving a Box-----------------------------
-            if ((pushButton.isDown && playerbox) || (pushButton.isDown && playerbox)) {
-                onGround = false;
-                if (checkCreated < 1){
-                    onGround = false;
-                    Box.body.destroy();
-                    Box.kill();
-                    this.createBox(boxX, boxY, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
-                    checkCreated++;
-                }
-            }else if (pushButton.isUp && onGround){
-            
-                Box.body.static = true;
-                boxX = Box.body.x;
-                boxY = Box.body.y;
-                checkCreated =0;
-                playerbox =false;
-                
-            }
-
         }
                 //if on leftBelt
        if (!paused && touchdown && beltLeftBool){
@@ -868,26 +868,6 @@ Game.level1.prototype = {
             if (jumpButton.isDown && ifCanJump){
                 player.body.moveUp(300+godmode);
                 ifCanJump = false;
-            }
-
-            // moving a Box-----------------------------
-            if ((pushButton.isDown && playerbox) || (pushButton.isDown && playerbox)) {
-                onGround = false;
-                if (checkCreated < 1){
-                    onGround = false;
-                    Box.body.destroy();
-                    Box.kill();
-                    this.createBox(boxX, boxY, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
-                    checkCreated++;
-                }
-            }else if (pushButton.isUp && onGround){
-            
-                Box.body.static = true;
-                boxX = Box.body.x;
-                boxY = Box.body.y;
-                checkCreated =0;
-                playerbox =false;
-                
             }
 
         }

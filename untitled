@@ -1,0 +1,46 @@
+        if(pushButton.isDown && ((player.body.x >= 620 && player.body.x <= 620+20 && player.body.y >= 220 && player.body.y <= 220+150))){
+
+            console.log("on ladder");
+            player.body.data.gravityScale=0.05;
+            onLadder=true;
+            
+        }
+        else{
+            player.body.data.gravityScale=1;
+            onLadder=false;
+        }
+-------------------------------------------
+        if(pushButton.isDown && ((player.body.x >= 620 && player.body.x <= 620+20 && player.body.y >= 220 && player.body.y <= 220+150))){
+            callStand = true;
+            console.log("on ladder");
+            player.body.data.gravityScale=0.05;
+            onLadder=true;
+
+        }
+        else{
+            if (callStand){
+                if (cursors.left.isDown){
+                    player.animations.play('left');
+                }else{
+                    player.animations.play('right');
+                }
+                callStand = false;
+            }
+            
+            player.body.data.gravityScale=1;
+            onLadder=false;
+        }
+
+        if(!paused && !inWater && onLadder){
+            if(cursors.up.isDown){
+                player.animations.play('climb');
+                player.body.moveUp(40);
+            }
+            else if(cursors.down.isDown){
+                player.animations.play('climb');
+                player.body.moveDown(40);
+            }
+            else
+                player.animations.stop();
+        }
+        -----------------------------------------------------------------
