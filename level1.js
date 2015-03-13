@@ -210,7 +210,7 @@ Game.level1.prototype = {
 
         // The player aanimations and position
       //  player = this.add.sprite(32, 1600 - 150, 'courier');
-        player = this.add.sprite(15000, 0, 'courier');
+        player = this.add.sprite(14000, 30, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
@@ -246,6 +246,11 @@ Game.level1.prototype = {
         rightBeltBoxArray[1].body.setCollisionGroup(beltCollisionGroup);
         rightBeltBoxArray[1].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
         rightBeltBoxArray[1].body.fixedRotation=true;
+		rightBeltBoxArray[2] = this.add.sprite(2390, 1639, 'box');
+        this.physics.p2.enableBody(rightBeltBoxArray[2], isDebug);
+        rightBeltBoxArray[2].body.setCollisionGroup(beltCollisionGroup);
+        rightBeltBoxArray[2].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
+        rightBeltBoxArray[2].body.fixedRotation=true;
        // rightBeltBoxArray[1].body.static=true;
        /* rightBeltBoxArray[2] = this.add.sprite(2370, 1639, 'box');
         this.physics.p2.enableBody(rightBeltBoxArray[2], isDebug);
@@ -379,8 +384,8 @@ Game.level1.prototype = {
         this.floatingBox('box',11500,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,5);
         this.floatingBox('box',11650,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,6);
         //right direction belt
-        beltRight = this.add.sprite(2320,1677,'continue');
-        beltRight.scale.setTo(2,1);
+        beltRight = this.add.sprite(2245,1677,'continue');
+        beltRight.scale.setTo(3.5,1);
         this.physics.p2.enableBody(beltRight, isDebug);
         beltRight.body.setCollisionGroup(beltCollisionGroup);
         beltRight.body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
@@ -499,7 +504,7 @@ Game.level1.prototype = {
         //replace boxes that fall off right belt
         for(var i=0;i<rightBeltBoxArray.length;i++){
             if(rightBeltBoxArray[i].body.x>=2440 || rightBeltBoxArray[i].body.y>=2400){
-                rightBeltBoxArray[i].body.x=2250;
+                rightBeltBoxArray[i].body.x=2100;
                 rightBeltBoxArray[i].body.y=1639;
             }
         }
@@ -587,7 +592,7 @@ Game.level1.prototype = {
         }
 
         //check if on rightBelt
-        if(player.body.x >=2200 && player.body.x<=2404 && player.body.y>=1600 && player.body.y<=1670){
+        if(player.body.x >=2060 && player.body.x<=2404 && player.body.y>=1600 && player.body.y<=1670){
             beltRightBool = true;
         }else if(player.body.x >=4780 && player.body.x<=5600 && player.body.y>=1500 && player.body.y<=1700){
             beltLeftBool = true;
@@ -785,7 +790,7 @@ Game.level1.prototype = {
             }
             else if(ifCanJump)
             {
-                player.body.velocity.x = 100;
+                player.body.velocity.x = 62;
 
                 if (facing != 'idle')
                 {
@@ -843,7 +848,7 @@ Game.level1.prototype = {
             }
             else if(ifCanJump)
             {
-                player.body.velocity.x = -85;
+                player.body.velocity.x = -68.5;
 
                 if (facing != 'idle')
                 {
