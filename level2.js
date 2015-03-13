@@ -1,7 +1,6 @@
 var player;
 var cursors;
 var water;
-var water1;
 var inWater=false;
 var killobjglobal = true;
 var playerCollisionGroup;
@@ -70,11 +69,11 @@ var diamond2;
 var sprite;
 var emitter;
 var emitter2;
-Game.level1 = function (game){
+Game.level2 = function (game){
 	this.music = null;
 };
 
-Game.level1.prototype = {
+Game.level2.prototype = {
 
     createBox: function(x, y, index, playerCollisionGroup, isJumpCollisionGroup,BoxCollisionGroup ){
         boxX = x;
@@ -163,20 +162,6 @@ Game.level1.prototype = {
         //  (which we do) - what this does is adjust the bounds to use its own collision group.
         this.physics.p2.updateBoundsCollisionGroup();
 
-        //Create a moveKill object
-        //moveKillObj = this.add.sprite(500, 1678, 'boulder');
-        moveKillObj = new Array();
-        moveKillObj[0] = this.add.sprite(5250,1795,'sawblade');
-        moveKillObj[0].anchor.setTo(0.5,0.5);
-        moveKillObj[1] = this.add.sprite(6250, 1613, 'sawblade');
-        moveKillObj[1].anchor.setTo(0.5,0.5);
-        moveKillObj[2] = this.add.sprite(2430,1610,'sawblade');
-        moveKillObj[2].anchor.setTo(0.5,0.5);
-        moveKillObj[3] = this.add.sprite(4700,1790,'sawblade');
-        moveKillObj[3].anchor.setTo(0.5,0.5);
-        moveKillObj[4] = this.add.sprite(4870,1683,'sawblade');
-        moveKillObj[4].anchor.setTo(0.5,0.5);
-
 
         //if the player collides with the star next level starts
         star = this.add.sprite(15500,500,'star');
@@ -184,34 +169,7 @@ Game.level1.prototype = {
         star.body.setCollisionGroup(winCollisionGroup);
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
 
-        this.createBox(258, 1678, 'diamond',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
        
-        //door sprite
-        door = this.add.sprite(7440,1524, 'box');
-        door.scale.setTo(1,3);
-        door2 = this.add.sprite(7620,1050, 'box')
-        door2.scale.setTo(1,3);
-        door3 = this.add.sprite(11700,1375, 'box');
-        door3.scale.setTo(1,3);
-        door4 = this.add.sprite(13215,575, 'box');
-        door4.scale.setTo(1,3);
-        pPlate = this.add.sprite(7000,1580, 'box');
-        pPlate2 = this.add.sprite(7470, 1500, 'box');
-        pPlate3 = this.add.sprite(11245,1105, 'box');
-        pPlate4 = this.add.sprite(12940,1105,'box');
-        plateBox = this.add.sprite(5870,1580,'box');
-        this.physics.p2.enableBody(plateBox, isDebug);
-        plateBox.body.setCollisionGroup(isJumpCollisionGroup);
-        plateBox.body.collides([playerCollisionGroup,isJumpCollisionGroup, BoxCollisionGroup,beltCollisionGroup]);
-        plateBox.body.fixedRotation=true;
-        plateBox2 = this.add.sprite(10900,1105,'box');
-        this.physics.p2.enableBody(plateBox2, isDebug);
-        plateBox2.body.setCollisionGroup(isJumpCollisionGroup);
-        plateBox2.body.collides([playerCollisionGroup,isJumpCollisionGroup, BoxCollisionGroup,beltCollisionGroup]);
-        plateBox2.body.fixedRotation=true;
-
-        //boxes for pressure plates;
-
         // The player aanimations and position
         player = this.add.sprite(32, 1600 - 150, 'courier');
       //  player = this.add.sprite(11245, 1000, 'courier');
@@ -236,175 +194,31 @@ Game.level1.prototype = {
         player.body.collides(winCollisionGroup, this.nextLevel,this);
         player.body.collides(BoxCollisionGroup,function(){playerbox = true; ifCanJump = true;},this);
         player.body.collides(beltCollisionGroup, function (){ifCanJump = true; touchdown=true;});
-        
-       
-        //boxes on right belt
-        rightBeltBoxArray[0] = this.add.sprite(2250, 1639, 'box');
-        this.physics.p2.enableBody(rightBeltBoxArray[0], isDebug);
-        rightBeltBoxArray[0].body.setCollisionGroup(beltCollisionGroup);
-        rightBeltBoxArray[0].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
-        rightBeltBoxArray[0].body.fixedRotation=true;
-       // rightBeltBoxArray[0].body.static=true;
-        rightBeltBoxArray[1] = this.add.sprite(2370, 1639, 'box');
-        this.physics.p2.enableBody(rightBeltBoxArray[1], isDebug);
-        rightBeltBoxArray[1].body.setCollisionGroup(beltCollisionGroup);
-        rightBeltBoxArray[1].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
-        rightBeltBoxArray[1].body.fixedRotation=true;
-       // rightBeltBoxArray[1].body.static=true;
-       /* rightBeltBoxArray[2] = this.add.sprite(2370, 1639, 'box');
-        this.physics.p2.enableBody(rightBeltBoxArray[2], isDebug);
-        rightBeltBoxArray[2].body.setCollisionGroup(beltCollisionGroup);
-        rightBeltBoxArray[2].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
-        rightBeltBoxArray[2].body.fixedRotation=true;*/
-      //  rightBeltBoxArray[2].body.static=true;
 
-        //boxes on left belt
-        leftBeltBoxArray[0] = this.add.sprite(4870, 1669, 'box');
-        leftBeltBoxArray[0].scale.setTo(1.3,1.3);
-        this.physics.p2.enableBody(leftBeltBoxArray[0], isDebug);
-        leftBeltBoxArray[0].body.setCollisionGroup(beltCollisionGroup);
-        leftBeltBoxArray[0].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
-        leftBeltBoxArray[0].body.fixedRotation=true;
-
-     /*   leftBeltBoxArray[1] = this.add.sprite(5000, 1669, 'box');
-        leftBeltBoxArray[1].scale.setTo(2,2);
-        this.physics.p2.enableBody(leftBeltBoxArray[1], isDebug);
-        leftBeltBoxArray[1].body.setCollisionGroup(beltCollisionGroup);
-        leftBeltBoxArray[1].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
-        leftBeltBoxArray[1].body.fixedRotation=true;
-*/
-        leftBeltBoxArray[1] = this.add.sprite(5120, 1669, 'box');
-        leftBeltBoxArray[1].scale.setTo(1.3,1.3);
-        this.physics.p2.enableBody(leftBeltBoxArray[1], isDebug);
-        leftBeltBoxArray[1].body.setCollisionGroup(beltCollisionGroup);
-        leftBeltBoxArray[1].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
-        leftBeltBoxArray[1].body.fixedRotation=true;
-
-        leftBeltBoxArray[2] = this.add.sprite(5250, 1669, 'box');
-        leftBeltBoxArray[2].scale.setTo(1.3,1.3);
-        this.physics.p2.enableBody(leftBeltBoxArray[2], isDebug);
-        leftBeltBoxArray[2].body.setCollisionGroup(beltCollisionGroup);
-        leftBeltBoxArray[2].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
-        leftBeltBoxArray[2].body.fixedRotation=true;
-
-        leftBeltBoxArray[3] = this.add.sprite(5380, 1669, 'box');
-        leftBeltBoxArray[3].scale.setTo(1.3,1.3);
-        this.physics.p2.enableBody(leftBeltBoxArray[3], isDebug);
-        leftBeltBoxArray[3].body.setCollisionGroup(beltCollisionGroup);
-        leftBeltBoxArray[3].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
-        leftBeltBoxArray[3].body.fixedRotation=true;
-
-  /*      leftBeltBoxArray[5] = this.add.sprite(5500, 1669, 'box');
-        leftBeltBoxArray[5].scale.setTo(2,2);
-        this.physics.p2.enableBody(leftBeltBoxArray[5], isDebug);
-        leftBeltBoxArray[5].body.setCollisionGroup(beltCollisionGroup);
-        leftBeltBoxArray[5].body.collides([playerCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
-        leftBeltBoxArray[5].body.fixedRotation=true;
-*/ 
         //sets camera to follow
         this.camera.follow(player);
-        //Add water after adding the player so that way, water is layered ontop of the player
-        water = this.add.sprite(10030,1205,'water1-1'); //Note this has no interactions with the inWater function
-        this.add.tween(water).to({alpha:0.95}, 1, Phaser.Easing.Linear.NONE, true);//Transparency
-        water.scale.setTo(2,1);//change size of water
-        water1 = this.add.sprite(11400, 1205, 'water1-1');
 
-         //ADD TERRAIN HERE
+        //Add water after adding the player so that way, water is layered ontop of the player
+        water = this.add.sprite(500,1730,'water1-1'); //Note this has no interactions with the inWater function
+        this.add.tween(water).to({alpha:0.95}, 1, Phaser.Easing.Linear.NONE, true);
+        water.scale.setTo(2,1);
+
+        //terrain
         this.terraincreator('fact1',200,1600,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('terr-null',200,2100,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',835,1600,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('terr-null',835,2100,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',1470,1600,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('terr-null',1470,2100,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',2105,1600,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('terr-null',2105,2100,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',2740,1505,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('fact1',3375,1505,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('fact1',3375,1600,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('terr-null',2820,2005,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('terr-null',3285,2005,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('terr-null',3375,2100,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',4010,1695,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('terr-null',4010,2195,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',4645,1695,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('terr-null',4645,2195,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',5280,1695,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('terr-null',5280,2195,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',5915,1600,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('fact1',5915,1505,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('terr-null',5995,2005,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',6550,1505,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('terr-null',6550,2005,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',7185,1505,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('terr-null',7185,2005,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',7820,1410,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('fact1',7820,1315,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('fact1',7820,1220,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('fact1',7820,1125,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('fact1',7820,1030,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('terr-null',7905,1530,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('terr-null',7905,1830,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',8455,1030,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('terr-null',8455,1530,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',9090,1030,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('terr-null',9090,1530,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',9725,1030,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('terr-null',9645,1530,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',11100,1030,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        //needs a smaller piece of null terrain
-        //this.terraincreator('terr-null',11100,1530,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',12105,1030,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-       // this.terraincreator('terr-null',12185,1530,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',12740,1030,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('terr-null',12740,1530,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',13375,1030,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('terr-null',13375,1530,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',13375,935,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('fact1',13375,840,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('fact1',13375,745,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('fact1',13375,650,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('fact1',13375,555,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('fact1',14010,555,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('terr-null',13465,1055,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',14645,555,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('terr-null',14000,1055,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('terr-null',14645,1055,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',15280,555,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('terr-null',15250,1055,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        this.terraincreator('fact1',11600,1355,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
-        this.terraincreator('terr-null',12185,1530,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
-        
+        this.terraincreator('fact1',1600,1600,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
+        this.terraincreator('fact1',2240,1000,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,true);
         //boxes floating in water
-        this.floatingBox('box',10100,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,0);
-        this.floatingBox('box',10250,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,1);
-        this.floatingBox('box',10400,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,2);
-        this.floatingBox('box',10550,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,3);
-        this.floatingBox('box',10700,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,4);
-        this.floatingBox('box',11500,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,5);
-        this.floatingBox('box',11650,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,6);
-        //right direction belt
-        beltRight = this.add.sprite(2320,1677,'continue');
-        beltRight.scale.setTo(2,1);
-        this.physics.p2.enableBody(beltRight, isDebug);
-        beltRight.body.setCollisionGroup(beltCollisionGroup);
-        beltRight.body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
-        beltRight.body.static = true;
-      //  beltRight.body.onEndContact.add(function(){touchdown=false;},this);
-        //left direction belt
-        beltLeft = this.add.sprite(5195,1748,'continue');
-        beltLeft.scale.setTo(8,2);
-        this.physics.p2.enableBody(beltLeft, isDebug);
-        beltLeft.body.setCollisionGroup(beltCollisionGroup);
-        beltLeft.body.collides([isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
-        beltLeft.body.collides(playerCollisionGroup, function(){tounchdown=true; isJumpCollisionGroup=true;});
-     //   beltLeft.body.static = true;
-     //   beltLeft.body.onEndContact.add(function(){tounchdown = false;},this);
-        //stepping stool box
-        stool = this.add.sprite(4779,1783,'box');
-        this.physics.p2.enableBody(stool, isDebug);
-        stool.body.setCollisionGroup(isJumpCollisionGroup);
-        stool.body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
-        stool.body.static=true;
+        this.floatingBox('box',580,1730,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,0);
+        this.floatingBox('box',700,1730,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,1);
+        this.floatingBox('box',900,1730,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,2);
+        this.floatingBox('box',1020,1730,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,3);
+        this.floatingBox('box',1230,1730,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,4);
+
+        door = this.add.sprite(1824, 1618, 'box');
+        door.scale.setTo(1,3);
+        door2 = this.add.sprite(1995,1018, 'box');
+        door2.scale.setTo(1,3);
+
         //Sets the jump button to up
         jumpButton = this.input.keyboard.addKey(Phaser.Keyboard.UP);
 
@@ -421,7 +235,6 @@ Game.level1.prototype = {
         this.game.add.existing(this.pausePanel);
 
         //Enter Play Mode
-        mehSpeed = new Array();
         this.playGame();
 
 
@@ -434,17 +247,6 @@ Game.level1.prototype = {
             this.pausePanel.show();
             this.physics.p2.gravity.y = 0;
             this.camera.unfollow();
-            
-            //add any object that is affected by gravity here.
-            //mehSpeed.push(checkmark.body.velocity.x);
-            //mehSpeed.push(checkmark.body.velocity.y);
-            
-            //Set the vbelocities to zero to make sure they dont move anymore.
-            //checkmark.body.velocity.x = 0;
-            //checkmark.body.velocity.y = 0;
-            
-            //fix the objects from rotating and make them static
-            //checkmark.body.fixedRotation = true;
         }
     },
 
@@ -466,10 +268,10 @@ Game.level1.prototype = {
 
 
     update: function() {
-        //console.log("x:"+this.camera.x);
-        //console.log("y:"+this.camera.y);
-        console.log("x: ",player.body.x);
-        console.log("y: ",player.body.y);
+        console.log("x:"+this.camera.x);
+        console.log("y:"+this.camera.y);
+        console.log("px: ",player.body.x);
+        console.log("py: ",player.body.y);
      //   console.log("platedown:", plateDown);
        // console.log("stool x:", stool.body.x);
         //console.log("stool y:", stool.body.y);
@@ -484,126 +286,28 @@ Game.level1.prototype = {
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
-        //move right belt boxes right
-        for(var i=0;i<rightBeltBoxArray.length;i++){
-          // rightBeltBoxArray[i].body.moveRight(400);
-          rightBeltBoxArray[i].body.x+=1;
-        }
-        //move left belt boxes left
-        for(var i=0;i<leftBeltBoxArray.length;i++){
-            leftBeltBoxArray[i].body.x-=1;
-        }
-        //replace boxes that fall off right belt
-        for(var i=0;i<rightBeltBoxArray.length;i++){
-            if(rightBeltBoxArray[i].body.x>=2440 || rightBeltBoxArray[i].body.y>=2400){
-                rightBeltBoxArray[i].body.x=2250;
-                rightBeltBoxArray[i].body.y=1639;
-            }
-        }
-        //replace boxes that fall off left belt
-        for(var i=0;i<leftBeltBoxArray.length;i++){
-            if(leftBeltBoxArray[i].body.y>=2000){
-                leftBeltBoxArray[i].body.x=5600;
-                leftBeltBoxArray[i].body.y=1683;
-            }
-        }
-        //pressure plate boolean change
-        if((plateBox.body.x>=pPlate.x&&plateBox.body.x<=pPlate.x+32&&plateBox.body.y>=pPlate.y&&plateBox.body.y<=pPlate.y+28) ||
-            (player.body.x>=pPlate.x&&player.body.x<=pPlate.x+32&&player.body.y>=pPlate.y&&player.body.y<=pPlate.y+28)){
-            plateDown=true;
-        }else{
-            plateDown=false;
-        }
-
-        if(player.body.x>=pPlate2.x&&player.body.x<=pPlate2.x+32&&player.body.y>=pPlate2.y&&player.body.y<=pPlate2.y+28){
-            plateDown2=true;
-        }else{
-            plateDown2=false;
-        }
-
-        if(plateDown&&plateDown2){
-            bothDown=true;
-        }
-        //second pressure plate area stuff
-        if(plateBox2.body.x>=pPlate3.x&&plateBox2.body.x<=pPlate3.x+32&&plateBox2.body.y>=pPlate3.y&&plateBox2.body.y<=pPlate3.y+28){
-            plateDown3=true;
-        }else{
-            plateDown3=false;
-        }
-
-        if(player.body.x>=pPlate4.x&&player.body.x<=pPlate4.x+32&&player.body.y>=pPlate4.y&&player.body.y<=pPlate4.y+28){
-            plateDown4=true;
-        }else{
-            plateDown4=false;
-        }
-
-        if(plateDown3&&plateDown4){
-            bothDown2=true;
-        }
-        //lower water tweening
-        if(bothDown2){
-            this.add.tween(water1).to( { y:1205+260 }, 1000, Phaser.Easing.Linear.None, true);
-            //boxArray[5].body.y=water1.y;
-            //boxArray[6].body.y=water1.y;
-            boxArray[5].body.y=20000;
-            boxArray[6].body.y=20000;
-
-        }else{
-            this.add.tween(water1).to( { y:1405-260 }, 1000, Phaser.Easing.Linear.None, true);
-            boxArray[5].body.y=water1.y;
-            boxArray[6].body.y=water1.y;
-        }
-
-        //door teleport thing
-        if(bothDown&&(player.body.x>=door.x&&player.body.x<=door.x+32&&player.body.y>=door.y&&player.body.y<=door.y+84)){
-            player.body.x=door2.x;
-            player.body.y=door2.y;
-        }
-        //second door teleport thing
-        if(bothDown2&&(player.body.x>=door3.x&&player.body.x<=door3.x+32&&player.body.y>=door3.y&&player.body.y<=door3.y+84)){
-            player.body.x=door4.x;
-            player.body.y=door4.y;
-        }
-
+     
         if(!paused){
             this.pausePanel.y = this.camera.y-100;
             this.pausePanel.update();    
 
-            this.moveKill(moveKillObj[0],5250,5650,'400',4000,'+57');
-            this.moveKill(moveKillObj[1],6250,7250,'1000',4000,'+57');
-            this.moveKill(moveKillObj[4],4870,5500, '630',3000,'+57');
-            //stationary move kill rotation tween;           
-            this.add.tween(moveKillObj[2]).to({angle: '+57'}, 1, Phaser.Easing.Linear.None, true, 100);
-            this.add.tween(moveKillObj[3]).to({angle: '+57'}, 1, Phaser.Easing.Linear.None, true, 100);
-        //Check the collision bounds for stationary sawblade
-        if((player.body.x >= moveKillObj[2].x-50 && player.body.x <= moveKillObj[2].x+100-50 && player.body.y >= moveKillObj[2].y-50 && player.body.y <= moveKillObj[2].y+100-50) || 
-            (player.body.x >= moveKillObj[3].x-50 && player.body.x <= moveKillObj[3].x+100-50 && player.body.y >= moveKillObj[3].y-50 && player.body.y <= moveKillObj[3].y+100-50)){
-            //console.log('DEAD');
-            this.endGame();   
-                }
         }
 
-        //check if on rightBelt
-        if(player.body.x >=2200 && player.body.x<=2404 && player.body.y>=1600 && player.body.y<=1670){
-            beltRightBool = true;
-        }else if(player.body.x >=4780 && player.body.x<=5600 && player.body.y>=1500 && player.body.y<=1700){
-            beltLeftBool = true;
+        //door teleport thing
+        if(player.body.x>=door.x&&player.body.x<=door.x+32&&player.body.y>=door.y&&player.body.y<=door.y+84){
+            player.body.x=door2.x;
+            player.body.y=door2.y;
         }
-        else{
-            beltRightBool = false;
-            beltLeftBool = false;
-            touchdown = false;
-        }
+
 
         //CHECK IF IN WATER -- This must be modified is water's position is modified...
-        if((player.body.x >= water.x && player.body.x <= water.x+400 && player.body.y >= water.y && player.body.y <= water.y+1000) ||
-            (player.body.x >= water1.x && player.body.x <= water1.x+400 && player.body.y >= water1.y && player.body.y <= water1.y+1000)){
+        if(player.body.x >= water.x && player.body.x <= water.x+400 && player.body.y >= water.y && player.body.y <= water.y+1000){
           //  console.log("inwater");
             inWater = true;
            // this.physics.p2.gravity.y = 200;
           player.body.data.gravityScale=20;
           ifCanJump=false;
-            /*if(counter == 0){
+    /*        if(counter == 0){
                 player.body.velocity.y = 0;
                 player.body.velocity.y = 0;
             }
@@ -617,7 +321,8 @@ Game.level1.prototype = {
             inWater = false;
             this.physics.p2.gravity.y = 500;
             counter = 0;
-        }
+        } 
+
       
         //  Reset the players velocity (movement)
         player.body.velocity.x = 0;
@@ -683,7 +388,7 @@ Game.level1.prototype = {
             }
 
             // moving a Box-----------------------------
-            if ((pushButton.isDown && playerbox) || (pushButton.isDown && playerbox)) {
+   /*        if ((pushButton.isDown && playerbox) || (pushButton.isDown && playerbox)) {
                 onGround = false;
                 if (checkCreated < 1){
                     onGround = false;
@@ -700,7 +405,7 @@ Game.level1.prototype = {
                 checkCreated =0;
                 playerbox =false;
                 
-            }
+            } */
 
         }
 
@@ -792,7 +497,7 @@ Game.level1.prototype = {
             }
 
             // moving a Box-----------------------------
-            if ((pushButton.isDown && playerbox) || (pushButton.isDown && playerbox)) {
+ /*           if ((pushButton.isDown && playerbox) || (pushButton.isDown && playerbox)) {
                 onGround = false;
                 if (checkCreated < 1){
                     onGround = false;
@@ -809,7 +514,7 @@ Game.level1.prototype = {
                 checkCreated =0;
                 playerbox =false;
                 
-            }
+            } */
 
         }
                 //if on leftBelt
@@ -871,7 +576,7 @@ Game.level1.prototype = {
             }
 
             // moving a Box-----------------------------
-            if ((pushButton.isDown && playerbox) || (pushButton.isDown && playerbox)) {
+  /*          if ((pushButton.isDown && playerbox) || (pushButton.isDown && playerbox)) {
                 onGround = false;
                 if (checkCreated < 1){
                     onGround = false;
@@ -888,7 +593,7 @@ Game.level1.prototype = {
                 checkCreated =0;
                 playerbox =false;
                 
-            }
+            }*/
 
         }
         //-----------------------player moveKill
@@ -906,15 +611,15 @@ Game.level1.prototype = {
 // correct the endGame function
     endGame: function(){
         this.music.stop();
-        this.state.start('level1gg');
+        this.state.start('level2gg');
     },
     nextLevel: function(){
         this.music.stop();
-        this.state.start('level2');
+        this.state.start('level1');
     },
     restartLevel: function(){
         this.music.stop();
-        this.state.start('level1');
+        this.state.start('level2');
     },
     mainMenu: function(){
         this.music.stop();
