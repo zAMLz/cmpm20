@@ -70,6 +70,14 @@ var diamond2;
 var sprite;
 var emitter;
 var emitter2;
+
+//---------------CUTSCENE-------------
+var blacker;
+var cutsceneFlag;
+var gameStart = true;
+var gameEnd = false;
+var inCutsceneDoor1 = false;
+
 Game.level1 = function (game){
 	this.music = null;
 };
@@ -139,6 +147,10 @@ Game.level1.prototype = {
         //adds music
         this.music = this.add.audio('tutorialmusic');
         this.music.play();
+
+        gameStart = true;
+        gameEnd = false;
+        inCutscene = false;
 
         //changes bounds of the world and add a background for the world
         this.world.setBounds(0,0,15600,2800);
@@ -210,7 +222,7 @@ Game.level1.prototype = {
 
         // The player aanimations and position
         //player = this.add.sprite(32, 1600 - 150, 'courier');
-        player = this.add.sprite(15000, 0, 'courier');
+        player = this.add.sprite(7603, 0, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
@@ -418,10 +430,14 @@ Game.level1.prototype = {
 
         //Enter Play Mode
         mehSpeed = new Array();
+
+        //Create cutscenen stuff here
+        blacker = this.add.sprite(0,1378,'black');
+        this.game.add.tween(blacker).to({alpha:0.0}, 1, Phaser.Easing.Linear.NONE, true);
+        
+        cutsceneFlag = this.add.sprite(0,0,'star');
+
         this.playGame();
-
-
-       
     },
 
     pauseGame: function(){
@@ -480,6 +496,9 @@ Game.level1.prototype = {
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
+        //make sure cutscene element follow player;
+        this.game.add.tween(blacker).to({x:this.game.camera.x}, 1, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(blacker).to({y:this.game.camera.y}, 1, Phaser.Easing.Linear.NONE, true);
         
 		if( (player.body.x >= 7483 && player.body.x <= 7483+50 && player.body.y >= 1108 && player.body.y <= 1583) ||
 			(player.body.x >= 3710 && player.body.x <= 3710+50  && player.body.y >= 1583 && player.body.y <= 1773) ||
@@ -559,8 +578,7 @@ Game.level1.prototype = {
 
         //door teleport thing
         if(bothDown&&(player.body.x>=door.x&&player.body.x<=door.x+32&&player.body.y>=door.y&&player.body.y<=door.y+84)){
-            player.body.x=door2.x;
-            player.body.y=door2.y;
+            inCutsceneDoor1 = true;
         }
         //second door teleport thing
         if(bothDown2&&(player.body.x>=door3.x&&player.body.x<=door3.x+32&&player.body.y>=door3.y&&player.body.y<=door3.y+84)){
@@ -885,6 +903,24 @@ Game.level1.prototype = {
         //-----------------------player Kill zone
         if (player.body.y >= 1850+200){
             this.endGame();
+        }
+
+        //-------------------cutscnees
+        if(inCutsceneDoor1){
+            if(cutsceneFlag.x == 0){    
+                this.add.tween(cutsceneFlag).to( { x: 100 }, 1000, Phaser.Easing.Linear.None, true);
+                this.add.tween(blacker).to( { alpha: 1 }, 1000, Phaser.Easing.Linear.None, true);
+            }
+            if(cutsceneFlag.x == 100){
+                player.body.x = door2.x;
+                player.body.y = door2.y;
+                this.add.tween(cutsceneFlag).to( { x: 200 }, 1000, Phaser.Easing.Linear.None, true);
+            }
+            if(cutsceneFlag.x == 200){
+                inCutsceneDoor1 = false;
+                this.add.tween(cutsceneFlag).to( { x: 0 }, 1000, Phaser.Easing.Linear.None, true);
+                this.add.tween(blacker).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true)
+            }
         }
 
     },
