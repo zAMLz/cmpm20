@@ -3,6 +3,7 @@ var cursors;
 var water;
 var water1;
 var inWater=false;
+var onLadder=false;
 var killobjglobal = true;
 var playerCollisionGroup;
 var isJumpCollisionGroup;
@@ -21,6 +22,7 @@ var beltLeft2;
 var rightBeltBoxArray = new Array();
 var leftBeltBoxArray = new Array();
 var stool;
+var ladder;
 var pPlate;
 var pPlate2;
 var plateBox;
@@ -31,6 +33,7 @@ var pPlate3;
 var door3;
 var door4;
 var pPlate4;
+var pPlate5;
 
 //-------------Boxes------------------
 var checkCreated = 0;
@@ -53,6 +56,7 @@ var bothDown = false;
 var plateDown3 = false;
 var plateDown4 = false;
 var bothDown2 = false;
+var plateDown5 = false;
 
 //------------TESTING PURPOSES
 var isDebug = true;
@@ -135,6 +139,12 @@ Game.level1.prototype = {
         boxArray[i].body.collides([isJumpCollisionGroup,playerCollisionGroup,BoxCollisionGroup]);
         boxArray[i].body.data.gravityScale=0;
     },
+    ladderUpdater: function(ladd){
+        if((player.body.x >= ladd.x && player.body.x <= ladd.x+20 && player.body.y >= ladd.y && player.body.y <= ladd.y+150))
+            return true;
+        else
+            return false;
+    },
 
     create: function() {
         //adds music
@@ -204,12 +214,15 @@ Game.level1.prototype = {
         pPlate2 = this.add.sprite(7470, 1500, 'box');
         pPlate3 = this.add.sprite(11245,1105, 'box');
         pPlate4 = this.add.sprite(12940,1105,'box');
+        pPlate5 = this.add.sprite(15550,530, 'box');
         plateBox2 = this.add.sprite(10900,1105,'box');
         this.physics.p2.enableBody(plateBox2, isDebug);
         plateBox2.body.setCollisionGroup(isJumpCollisionGroup);
         plateBox2.body.collides([playerCollisionGroup,isJumpCollisionGroup, BoxCollisionGroup,beltCollisionGroup]);
         plateBox2.body.fixedRotation=true;
 
+        ladder = new Array();
+        ladder[0] = this.add.sprite(15000, 220,'ladder');
 
         //boxes for pressure plates;
 
@@ -585,7 +598,8 @@ Game.level1.prototype = {
             this.moveKill(moveKillObj[1],6250,7250,'1000',4000,'+57');
             this.moveKill(moveKillObj[4],4870,5500, '630',3000,'+57');
             this.moveKill(moveKillObj[5],15300,15730,'430',3000,'+57');
-            this.moveKill(moveKillObj[6],14850,15280,'430',3000,'+57');
+            this.moveKill(moveKillObj[6],14850,15130,'380',3000,'+57');
+           // this.moveKill(moveKillObj[6],15130,14850,'-380',3000,'+57');
             
             //stationary move kill rotation tween;           
             this.add.tween(moveKillObj[2]).to({angle: '+57'}, 1, Phaser.Easing.Linear.None, true, 100);
@@ -596,6 +610,28 @@ Game.level1.prototype = {
             //console.log('DEAD');
             this.endGame();   
                 }
+        }
+        //check if in bounds of ladder
+        if(pushButton.isDown && (this.ladderUpdater(ladder[0])))
+        {
+            callStand = true;
+            ifCanJump=false;
+            console.log("on ladder");
+            player.body.data.gravityScale=0.05;
+            onLadder=true;
+        }
+        else{
+            if (callStand){
+                if (cursors.left.isDown){
+                    player.animations.play('left');
+                }else{
+                    player.animations.play('right');
+                }
+                callStand = false;
+            }
+            
+            player.body.data.gravityScale=1;
+            onLadder=false;
         }
 
         //check if on rightBelt
