@@ -179,8 +179,8 @@ Game.level1.prototype = {
         moveKillObj = new Array();
         moveKillObj[0] = this.add.sprite(5250,1795,'sawblade');
         moveKillObj[0].anchor.setTo(0.5,0.5);
-        moveKillObj[1] = this.add.sprite(6250, 1613, 'sawblade');
-        moveKillObj[1].anchor.setTo(0.5,0.5);
+       // moveKillObj[1] = this.add.sprite(6250, 1613, 'sawblade');
+       // moveKillObj[1].anchor.setTo(0.5,0.5);
         moveKillObj[2] = this.add.sprite(2430,1610,'sawblade');
         moveKillObj[2].anchor.setTo(0.5,0.5);
         moveKillObj[3] = this.add.sprite(4700,1790,'sawblade');
@@ -233,13 +233,14 @@ Game.level1.prototype = {
         letter.body.setCollisionGroup(winCollisionGroup);
         letter.body.collides([playerCollisionGroup,isJumpCollisionGroup,winCollisionGroup]);
         ladder = new Array();
-        ladder[0] = this.add.sprite(15075, 280,'ladder2');
+        ladder[0] = this.add.sprite(15080, 280,'ladder2');
 
         //boxes for pressure plates;
 
         // The player aanimations and position
 
         player = this.add.sprite(32, 1600 - 150, 'courier');
+        //player = this.add.sprite(7600,1000, 'courier');
 
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
@@ -414,16 +415,16 @@ Game.level1.prototype = {
         this.floatingBox('box',11500,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,5);
         this.floatingBox('box',11650,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,6);
         //right direction belt
-        beltRight = this.add.sprite(2245,1677,'continue');
-        beltRight.scale.setTo(3.5,1);
+        beltRight = this.add.sprite(2245,1677,'conveyor');
+        beltRight.scale.setTo(0.875,1);
         this.physics.p2.enableBody(beltRight, isDebug);
         beltRight.body.setCollisionGroup(beltCollisionGroup);
         beltRight.body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
         beltRight.body.static = true;
       //  beltRight.body.onEndContact.add(function(){touchdown=false;},this);
         //left direction belt
-        beltLeft = this.add.sprite(5195,1748,'continue');
-        beltLeft.scale.setTo(8,2);
+        beltLeft = this.add.sprite(5195,1748,'conveyor');
+        beltLeft.scale.setTo(2,2);
         this.physics.p2.enableBody(beltLeft, isDebug);
         beltLeft.body.setCollisionGroup(beltCollisionGroup);
         beltLeft.body.collides([isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
@@ -432,8 +433,8 @@ Game.level1.prototype = {
      //   beltLeft.body.onEndContact.add(function(){tounchdown = false;},this);
         //stepping stool box
         // last left belt
-        beltLeft2 = this.add.sprite(15200, 607, 'continue');
-        beltLeft2.scale.setTo(8,2);
+        beltLeft2 = this.add.sprite(15200, 607, 'conveyor');
+        beltLeft2.scale.setTo(2,2);
         this.physics.p2.enableBody(beltLeft2, isDebug);
         beltLeft2.body.setCollisionGroup(beltCollisionGroup);
         beltLeft2.body.collides([isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
@@ -444,6 +445,11 @@ Game.level1.prototype = {
         stool.body.setCollisionGroup(isJumpCollisionGroup);
         stool.body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
         stool.body.static=true;
+        stool2 = this.add.sprite(14784,643,'box');
+        this.physics.p2.enableBody(stool2, isDebug);
+        stool2.body.setCollisionGroup(isJumpCollisionGroup);
+        stool2.body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
+        //stool2.body.static=true;
         //Sets the jump button to up
         jumpButton = this.input.keyboard.addKey(Phaser.Keyboard.UP);
 
@@ -507,14 +513,14 @@ Game.level1.prototype = {
     update: function() {
         //console.log("x:"+this.camera.x);
         //console.log("y:"+this.camera.y);
-        console.log("x: ",player.body.x);
-        console.log("y: ",player.body.y);
-        console.log("xleft:", beltLeft2.body.x);
-        console.log("yleft:", beltLeft2.body.y);
+       // console.log("x: ",player.body.x);
+        //console.log("y: ",player.body.y);
+        //console.log("xleft:", beltLeft2.body.x);
+        //console.log("yleft:", beltLeft2.body.y);
 
      //   console.log("platedown:", plateDown);
-       // console.log("stool x:", stool.body.x);
-        //console.log("stool y:", stool.body.y);
+        console.log("stool x:", stool2.body.x);
+        console.log("stool y:", stool2.body.y);
        // console.log("touchdown:", touchdown);
         //console.log("1x:", leftBeltBoxArray[0].body.x);
         //console.log("2x:", leftBeltBoxArray[1].body.x);
@@ -628,7 +634,7 @@ Game.level1.prototype = {
             this.pausePanel.update();    
 
             this.moveKill(moveKillObj[0],5250,5650,'400',4000,'+57');
-            this.moveKill(moveKillObj[1],6250,7250,'1000',4000,'+57');
+            //this.moveKill(moveKillObj[1],6250,7250,'1000',4000,'+57');
             this.moveKill(moveKillObj[4],4870,5500, '630',3000,'+57');
             this.moveKill(moveKillObj[5],15300,15730,'430',3000,'+57');
             this.moveKill(moveKillObj[6],14850,15300,'450',3000,'+57');
