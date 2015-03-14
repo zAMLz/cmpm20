@@ -9,10 +9,16 @@ Game.endgame = function (game){
 //cutscene-----------------
 var cutsceneFlag;
 var blacker;
+var whitehouse;
+var terrain;
+var starcut;
 
 Game.endgame.prototype = {
 	
 	create: function(){
+
+
+        this.stage.backgroundColor = '#d0f4f7';
 
 		cutsceneFlag = this.add.sprite(0,0,'blank');
 
@@ -43,7 +49,12 @@ Game.endgame.prototype = {
         ground.body.setCollisionGroup(isJumpCollisionGroup);
         ground.body.collides([isJumpCollisionGroup, playerCollisionGroup, killCollisionGroup, winCollisionGroup, BoxCollisionGroup]);
 
-        this.add.sprite(0,0,'whitehouse');
+        whitehouse=this.add.sprite(0,0,'whitehouse');
+        terrain = this.add.sprite(0,150,'terr1-6');
+        this.add.tween(terrain).to( { alpha: 0 }, 1, Phaser.Easing.Linear.None, true);
+
+        starcut = this.add.sprite(0,150,'letter');
+        this.add.tween(starcut).to( { alpha: 0 }, 1, Phaser.Easing.Linear.None, true);
 
 		player = this.add.sprite(32, this.world.height-150-32, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
@@ -79,6 +90,9 @@ Game.endgame.prototype = {
 		president.animations.add('right_idle_letter',[0],10,true);
 
 		president.animations.play('left_idle');
+
+		blacker = this.add.sprite(0,0,'black');
+        this.add.tween(blacker).to( { alpha: 0 }, 1, Phaser.Easing.Linear.None, true);
 	},
 	update: function(){
 		if(cutsceneFlag.x == 0){
@@ -102,7 +116,7 @@ Game.endgame.prototype = {
             president.animations.play('right_idle_letter');
         }
         if(cutsceneFlag.x == 200){
-            this.add.tween(cutsceneFlag).to( { x: '+50' }, 1000, Phaser.Easing.Linear.None, true);
+            this.add.tween(cutsceneFlag).to( { x: '+50' }, 500, Phaser.Easing.Linear.None, true);
             player.animations.play('left');
             player.body.moveLeft(200);
         }
@@ -110,6 +124,30 @@ Game.endgame.prototype = {
         	player.body.moveLeft(200);
         }
         if(cutsceneFlag.x == 250){
+                this.add.tween(cutsceneFlag).to( { x: '+50' }, 1000, Phaser.Easing.Linear.None, true);
+                this.add.tween(blacker).to( { alpha: 1 }, 1000, Phaser.Easing.Linear.None, true);
+        }
+        if(cutsceneFlag.x == 300){
+        	this.add.tween(president).to( { alpha: 0 }, 1, Phaser.Easing.Linear.None, true);
+        	this.add.tween(whitehouse).to( { alpha: 0 }, 1, Phaser.Easing.Linear.None, true);
+        	this.add.tween(terrain).to( { alpha: 1 }, 1, Phaser.Easing.Linear.None, true);
+        	player.animations.play('right_idle');
+            this.add.tween(blacker).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+        	this.add.tween(cutsceneFlag).to( { x: '+50' }, 2000, Phaser.Easing.Linear.None, true);
+        }
+        if(cutsceneFlag.x == 350){
+            this.add.tween(starcut).to( { alpha: 1 }, 1, Phaser.Easing.Linear.None, true);
+            this.add.tween(cutsceneFlag).to( { x: '+50' }, 1000, Phaser.Easing.Linear.None, true);
+            this.add.tween(starcut).to( { x: 675*2 }, 4000, Phaser.Easing.Linear.None, true);
+            this.add.tween(starcut).to( { y: 1389/2 }, 4000, Phaser.Easing.Linear.None, true);
+            this.add.tween(starcut).to( { angle: '+1500' }, 4000, Phaser.Easing.Linear.None, true);
+        }
+        if(cutsceneFlag.x == 400){
+                this.add.tween(cutsceneFlag).to( { x: '+50' }, 1000, Phaser.Easing.Linear.None, true);
+                this.add.tween(blacker).to( { alpha: 1 }, 1000, Phaser.Easing.Linear.None, true);
+                //tween credits here... and extend cutsceneflag tween to make longer.
+        }
+        if(cutsceneFlag.x == 450){
         	this.end();
         }
 
