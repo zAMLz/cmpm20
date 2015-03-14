@@ -150,6 +150,7 @@ Game.tutorial.prototype={
     */
 
         this.createBox(2783, 488, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+        this.createBox(3439, 489, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
         //sets camera to follow
         this.camera.follow(player);
 
