@@ -202,8 +202,8 @@ Game.level1.prototype = {
         //Create a moveKill object
         //moveKillObj = this.add.sprite(500, 1678, 'boulder');
         moveKillObj = new Array();
-        moveKillObj[0] = this.add.sprite(5250,1795,'sawblade');
-        moveKillObj[0].anchor.setTo(0.5,0.5);
+       // moveKillObj[0] = this.add.sprite(5250,1795,'sawblade');
+        //moveKillObj[0].anchor.setTo(0.5,0.5);
         moveKillObj[1] = this.add.sprite(6250, 1613, 'sawblade');
         moveKillObj[1].anchor.setTo(0.5,0.5);
         moveKillObj[2] = this.add.sprite(2430,1610,'sawblade');
@@ -230,27 +230,43 @@ Game.level1.prototype = {
         this.createBox2(10930, 1118.1166, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
 
         //door sprite
-        door = this.add.sprite(7440,1524, 'box');
-        door.scale.setTo(1,3);
-        door2 = this.add.sprite(7620,1050, 'box')
-        door2.scale.setTo(1,3);
-        door3 = this.add.sprite(11700,1375, 'box');
-        door3.scale.setTo(1,3);
-        door4 = this.add.sprite(13215,575, 'box');
-        door4.scale.setTo(1,3);
-        pPlate = this.add.sprite(7000,1580, 'box');
-        pPlate2 = this.add.sprite(7470, 1500, 'box');
-        pPlate3 = this.add.sprite(11245,1105, 'box');
-        pPlate4 = this.add.sprite(12940,1105,'box');
+        door = this.add.sprite(7440,1524, 'doorSheet');
+        door2 = this.add.sprite(7620,1050, 'doorSheet')
+        door3 = this.add.sprite(11700,1375, 'doorSheet');
+        door4 = this.add.sprite(13215,575, 'doorSheet');
+        door.animations.add('closed', [0,1],3,true);
+        door.animations.add('open',[2],10,true);
+        door.animations.play('closed');
+        door2.animations.add('closed', [0,1],3,true);
+        door2.animations.add('open',[2],10,true);
+        door2.animations.play('open');
+        door3.animations.add('closed', [0,1],3,true);
+        door3.animations.add('open',[2],10,true);
+        door3.animations.play('closed');
+        door4.animations.add('closed', [0,1],3,true);
+        door4.animations.add('open',[2],10,true);
+        door4.animations.play('open');
+        pPlate = this.add.sprite(7000,1580, 'plateSheet');
+        pPlate2 = this.add.sprite(7370, 1580, 'plateSheet');
+        pPlate3 = this.add.sprite(11245,1105, 'plateSheet');
+        pPlate4 = this.add.sprite(12940,1105,'plateSheet');
+        pPlate5 = this.add.sprite(15550,530, 'plateSheet');
+        pPlate.animations.add('up', [5], 10, true);
+        pPlate.animations.add('down', [1], 10, true);
+        pPlate.animations.play('up');
+        pPlate2.animations.add('up', [5], 10, true);
+        pPlate2.animations.add('down', [1], 10, true);
+        pPlate2.animations.play('up');
+        pPlate3.animations.add('up', [5], 10, true);
+        pPlate3.animations.add('down', [1], 10, true);
+        pPlate3.animations.play('up');
+        pPlate4.animations.add('up', [5], 10, true);
+        pPlate4.animations.add('down', [1], 10, true);
+        pPlate4.animations.play('up');
+        pPlate5.animations.add('up', [5], 10, true);
+        pPlate5.animations.add('down', [1], 10, true);
+        pPlate5.animations.play('up');
 
-        pPlate5 = this.add.sprite(15550,530, 'box');
-        /*
-		plateBox2 = this.add.sprite(10900,1105,'box');
-        this.physics.p2.enableBody(plateBox2, isDebug);
-        plateBox2.body.setCollisionGroup(isJumpCollisionGroup);
-        plateBox2.body.collides([playerCollisionGroup,isJumpCollisionGroup, BoxCollisionGroup,beltCollisionGroup]);
-        plateBox2.body.fixedRotation=true;
-		*/
         var ledge = this.add.sprite(14970,390, 'ground');
         ledge.scale.setTo(0.5,1);
         this.physics.p2.enableBody(ledge);
@@ -262,10 +278,11 @@ Game.level1.prototype = {
         letter.body.setCollisionGroup(winCollisionGroup);
         letter.body.collides([playerCollisionGroup,isJumpCollisionGroup,winCollisionGroup]);
         ladder = new Array();
-        ladder[0] = this.add.sprite(15075, 280,'ladder2');
+        ladder[0] = this.add.sprite(15080, 280,'ladder2');
 
 
         //boxes for pressure plates;
+
 
         // The player aanimations and position
         player = this.add.sprite(32, 1680, 'courier');
@@ -447,16 +464,16 @@ Game.level1.prototype = {
         this.floatingBox('box',11500,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,5);
         this.floatingBox('box',11650,1210,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,6);
         //right direction belt
-        beltRight = this.add.sprite(2245,1677,'continue');
-        beltRight.scale.setTo(3.5,1);
+        beltRight = this.add.sprite(2245,1677,'conveyor');
+        beltRight.scale.setTo(0.875,1);
         this.physics.p2.enableBody(beltRight, isDebug);
         beltRight.body.setCollisionGroup(beltCollisionGroup);
         beltRight.body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
         beltRight.body.static = true;
         //  beltRight.body.onEndContact.add(function(){touchdown=false;},this);
         //left direction belt
-        beltLeft = this.add.sprite(5195,1748,'continue');
-        beltLeft.scale.setTo(8,2);
+        beltLeft = this.add.sprite(5195,1748,'conveyor');
+        beltLeft.scale.setTo(2,2);
         this.physics.p2.enableBody(beltLeft, isDebug);
         beltLeft.body.setCollisionGroup(beltCollisionGroup);
         beltLeft.body.collides([isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
@@ -466,8 +483,8 @@ Game.level1.prototype = {
      //   beltLeft.body.onEndContact.add(function(){tounchdown = false;},this);
         //stepping stool box
         // last left belt
-        beltLeft2 = this.add.sprite(15200, 607, 'continue');
-        beltLeft2.scale.setTo(8,2);
+        beltLeft2 = this.add.sprite(15200, 607, 'conveyor');
+        beltLeft2.scale.setTo(2,2);
         this.physics.p2.enableBody(beltLeft2, isDebug);
         beltLeft2.body.setCollisionGroup(beltCollisionGroup);
         beltLeft2.body.collides([isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
@@ -478,6 +495,11 @@ Game.level1.prototype = {
         stool.body.setCollisionGroup(isJumpCollisionGroup);
         stool.body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
         stool.body.static=true;
+        stool2 = this.add.sprite(14784,643,'box');
+        this.physics.p2.enableBody(stool2, isDebug);
+        stool2.body.setCollisionGroup(isJumpCollisionGroup);
+        stool2.body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
+        //stool2.body.static=true;
         //Sets the jump button to up
         jumpButton = this.input.keyboard.addKey(Phaser.Keyboard.UP);
 
@@ -549,12 +571,13 @@ Game.level1.prototype = {
         //console.log("y: ",player.body.y);
         console.log("x: ",plateBox.body.x);
         console.log("y: ",plateBox.body.y);
+
         //console.log("xleft:", beltLeft2.body.x);
         //console.log("yleft:", beltLeft2.body.y);
 
      //   console.log("platedown:", plateDown);
-       // console.log("stool x:", stool.body.x);
-        //console.log("stool y:", stool.body.y);
+      //  console.log("stool x:", stool2.body.x);
+       // console.log("stool y:", stool2.body.y);
        // console.log("touchdown:", touchdown);
         //console.log("1x:", leftBeltBoxArray[0].body.x);
         //console.log("2x:", leftBeltBoxArray[1].body.x);
@@ -596,45 +619,60 @@ Game.level1.prototype = {
         for(var i=0;i<leftBeltBoxArray.length;i++){
             if(leftBeltBoxArray[i].body.y>=2000){
                 leftBeltBoxArray[i].body.x=5600;
-                leftBeltBoxArray[i].body.y=1683;
+                leftBeltBoxArray[i].body.y=1680;
             }
         }
         //pressure plate boolean change
         if((plateBox.body.x>=pPlate.x&&plateBox.body.x<=pPlate.x+32&&plateBox.body.y>=pPlate.y&&plateBox.body.y<=pPlate.y+28) ||
             (player.body.x>=pPlate.x&&player.body.x<=pPlate.x+32&&player.body.y>=pPlate.y&&player.body.y<=pPlate.y+28)){
             plateDown=true;
+            pPlate.animations.play('down');
         }else{
             plateDown=false;
+            pPlate.animations.play('up');
         }
 
-        if(player.body.x>=pPlate2.x&&player.body.x<=pPlate2.x+32&&player.body.y>=pPlate2.y&&player.body.y<=pPlate2.y+28){
+        if((player.body.x>=pPlate2.x&&player.body.x<=pPlate2.x+32&&player.body.y>=pPlate2.y&&player.body.y<=pPlate2.y+28)||
+            (plateBox.body.x>=pPlate2.x&&plateBox.body.x<=pPlate2.x+32&&plateBox.body.y>=pPlate2.y&&plateBox.body.y<=pPlate2.y+28)) {
             plateDown2=true;
-        }else{
+            pPlate2.animations.play('down');
+        }else if(!bothDown){
             plateDown2=false;
+            pPlate2.animations.play('up');
         }
 
         if(plateDown&&plateDown2){
             bothDown=true;
+            door.animations.play('open');
         }
         //second pressure plate area stuff
-        if(plateBox2.body.x>=pPlate3.x&&plateBox2.body.x<=pPlate3.x+32&&plateBox2.body.y>=pPlate3.y&&plateBox2.body.y<=pPlate3.y+28){
+        if((plateBox2.body.x>=pPlate3.x&&plateBox2.body.x<=pPlate3.x+32&&plateBox2.body.y>=pPlate3.y&&plateBox2.body.y<=pPlate3.y+28)||
+            (player.body.x>=pPlate3.x&&player.body.x<=pPlate3.x+32&&player.body.y>=pPlate3.y&&player.body.y<=pPlate3.y+28)){
             plateDown3=true;
+            pPlate3.animations.play('down');
         }else{
             plateDown3=false;
+            pPlate3.animations.play('up');
         }
 
-        if(player.body.x>=pPlate4.x&&player.body.x<=pPlate4.x+32&&player.body.y>=pPlate4.y&&player.body.y<=pPlate4.y+28){
+        if((player.body.x>=pPlate4.x&&player.body.x<=pPlate4.x+32&&player.body.y>=pPlate4.y&&player.body.y<=pPlate4.y+28)||
+            (plateBox2.body.x>=pPlate4.x&&plateBox2.body.x<=pPlate4.x+32&&plateBox2.body.y>=pPlate4.y&&plateBox2.body.y<=pPlate4.y+28))
+        {
             plateDown4=true;
-        }else{
+            pPlate4.animations.play('down');
+        }else if(!bothDown2){
             plateDown4=false;
+            pPlate4.animations.play('up');
         }
 
         if(plateDown3&&plateDown4){
             bothDown2=true;
+            door3.animations.play('open');
         }
 
         if(player.body.x>=pPlate5.x&&player.body.x<=pPlate5.x+32&&player.body.y>=pPlate5.y&&player.body.y<=pPlate5.y+28){
             plateDown5=true;
+            pPlate5.animations.play('down');
         }
 
         if(plateDown5){
@@ -669,7 +707,7 @@ Game.level1.prototype = {
             this.pausePanel.y = this.camera.y-100;
             this.pausePanel.update();    
 
-            this.moveKill(moveKillObj[0],5250,5650,'400',4000,'+57');
+            //this.moveKill(moveKillObj[0],5250,5650,'400',4000,'+57');
             this.moveKill(moveKillObj[1],6250,7250,'1000',4000,'+57');
             this.moveKill(moveKillObj[4],4870,5500, '630',3000,'+57');
             this.moveKill(moveKillObj[5],15300,15730,'430',3000,'+57');
