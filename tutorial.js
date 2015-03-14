@@ -31,6 +31,11 @@ var boxY;
 var onGround = true;
 var playerbox = false;
 
+//---------------CUTSCENE-------------
+var cutsceneFlag;
+
+
+
 Game.tutorial = function(game){
     this.music=null;
 }
@@ -95,6 +100,8 @@ Game.tutorial.prototype={
         this.add.sprite(800+800+800,0,'tutorial4');
         this.add.sprite(800+800+800+800,0,'tutorial5');
 
+        this.add.sprite(0,0,'blank');
+
         //Create a group that will use this collision group.
 
         //Add a ground for our world
@@ -110,6 +117,7 @@ Game.tutorial.prototype={
 
         //ladder to pass traps
         ladder = this.add.sprite(2783+100-50+3, 488-100-50, 'ladder2');
+        ladder = this.add.sprite(3900,220,'ladder2');
 
         // The player aanimations and position
         player = this.add.sprite(32, this.world.height-120, 'courier');
@@ -186,7 +194,8 @@ Game.tutorial.prototype={
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
 
-        if(pushButton.isDown && ((player.body.x >= 2783+100-50+3 && player.body.x <= 2783+100-50+3+20 && player.body.y >= 488-100-50 && player.body.y <= 488-100-50+150))){
+        if(pushButton.isDown && ((player.body.x >= 2783+100-50+3 && player.body.x <= 2783+100-50+3+20 && player.body.y >= 488-100-50 && player.body.y <= 488-100-50+150)||
+            (player.body.x >= 3900 && player.body.x <= 3900+20 && player.body.y >= 220 && player.body.y <= 220+150))) {
             callStand = true;
             console.log("on ladder");
             player.body.data.gravityScale=0.05;
