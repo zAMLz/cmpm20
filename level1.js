@@ -285,8 +285,8 @@ Game.level1.prototype = {
 
 
         // The player aanimations and position
-        //player = this.add.sprite(32, 1680, 'courier');
-        player = this.add.sprite(10920, 1000, 'courier');
+        player = this.add.sprite(32, 1680, 'courier');
+        //player = this.add.sprite(10920, 1000, 'courier');
         //player = this.add.sprite(5831, 1000, 'courier');
         //player = this.add.sprite(50, 1600 - 200, 'courier');
         //player = this.add.sprite(32, 1600 - 150, 'courier');
