@@ -614,20 +614,14 @@ Game.level1.prototype = {
             player.body.y = 230;
         }
         //console.log("x:"+this.camera.x);
-<<<<<<< HEAD
         //console.log("y:"+this.camera.y);
         //console.log("x: ",player.body.x);
         //console.log("y: ",player.body.y);
-        console.log("x: ",plateBox.body.x);
-        console.log("y: ",plateBox.body.y);
-
-=======
         console.log("saveGame:"+saveGame);
         console.log("x: ",player.body.x);
         console.log("y: ",player.body.y);
         //console.log("x: ",plateBox.body.x);
         //console.log("y: ",plateBox.body.y);
->>>>>>> L1.6
         //console.log("xleft:", beltLeft2.body.x);
         //console.log("yleft:", beltLeft2.body.y);
 
