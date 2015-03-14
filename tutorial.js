@@ -89,6 +89,12 @@ Game.tutorial.prototype={
         //ladderText = this.add.text(550, 100, 'Hold the spacebar\nto latch on\nthe ladder', {fontSize: '12px', fill: '#000'});
         //pushText = this.add.text(100, 300, 'Some things\ncan be\npushed by\nholding the \nspacebar', { fontSize: '12px', fill: '#000' });
 
+        this.add.sprite(0,0,'tutorial1');
+        this.add.sprite(800,0,'tutorial2');
+        this.add.sprite(800+800,0,'tutorial3');
+        this.add.sprite(800+800+800,0,'tutorial4');
+        this.add.sprite(800+800+800+800,0,'tutorial5');
+
         //Create a group that will use this collision group.
 
         //Add a ground for our world
