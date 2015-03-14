@@ -1201,7 +1201,7 @@ Game.level1.prototype = {
     },
     nextLevel: function(){
         this.music.stop();
-        this.state.start('level2');
+        this.state.start('endgame');
     },
     restartLevel: function(){
         this.music.stop();
