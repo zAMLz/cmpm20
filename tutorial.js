@@ -191,11 +191,11 @@ Game.tutorial.prototype={
         childer.animations.play('left_letter');
 
         //trap for tutorial
-        this.createKillObj(3439+300, 490, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(3439+360, 490, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(3439+420, 490, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(3439+480, 490, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(3439+540, 490, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(3439+300, 490, 'trap', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(3439+360, 490, 'trap', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(3439+420, 490, 'trap', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(3439+480, 490, 'trap', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(3439+540, 490, 'trap', playerCollisionGroup, killCollisionGroup);
     
         this.createBox2(2783, 490, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
         this.createBox(3439, 490, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
