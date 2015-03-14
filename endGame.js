@@ -4,16 +4,54 @@ Game.endgame = function (game){
 	this.music=null
 };
 
+
+
+//cutscene-----------------
+var cutsceneFlag;
+var blacker;
+
 Game.endgame.prototype = {
 	
 	create: function(){
+
+		this.physics.startSystem(Phaser.Physics.P2JS);
+        this.physics.p2.gravity.y = 400;
+        this.physics.p2.setImpactEvents(true);
+        this.physics.p2.restitution = 0.0;
+
+        //COLLISION GROUPS -- VERY IMPORTANT (Helps keep track of which platforms the player can jump on...)
+        playerCollisionGroup = this.physics.p2.createCollisionGroup();
+        isJumpCollisionGroup = this.physics.p2.createCollisionGroup();
+        winCollisionGroup = this.physics.p2.createCollisionGroup();
+        killCollisionGroup = this.physics.p2.createCollisionGroup();
+        BoxCollisionGroup = this.physics.p2.createCollisionGroup();
+        //  This part is vital if you want the objects with their own collision groups to still collide with the world bounds
+        //  (which we do) - what this does is adjust the bounds to use its own collision group.
+        this.physics.p2.updateBoundsCollisionGroup();
+
+		var ground = this.add.sprite(0, this.world.height - 64,'ground'); //creates the sprite
+        ground.scale.setTo(200,2);//set the scale
+        this.physics.p2.enableBody(ground,isDebug);    //enables physics on it
+        ground.body.static = true;                  //disables gravity for itself...
+        ground.body.fixedRotation = true;           //fixes rotation?
+        //1.Tells the ground to be part of the jumpable collision group
+        //2.This effectively tells it that it collides with these collision groups.
+        ground.body.setCollisionGroup(isJumpCollisionGroup);
+        ground.body.collides([isJumpCollisionGroup, playerCollisionGroup, killCollisionGroup, winCollisionGroup, BoxCollisionGroup]);
+
+		player = this.add.sprite(32, this.world.height-120, 'courier');
+        player.animations.add('left', [3,4,5,11], 10, true);
+        player.animations.add('right', [10,9,8,2], 10, true);
+        player.animations.add('left_idle', [14], 10, true);
+        player.animations.add('right_idle', [13], 10, true);
+        player.animations.add('left_idle_letter', [6], 10, true);
+        player.animations.add('right_idle_letter', [12], 10, true);
+        player.animations.add('left_jump', [5], 10, true);
+        player.animations.add('right_jump', [2], 10, true);
+        player.animations.add('climb', [0,1], 5, true);
 		//adds music
-		this.music = this.add.audio('menumusic');
-		this.music.play();
+
 		this.stage.backgroundColor = '#383838';
-		var log = this.add.sprite(400,300,'logo');
-		log.anchor.setTo(0.5,0.5);
-		this.playButton=this.add.button((800-100)/2, ((600-50)/2) + 225, 'continue',this.startGame,this);
 	},
 	update: function(){
 
