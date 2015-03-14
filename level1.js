@@ -1247,7 +1247,7 @@ Game.level1.prototype = {
         plateDown5=false;
         bothDown2=false;
         bothDown=false;
-        this.state.start('level1gg');
+        this.state.start('endGame');
     },
     nextLevel: function(){
         this.music.stop();

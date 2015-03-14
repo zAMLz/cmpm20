@@ -17,6 +17,6 @@ Game.mainmenu.prototype = {
 	},
 	startGame: function(pointer){
 		this.music.stop();
-		this.state.start('endgame');
+		this.state.start('tutorial');
 	}
 }
