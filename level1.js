@@ -1204,10 +1204,16 @@ Game.level1.prototype = {
         this.state.start('endgame');
     },
     restartLevel: function(){
+        plateDown5=false;
+        bothDown2=false;
+        bothDown=false;
         this.music.stop();
         this.state.start('level1');
     },
     mainMenu: function(){
+        plateDown5=false;
+        bothDown2=false;
+        bothDown=false;
         this.music.stop();
         this.state.start('mainmenu');
     }

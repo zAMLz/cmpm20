@@ -342,7 +342,7 @@ Game.main.prototype={
         player.body.collides(winCollisionGroup, function(){gameEnd=true;},this);
         player.body.collides(BoxCollisionGroup,function(){playerbox = true; ifCanJump = true;},this)
 
-        boulder = this.add.sprite(0,0,'boulder');
+        badboulder = this.add.sprite(0,0,'badboulder');
         water = this.add.sprite(3200,1850,'water1-1'); //Note this has no interactions with the inWater function
         this.add.tween(water).to({alpha:0.95}, 1, Phaser.Easing.Linear.NONE, true);//Transparency
 
@@ -430,14 +430,14 @@ Game.main.prototype={
     badbouldercreate: function(){
         if(BBnotcreated){
             BBnotcreated=false;
-            this.physics.p2.enableBody(boulder,isDebug);
-            boulder.body.x = 2064;
-            boulder.body.y = 1400;
-            boulder.body.clearShapes();
-            boulder.body.setCircle(50);
-            boulder.body.setCollisionGroup(killCollisionGroup);
-            boulder.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
-            boulder.body.moveRight(200);
+            this.physics.p2.enableBody(badboulder,isDebug);
+            badboulder.body.x = 2064;
+            badboulder.body.y = 1400;
+            badboulder.body.clearShapes();
+            badboulder.body.setCircle(50);
+            badboulder.body.setCollisionGroup(killCollisionGroup);
+            badboulder.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
+            badboulder.body.moveRight(200);
             //Need to create water after this event, so that way the boulder happens to be behind the layer.
         }
     },
@@ -761,6 +761,7 @@ Game.main.prototype={
 // correct the endGame function
     endGame: function(){
         gameStart=true;
+        BBnotcreated=true;
         this.music.stop();
         this.state.start('gameover');
     },
@@ -770,12 +771,14 @@ Game.main.prototype={
         this.state.start('level1');
     },
     restartLevel: function(){
+        BBnotcreated=true;
         gameStart=true;
         this.music.stop();
         this.state.start('main');
     },
     mainMenu: function(){
         gameStart=true;
+        BBnotcreated=true;
         this.music.stop();
         this.state.start('mainmenu');
     }
