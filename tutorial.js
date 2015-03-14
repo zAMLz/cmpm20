@@ -142,13 +142,12 @@ Game.tutorial.prototype={
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
 
         //trap for tutorial
-        /*this.createKillObj(500, 490, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(560, 490, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(620, 490, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(680, 490, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(740, 490, 'blank', playerCollisionGroup, killCollisionGroup);
-    */
-
+        this.createKillObj(3439+300, 490, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(3439+360, 490, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(3439+420, 490, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(3439+480, 490, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(3439+540, 490, 'blank', playerCollisionGroup, killCollisionGroup);
+    
         this.createBox(2783, 488, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
         this.createBox(3439, 489, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
         //sets camera to follow
