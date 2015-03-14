@@ -37,11 +37,16 @@ var pPlate5;
 
 //-------------Boxes------------------
 var checkCreated = 0;
+var checkCreated2 = 0;
 var Box;
 var boxX;
 var boxY;
+var box2X;
+var box2Y;
 var onGround = true;
 var playerbox = true;
+var bool = true;
+var bool2 = true;
 //----------Player Control Variables---
 var facing = 'left';
 var jumpButton;
@@ -67,33 +72,50 @@ var paused;
 var pausePanel;
 var mehSpeed;
 
-//---------Other Variables---------
-var diamond;
-var diamond2;
-
 //----------fire-------------
 var sprite;
 var emitter;
 var emitter2;
+
+//---------------CUTSCENE-------------
+var blacker;
+var cutsceneFlag;
+var gameStart = true;
+var gameEnd = false;
+var inCutsceneDoor1 = false;
+var intro;
+var starcut;
+
 Game.level1 = function (game){
 	this.music = null;
 };
 
 Game.level1.prototype = {
 
-    createBox: function(x, y, index, playerCollisionGroup, isJumpCollisionGroup,BoxCollisionGroup ){
+    createBox: function(x, y, index, playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup){
         boxX = x;
         boxY = y;
         plateBox = this.add.sprite(x, y, index);
         this.physics.p2.enableBody(plateBox);
-        plateBox.body.friction = 100;
-        plateBox.body.restitution = 0.0;
-        plateBox.body.gravity = 500;
         plateBox.body.static = false;
         plateBox.body.fixedRotation = true;
         plateBox.body.setCollisionGroup(BoxCollisionGroup);
         plateBox.body.collides(isJumpCollisionGroup,function (){onGround = true;},this);
-        plateBox.body.collides([playerCollisionGroup]);
+        plateBox.body.collides([playerCollisionGroup, beltCollisionGroup]);
+
+    },
+
+    createBox2: function(x, y, index, playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup ){
+        box2X = x;
+        box2Y = y;
+        plateBox2 = this.add.sprite(x, y, index);
+        this.physics.p2.enableBody(plateBox2);
+        plateBox2.body.gravity = 0;
+        plateBox2.body.static = false;
+        plateBox2.body.fixedRotation = true;
+        plateBox2.body.setCollisionGroup(BoxCollisionGroup);
+        plateBox2.body.collides(isJumpCollisionGroup,function (){onGround = true;},this);
+        plateBox2.body.collides([playerCollisionGroup]);
 
     },
 
@@ -104,7 +126,6 @@ Game.level1.prototype = {
         if(realTerrain){
             terrain.body.clearShapes();
             terrain.body.loadPolygon('physicsdatafactory','fact1');
-          //  console.log(image);
             //1.Tells the ground to be part of the jumpable collision group
             //2.This effectively tells it that it collides with these collision groups.
             terrain.body.setCollisionGroup(isJumpCollisionGroup);
@@ -151,6 +172,10 @@ Game.level1.prototype = {
         this.music = this.add.audio('tutorialmusic');
         this.music.play();
 
+        gameStart = true;
+        gameEnd = false;
+        inCutsceneDoor1 = false;
+
         //changes bounds of the world and add a background for the world
         this.world.setBounds(0,0,15600,2800);
         this.stage.backgroundColor = '#d0f4f7';
@@ -195,13 +220,15 @@ Game.level1.prototype = {
 
 
         //if the player collides with the star next level starts
-        star = this.add.sprite(15500,500,'star');
+        star = this.add.sprite(15500,500,'letter');
+        starcut = this.add.sprite(92,1680,'letter');
         this.physics.p2.enableBody(star, isDebug);
         star.body.setCollisionGroup(winCollisionGroup);
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
 
         this.createBox(5870, 1593.0963, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
-       
+        this.createBox2(10930, 1118.1166, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+
         //door sprite
         door = this.add.sprite(7440,1524, 'doorSheet');
         door2 = this.add.sprite(7620,1050, 'doorSheet')
@@ -240,12 +267,6 @@ Game.level1.prototype = {
         pPlate5.animations.add('down', [1], 10, true);
         pPlate5.animations.play('up');
 
-        plateBox2 = this.add.sprite(10900,1105,'box');
-        this.physics.p2.enableBody(plateBox2, isDebug);
-        plateBox2.body.setCollisionGroup(isJumpCollisionGroup);
-        plateBox2.body.collides([playerCollisionGroup,isJumpCollisionGroup, BoxCollisionGroup,beltCollisionGroup]);
-        plateBox2.body.fixedRotation=true;
-
         var ledge = this.add.sprite(14970,390, 'ground');
         ledge.scale.setTo(0.5,1);
         this.physics.p2.enableBody(ledge);
@@ -259,13 +280,17 @@ Game.level1.prototype = {
         ladder = new Array();
         ladder[0] = this.add.sprite(15080, 280,'ladder2');
 
+
         //boxes for pressure plates;
 
-        // The player animations and position
 
-       // player = this.add.sprite(32, 1600 - 150, 'courier');
-        player = this.add.sprite(7600,1000, 'courier');
-
+        // The player aanimations and position
+        player = this.add.sprite(32, 1680, 'courier');
+        //player = this.add.sprite(10920, 1000, 'courier');
+        //player = this.add.sprite(5831, 1000, 'courier');
+        //player = this.add.sprite(50, 1600 - 200, 'courier');
+        //player = this.add.sprite(32, 1600 - 150, 'courier');
+        //player = this.add.sprite(7603, 0, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
@@ -286,7 +311,7 @@ Game.level1.prototype = {
         player.body.collides(killCollisionGroup, this.endGame, this);
         player.body.collides(winCollisionGroup, this.nextLevel,this);
         player.body.collides(BoxCollisionGroup,function(){playerbox = true; ifCanJump = true;},this);
-        player.body.collides(beltCollisionGroup, function (){ifCanJump = true; touchdown=true;});
+        player.body.collides(beltCollisionGroup, function (){ifCanJump = true; touchdown=true;},this);
         
        
         //boxes on right belt
@@ -445,15 +470,16 @@ Game.level1.prototype = {
         beltRight.body.setCollisionGroup(beltCollisionGroup);
         beltRight.body.collides([playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
         beltRight.body.static = true;
-      //  beltRight.body.onEndContact.add(function(){touchdown=false;},this);
+        //  beltRight.body.onEndContact.add(function(){touchdown=false;},this);
         //left direction belt
         beltLeft = this.add.sprite(5195,1748,'conveyor');
         beltLeft.scale.setTo(2,2);
         this.physics.p2.enableBody(beltLeft, isDebug);
         beltLeft.body.setCollisionGroup(beltCollisionGroup);
         beltLeft.body.collides([isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
-        beltLeft.body.collides(playerCollisionGroup, function(){tounchdown=true; isJumpCollisionGroup=true;});
-     //   beltLeft.body.static = true;
+        //beltLeft.body.collides(playerCollisionGroup, function(){tounchdown=true; isJumpCollisionGroup=true;},this);
+        beltLeft.body.collides(playerCollisionGroup, function(){ifCanJump=true;},this);
+        beltLeft.body.static = true;
      //   beltLeft.body.onEndContact.add(function(){tounchdown = false;},this);
         //stepping stool box
         // last left belt
@@ -491,10 +517,14 @@ Game.level1.prototype = {
 
         //Enter Play Mode
         mehSpeed = new Array();
+
+        //Create cutscenen stuff here
+        blacker = this.add.sprite(0,1378,'black');
+        this.game.add.tween(blacker).to({alpha:0.9}, 1, Phaser.Easing.Linear.NONE, true);
+        intro = this.add.sprite(0,1378+600,'introfactory');
+        cutsceneFlag = this.add.sprite(0,0,'star');
+
         this.playGame();
-
-
-       
     },
 
     pauseGame: function(){
@@ -537,8 +567,11 @@ Game.level1.prototype = {
     update: function() {
         //console.log("x:"+this.camera.x);
         //console.log("y:"+this.camera.y);
-        console.log("x: ",player.body.x);
-        console.log("y: ",player.body.y);
+        //console.log("x: ",player.body.x);
+        //console.log("y: ",player.body.y);
+        console.log("x: ",plateBox.body.x);
+        console.log("y: ",plateBox.body.y);
+
         //console.log("xleft:", beltLeft2.body.x);
         //console.log("yleft:", beltLeft2.body.y);
 
@@ -556,6 +589,9 @@ Game.level1.prototype = {
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
+        //make sure cutscene element follow player;
+        this.game.add.tween(blacker).to({x:this.game.camera.x}, 1, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(blacker).to({y:this.game.camera.y}, 1, Phaser.Easing.Linear.NONE, true);
         
 		if( (player.body.x >= 7483 && player.body.x <= 7483+50 && player.body.y >= 1108 && player.body.y <= 1583) ||
 			(player.body.x >= 3710 && player.body.x <= 3710+50  && player.body.y >= 1583 && player.body.y <= 1773) ||
@@ -583,7 +619,7 @@ Game.level1.prototype = {
         for(var i=0;i<leftBeltBoxArray.length;i++){
             if(leftBeltBoxArray[i].body.y>=2000){
                 leftBeltBoxArray[i].body.x=5600;
-                leftBeltBoxArray[i].body.y=1683;
+                leftBeltBoxArray[i].body.y=1680;
             }
         }
         //pressure plate boolean change
@@ -659,8 +695,7 @@ Game.level1.prototype = {
 
         //door teleport thing
         if(bothDown&&(player.body.x>=door.x&&player.body.x<=door.x+32&&player.body.y>=door.y&&player.body.y<=door.y+84)){
-            player.body.x=door2.x;
-            player.body.y=door2.y;
+            inCutsceneDoor1 = true;
         }
         //second door teleport thing
         if(bothDown2&&(player.body.x>=door3.x&&player.body.x<=door3.x+32&&player.body.y>=door3.y&&player.body.y<=door3.y+84)){
@@ -683,11 +718,11 @@ Game.level1.prototype = {
             this.add.tween(moveKillObj[2]).to({angle: '+57'}, 1, Phaser.Easing.Linear.None, true, 100);
             this.add.tween(moveKillObj[3]).to({angle: '+57'}, 1, Phaser.Easing.Linear.None, true, 100);
         //Check the collision bounds for stationary sawblade
-        if((player.body.x >= moveKillObj[2].x-50 && player.body.x <= moveKillObj[2].x+100-50 && player.body.y >= moveKillObj[2].y-50 && player.body.y <= moveKillObj[2].y+100-50) || 
-            (player.body.x >= moveKillObj[3].x-50 && player.body.x <= moveKillObj[3].x+100-50 && player.body.y >= moveKillObj[3].y-50 && player.body.y <= moveKillObj[3].y+100-50)){
-            //console.log('DEAD');
-            this.endGame();   
-                }
+            if((player.body.x >= moveKillObj[2].x-50 && player.body.x <= moveKillObj[2].x+100-50 && player.body.y >= moveKillObj[2].y-50 && player.body.y <= moveKillObj[2].y+100-50) || 
+                (player.body.x >= moveKillObj[3].x-50 && player.body.x <= moveKillObj[3].x+100-50 && player.body.y >= moveKillObj[3].y-50 && player.body.y <= moveKillObj[3].y+100-50)){
+                //console.log('DEAD');
+                this.endGame();   
+            }
         }
         //check if in bounds of ladder
         if(pushButton.isDown && (this.ladderUpdater(ladder[0])))
@@ -755,7 +790,7 @@ Game.level1.prototype = {
             player.body.velocity.y = 0;
 
         //Control Player Movement;
-        if (!paused && !inWater){
+        if (!paused && !inWater && !inCutsceneDoor1 && !gameStart){
             if (cursors.left.isDown)
             {
                 player.body.moveLeft(200+godmode);
@@ -813,50 +848,111 @@ Game.level1.prototype = {
             }
 
             // moving a Box-----------------------------
-            if (pushButton.isDown && cursors.right.isDown) {
-                onGround = false;
-                if (checkCreated < 1){
-                    onGround = false;
+            if (plateBox.body.y > 1593.1001281738281){
+                if (bool){
                     plateBox.body.destroy();
                     plateBox.kill();
                     this.createBox( boxX, boxY, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
-                    checkCreated++;
-                }
-                while (pushButton.isUp || cursors.right.isUp){
-                plateBox.body.static = true;
-                boxX = plateBox.body.x;
-                boxY = plateBox.body.y;
-                checkCreated =0;
-                playerbox =false;                   
+                    bool = false;
                 }
             }else{
-                plateBox.body.static = true;
-                boxX = plateBox.body.x;
-                boxY = plateBox.body.y;
-                checkCreated =0;
-                playerbox =false;
-                
+                if (pushButton.isDown && cursors.right.isDown) {
+                    //onGround = false;
+                    if (checkCreated < 1){
+                        //onGround = false;
+                        plateBox.body.destroy();
+                        plateBox.kill();
+                        this.createBox( boxX, boxY, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+                        checkCreated++;
+                    }
+                    while (pushButton.isUp || cursors.right.isUp){
+                        plateBox.body.static = true;
+                        boxX = plateBox.body.x;
+                        boxY = plateBox.body.y;
+                        checkCreated =0;
+                        //playerbox =false;                   
+                    }
+                }else{
+                    plateBox.body.static = true;
+                    boxX = plateBox.body.x;
+                    boxY = plateBox.body.y;
+                    checkCreated =0;
+                    //playerbox =false;
+                    
+                }
+
+                if (pushButton.isDown && cursors.left.isDown) {
+                    //onGround = false;
+                    if (checkCreated < 1){
+                        //onGround = false;
+                        plateBox.body.destroy();
+                        plateBox.kill();
+                        this.createBox( boxX, boxY, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+                        checkCreated++;
+                    }
+                    while (pushButton.isUp || cursors.left.isUp){
+                        plateBox.body.static = true;
+                        boxX = plateBox.body.x;
+                        boxY = plateBox.body.y;
+                        checkCreated =0;
+                        //playerbox =false;                   
+                    }
+                }
             }
 
+            // moving a Box2-----------------------------
+            if (plateBox2.body.y > 1118.8909912109375){
+                if (bool2){
+                    plateBox2.body.destroy();
+                    plateBox2.kill();
+                    this.createBox2( box2X, box2Y, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+                    bool2 = false;
+                }
+            }else{
+                if (pushButton.isDown && cursors.right.isDown) {
+                    //onGround = false;
+                    if (checkCreated2 < 1){
+                        //onGround = false;
+                        plateBox2.body.destroy();
+                        plateBox2.kill();
+                        this.createBox2( box2X, box2Y, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+                        checkCreated2++;
+                    }
+                    while (pushButton.isUp || cursors.right.isUp){
+                        plateBox2.body.static = true;
+                        box2X = plateBox2.body.x;
+                        box2Y = plateBox2.body.y;
+                        checkCreated2 =0;
+                        //playerbox =false;                   
+                    }
+                }else{
+                    plateBox2.body.static = true;
+                    box2X = plateBox2.body.x;
+                    box2Y = plateBox2.body.y;
+                    checkCreated2 =0;
+                    //playerbox =false;    
+                }
 
-            if (pushButton.isDown && cursors.left.isDown) {
-                onGround = false;
-                if (checkCreated < 1){
+                if (pushButton.isDown && cursors.left.isDown) {
                     onGround = false;
-                    plateBox.body.destroy();
-                    plateBox.kill();
-                    this.createBox( boxX, boxY, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
-                    checkCreated++;
-                }
-                while (pushButton.isUp || cursors.left.isUp){
-                plateBox.body.static = true;
-                boxX = plateBox.body.x;
-                boxY = plateBox.body.y;
-                checkCreated =0;
-                playerbox =false;                   
+                    if (checkCreated2 < 1){
+                        onGround = false;
+                        plateBox2.body.destroy();
+                        plateBox2.kill();
+                        this.createBox2( box2X, box2Y, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+                        checkCreated2++;
+                    }
+                    while (pushButton.isUp || cursors.left.isUp){
+                        plateBox2.body.static = true;
+                        box2X = plateBox2.body.x;
+                        box2Y = plateBox2.body.y;
+                        checkCreated2 =0;
+                        //playerbox =false;                   
+                    }
                 }
             }
 
+            //end moving Boxes-----------------------------------------
         }
 
         if (!paused && inWater){
@@ -889,7 +985,7 @@ Game.level1.prototype = {
             }
         }
         //if on rightBelt
-       if (!paused && touchdown && beltRightBool){
+        if (!paused && touchdown && beltRightBool){
             if (cursors.left.isDown)
             {
                 player.body.moveLeft(50+godmode);
@@ -1005,6 +1101,7 @@ Game.level1.prototype = {
             }
 
         }
+
         if (!paused && touchdown && beltLeftBool && onLadder){
             if(cursors.up.isDown){
                 player.animations.play('climb');
@@ -1034,9 +1131,61 @@ Game.level1.prototype = {
         //if (player.body.x >= 226){
         //}
 
+
         //-----------------------player Kill zone
         if (player.body.y >= 1850+200){
             this.endGame();
+        }
+
+        //-------------------cutscnees
+        if(inCutsceneDoor1){
+            if(cutsceneFlag.x == 0){    
+                this.add.tween(cutsceneFlag).to( { x: 100 }, 1000, Phaser.Easing.Linear.None, true);
+                this.add.tween(blacker).to( { alpha: 1 }, 1000, Phaser.Easing.Linear.None, true);
+            }
+            if(cutsceneFlag.x == 100){
+                player.body.x = door2.x;
+                player.body.y = door2.y;
+                this.add.tween(cutsceneFlag).to( { x: 200 }, 1000, Phaser.Easing.Linear.None, true);
+            }
+            if(cutsceneFlag.x == 200){
+                inCutsceneDoor1 = false;
+                this.add.tween(cutsceneFlag).to( { x: 0 }, 1000, Phaser.Easing.Linear.None, true);
+                this.add.tween(blacker).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true)
+            }
+        }
+        if(gameStart){
+            if(cutsceneFlag.x == 0){
+                player.animations.play('right_idle');
+                this.add.tween(cutsceneFlag).to( { x: '+50' }, 3000, Phaser.Easing.Linear.None, true);
+                this.add.tween(intro).to( { y: '-500' }, 1000, Phaser.Easing.Linear.None, true);
+            }
+            if(cutsceneFlag.x == 50){
+                this.add.tween(cutsceneFlag).to( { x: '+50' }, 1000, Phaser.Easing.Linear.None, true);
+                this.add.tween(blacker).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+                this.add.tween(intro).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+            }
+            if(cutsceneFlag.x == 100){
+                player.animations.play('right_idle');
+                this.add.tween(cutsceneFlag).to( { x: '+100' }, 400, Phaser.Easing.Linear.None, true);
+            }
+            if(cutsceneFlag.x>= 150 && cutsceneFlag.x<200){
+                player.animations.play('right');
+                player.body.moveRight(100);
+            }
+            if(cutsceneFlag.x == 200){
+                player.animations.play('right_idle');
+                this.add.tween(cutsceneFlag).to( { x: '+100' }, 2000, Phaser.Easing.Linear.None, true);
+                this.add.tween(starcut).to( { x: 675*2 }, 4000, Phaser.Easing.Linear.None, true);
+                this.add.tween(starcut).to( { y: 1389/2 }, 4000, Phaser.Easing.Linear.None, true);
+                this.add.tween(starcut).to( { angle: '+1500' }, 4000, Phaser.Easing.Linear.None, true);
+            }
+            if(cutsceneFlag.x == 300){
+                starcut.x = 0;
+                starcut.y = 0;
+                gameStart = false;
+                this.add.tween(cutsceneFlag).to({ x: 0 }, 1, Phaser.Easing.Linear.None, true);
+            }
         }
 
     },
@@ -1108,6 +1257,12 @@ PausePanel.prototype.show = function(){
     this.game.add.tween(btnRestart).to({y:this.game.camera.y+175}, 500, Phaser.Easing.Bounce.Out, true);
     this.game.add.tween(btnHelp).to({y:this.game.camera.y+250}, 500, Phaser.Easing.Bounce.Out, true);
     this.game.add.tween(btnQuit).to({y:this.game.camera.y+325}, 500, Phaser.Easing.Bounce.Out, true);
+    
+    this.game.add.tween(this).to({alpha:1}, 1, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnRestart).to({alpha:1}, 1, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnHelp).to({alpha:1}, 1, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnQuit).to({alpha:1}, 1, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnHelpScreen).to({alpha:1}, 1, Phaser.Easing.Linear.NONE, true);
 };
 PausePanel.prototype.update = function(){
     if(!paused){
@@ -1120,6 +1275,12 @@ PausePanel.prototype.update = function(){
         this.game.add.tween(btnHelp).to({y:this.game.camera.y-150}, 1, Phaser.Easing.Linear.NONE, true);
         this.game.add.tween(btnQuit).to({y:this.game.camera.y-75}, 1, Phaser.Easing.Linear.NONE, true);
         this.game.add.tween(btnHelpScreen).to({y:this.game.camera.y-600}, 1, Phaser.Easing.Linear.NONE, true);
+        //for transpaceny        
+        this.game.add.tween(btnHelpScreen).to({alpha:0}, 1, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(this).to({alpha:0}, 1, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(btnRestart).to({alpha:0}, 1, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(btnHelp).to({alpha:0}, 1, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(btnQuit).to({alpha:0.50}, 1, Phaser.Easing.Linear.NONE, true);
     }
 }
 
@@ -1129,5 +1290,11 @@ PausePanel.prototype.hide = function(){
     this.game.add.tween(btnRestart).to({y:this.game.camera.y-225}, 200, Phaser.Easing.Linear.NONE, true);
     this.game.add.tween(btnHelp).to({y:this.game.camera.y-150}, 200, Phaser.Easing.Linear.NONE, true);
     this.game.add.tween(btnQuit).to({y:this.game.camera.y-75}, 200, Phaser.Easing.Linear.NONE, true);
+    
+    this.game.add.tween(btnHelpScreen).to({alpha:0}, 1, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(this).to({alpha:0}, 1, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnRestart).to({alpha:0}, 1, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnHelp).to({alpha:0}, 1, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(btnQuit).to({alpha:0.50}, 1, Phaser.Easing.Linear.NONE, true);
 };
 
