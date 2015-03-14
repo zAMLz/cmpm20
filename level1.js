@@ -10,6 +10,7 @@ var isJumpCollisionGroup;
 var killCollisionGroup;
 var beltCollisionGroup;
 var counter = 0;
+var saveGame1 = 0;
 
 //-------------OBJECTS---------------
 var index;
@@ -91,7 +92,7 @@ var gameEnd = false;
 var inCutsceneDoor1 = false;
 var intro;
 var starcut;
-var saveGame = 0;
+
 
 Game.level1 = function (game){
 	this.music = null;
@@ -300,11 +301,15 @@ Game.level1.prototype = {
         num5 = this.input.keyboard.addKey(Phaser.Keyboard.FIVE);
         num6 = this.input.keyboard.addKey(Phaser.Keyboard.SIX);
 
-        //if (saveGame == 0){ 
-        player = this.add.sprite(32, 1680, 'courier');
-        //}else if(saveGame ==1){
-            //player = this.add.sprite(4531, 1500, 'courier');
-        //}
+        if (saveGame1 == 0){ 
+            player = this.add.sprite(32, 1680, 'courier');
+        }else if(saveGame1 ==1){
+            player = this.add.sprite(4531, 1500, 'courier');
+        }else if(saveGame1 ==2){
+            player = this.add.sprite(7740, 1100, 'courier');
+        }else if(saveGame1 ==3){
+            player = this.add.sprite(13320, 610, 'courier');
+        }
         //player = this.add.sprite(10920, 1000, 'courier');
         //player = this.add.sprite(5831, 1000, 'courier');
         //player = this.add.sprite(50, 1600 - 200, 'courier');
@@ -506,6 +511,7 @@ Game.level1.prototype = {
         beltLeft2.scale.setTo(2,2);
         this.physics.p2.enableBody(beltLeft2, isDebug);
         beltLeft2.body.setCollisionGroup(beltCollisionGroup);
+        beltLeft2.body.static = true;
         beltLeft2.body.collides([isJumpCollisionGroup,BoxCollisionGroup,beltCollisionGroup]);
         beltLeft2.body.collides(playerCollisionGroup, function(){tounchdown=true; isJumpCollisionGroup=true;});
 
@@ -584,10 +590,16 @@ Game.level1.prototype = {
 
 
     update: function() {
-        if (player.body.x > 4500){
-            saveGame = 1;
+        if ( player.body.x > 4500 && player.body.x <=7740){
+            saveGame1 = 1;
+        }else 
+            if (player.body.x > 7740 && player.body.x <= 13320){
+                saveGame1 = 2;
+        }else 
+            if (player.body.x > 13320){
+                saveGame1 = 3;
         }
-        
+
 
         if (num1.isDown){
             player.body.x = 2770;
@@ -617,7 +629,7 @@ Game.level1.prototype = {
         //console.log("y:"+this.camera.y);
         //console.log("x: ",player.body.x);
         //console.log("y: ",player.body.y);
-        console.log("saveGame:"+saveGame);
+        console.log("saveGame1:"+saveGame1);
         console.log("x: ",player.body.x);
         console.log("y: ",player.body.y);
         //console.log("x: ",plateBox.body.x);
@@ -1204,7 +1216,7 @@ Game.level1.prototype = {
                 this.add.tween(blacker).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true)
             }
         }
-        if(gameStart){
+        if(gameStart && saveGame1 == 0){
             if(cutsceneFlag.x == 0){
                 player.animations.play('right_idle');
                 this.add.tween(cutsceneFlag).to( { x: '+50' }, 3000, Phaser.Easing.Linear.None, true);
@@ -1236,6 +1248,10 @@ Game.level1.prototype = {
                 gameStart = false;
                 this.add.tween(cutsceneFlag).to({ x: 0 }, 1, Phaser.Easing.Linear.None, true);
             }
+        }
+        if (saveGame1 !=0 && !inCutsceneDoor1){
+            gameStart = false;
+            this.add.tween(blacker).to( { alpha: 0 }, 1, Phaser.Easing.Linear.None, true);
         }
 
     },
