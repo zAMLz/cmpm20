@@ -28,6 +28,7 @@ Game.preloader.prototype = {
     //also needs ogg version for firefox.
     this.load.audio('menumusic', ['assets/audio/Steve_Combs_13_Our_Wasted_Youth.mp3', 'Steve_Combs_13_Our_Wasted_Youth.ogg']);
     this.load.audio('tutorialmusic', ['assets/audio/Steve_Combs_22_Thank_You_Remix.mp3', 'Steve_Combs_22_Thank_You_Remix.ogg']);
+    this.load.audio('ggmusic', ['assets/audio/DvdThemeMusic.eerie.creepy.classicHorror1.mp3','assets/audio/DvdThemeMusic.eerie.creepy.classicHorror1.ogg']);
     this.load.image('sky', 'assets/sky.png');
     this.load.image('ground', 'assets/platform.png');
     this.load.image('star', 'assets/star.png');
