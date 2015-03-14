@@ -20,6 +20,7 @@
     <script src="level2.js" type="text/javascript"></script>
     <script src="level2gg.js" type="text/javascript"></script>
     <script src="gameover.js" type="text/javascript"></script>
+    <script src="endGame.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="gameCont"></div>
@@ -37,6 +38,7 @@ window.onload = function(){
 	game.state.add('level1gg', Game.level1gg);
 	game.state.add('level2', Game.level2);
 	game.state.add('level2gg', Game.level2gg);
+	game.state.add('endgame', Game.endgame);
 	game.state.start('boot');
 }
 </script>
