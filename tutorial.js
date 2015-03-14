@@ -31,6 +31,13 @@ var boxY;
 var onGround = true;
 var playerbox = false;
 
+//---------------CUTSCENE-------------
+var cutsceneFlag;
+var childer;
+var isCutscene=false;
+
+
+
 Game.tutorial = function(game){
     this.music=null;
 }
@@ -57,12 +64,13 @@ Game.tutorial.prototype={
         diamond.body.collides([playerCollisionGroup]);
     },
     create: function() {
+        isCutscene = false;
         //adds music
         this.music = this.add.audio('tutorialmusic');
         this.music.play();
     	//changes bounds of the world and add a background for the world
-    	this.world.setBounds(0,0,1400,this.world.height);
-        this.add.tileSprite(0, 0,1400,this.world.height, 'fulldome');
+    	this.world.setBounds(0,0,6800,this.world.height);
+        this.stage.backgroundColor = '#d0f4f7';
           //pause menu
         this.btnPause = this.game.add.button(675,20,'pause',this.pauseGame,this);
         this.pausePanel = new PausePanel(this.game);
@@ -85,9 +93,17 @@ Game.tutorial.prototype={
         //  (which we do) - what this does is adjust the bounds to use its own collision group.
         this.physics.p2.updateBoundsCollisionGroup();
         //text boxes
-        dangerText = this.add.text(400, 350, 'Danger!\nDon\'t touch\ndangerous things', { fontSize: '12px', fill: '#fff' });
-        ladderText = this.add.text(550, 100, 'Hold the spacebar\nto latch on\nthe ladder', {fontSize: '12px', fill: '#fff'});
-        pushText = this.add.text(100, 300, 'Some things\ncan be\npushed by\nholding the \nspacebar', { fontSize: '12px', fill: '#fff' });
+        //dangerText = this.add.text(400, 350, 'Danger!\nDon\'t touch\ndangerous things', { fontSize: '12px', fill: '#000' });
+        //ladderText = this.add.text(550, 100, 'Hold the spacebar\nto latch on\nthe ladder', {fontSize: '12px', fill: '#000'});
+        //pushText = this.add.text(100, 300, 'Some things\ncan be\npushed by\nholding the \nspacebar', { fontSize: '12px', fill: '#000' });
+
+        this.add.sprite(0,0,'tutorial1');
+        this.add.sprite(800,0,'tutorial2');
+        this.add.sprite(800+800,0,'tutorial3');
+        this.add.sprite(800+800+800,0,'tutorial4');
+        this.add.sprite(800+800+800+800,0,'tutorial5');
+
+        this.add.sprite(0,0,'blank');
 
         //Create a group that will use this collision group.
 
@@ -103,7 +119,8 @@ Game.tutorial.prototype={
         ground.body.collides([isJumpCollisionGroup, playerCollisionGroup, killCollisionGroup, winCollisionGroup, BoxCollisionGroup]);
 
         //ladder to pass traps
-        ladder = this.add.sprite(620, 220, 'ladder');
+        ladder = this.add.sprite(2783+100-50+3, 488-100-50, 'ladder2');
+        ladder = this.add.sprite(3900,220,'ladder2');
 
         // The player aanimations and position
         player = this.add.sprite(32, this.world.height-120, 'courier');
@@ -130,20 +147,29 @@ Game.tutorial.prototype={
         player.body.collides(BoxCollisionGroup,function(){playerbox = true; ifCanJump = true;},this)
 
         //star that advances you to next level
-        star = this.add.sprite(1330, 460, 'letter');
+        star = this.add.sprite(this.game.width, this.game.height, 'blank');
         this.physics.p2.enableBody(star);
         star.body.setCollisionGroup(winCollisionGroup);
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
 
+        cutsceneFlag = this.add.sprite(0,0,'blank');
+
+        childer = this.add.sprite(5419+32,460,'child');
+        childer.animations.add('left_letter',[4],10,true);
+        childer.animations.add('right_letter',[2],10,true);
+        childer.animations.add('left',[1],10,true);
+        childer.animations.add('right',[0],10,true);
+        childer.animations.play('left_letter');
+
         //trap for tutorial
-        this.createKillObj(500, 490, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(560, 490, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(620, 490, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(680, 490, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(740, 490, 'blank', playerCollisionGroup, killCollisionGroup);
-
-
-        this.createBox(200, 488.0928, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+        this.createKillObj(3439+300, 490, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(3439+360, 490, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(3439+420, 490, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(3439+480, 490, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(3439+540, 490, 'blank', playerCollisionGroup, killCollisionGroup);
+    
+        this.createBox(2783, 488, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+        this.createBox(3439, 489, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
         //sets camera to follow
         this.camera.follow(player);
 
@@ -180,7 +206,11 @@ Game.tutorial.prototype={
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
 
-        if(pushButton.isDown && ((player.body.x >= 620 && player.body.x <= 620+20 && player.body.y >= 220 && player.body.y <= 220+150))){
+        if(player.body.x > 4204)
+            isCutscene = true;
+
+        if(pushButton.isDown && ((player.body.x >= 2783+100-50+3 && player.body.x <= 2783+100-50+3+20 && player.body.y >= 488-100-50 && player.body.y <= 488-100-50+150)||
+            (player.body.x >= 3900 && player.body.x <= 3900+20 && player.body.y >= 220 && player.body.y <= 220+150))) {
             callStand = true;
             console.log("on ladder");
             player.body.data.gravityScale=0.05;
@@ -211,7 +241,7 @@ Game.tutorial.prototype={
             player.body.velocity.y = 0;
         }
       //Control Player Movement;
-        if (!paused && !inWater && !onLadder){
+        if (!paused && !inWater && !onLadder && !isCutscene){
             if (cursors.left.isDown)
             {
                 player.body.moveLeft(200+godmode);
@@ -317,7 +347,7 @@ Game.tutorial.prototype={
 
         }
 
-        if (!paused && inWater && !onLadder){
+        if (!paused && inWater && !onLadder && !isCutscene){
             if (cursors.left.isDown)
             {
                 player.body.moveLeft(200+godmode);
@@ -345,7 +375,7 @@ Game.tutorial.prototype={
                 player.body.moveDown(200+godmode);
             }
         }
-        if(!paused && !inWater && onLadder){
+        if(!paused && !inWater && onLadder && !isCutscene){
             if(cursors.up.isDown){
                 player.animations.play('climb');
                 player.body.moveUp(40);
@@ -357,6 +387,39 @@ Game.tutorial.prototype={
             else
                 player.animations.stop();
         }
+
+        //----------------CUTSCENE IMAGINED--------------------
+        if(isCutscene){
+            if(cutsceneFlag.x == 0){
+                this.add.tween(cutsceneFlag).to( { x: '+50' }, 3000, Phaser.Easing.Linear.None, true);
+                player.animations.play('right');
+                player.body.moveRight(400);
+            }
+            if(cutsceneFlag.x<50 || cutsceneFlag.x>150){
+                player.body.moveRight(400);
+            }
+            if(cutsceneFlag.x == 50){
+                player.animations.play('right_idle');
+                childer.animations.play('left_letter');
+                this.add.tween(cutsceneFlag).to( { x: '+50' }, 500, Phaser.Easing.Linear.None, true);
+            }
+            if(cutsceneFlag.x == 100){
+                player.animations.play('right_idle_letter');
+                childer.animations.play('left');
+                this.add.tween(cutsceneFlag).to( { x: '+50' }, 500, Phaser.Easing.Linear.None, true);
+            }
+            if(cutsceneFlag.x == 150){
+                player.animations.play('right');
+                player.body.moveRight(400);
+                this.add.tween(cutsceneFlag).to( { x: '+50' }, 3000, Phaser.Easing.Linear.None, true);
+            }
+            if(cutsceneFlag.x == 175){
+                childer.animations.play('right');
+            }
+            if(cutsceneFlag.x == 200)
+                this.nextLevel();
+        }
+
 
     },
 
