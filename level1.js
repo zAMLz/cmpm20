@@ -1219,8 +1219,8 @@ Game.level1.prototype = {
         if(gameStart && saveGame1 == 0){
             if(cutsceneFlag.x == 0){
                 player.animations.play('right_idle');
-                this.add.tween(cutsceneFlag).to( { x: '+50' }, 3000, Phaser.Easing.Linear.None, true);
-                this.add.tween(intro).to( { y: '-500' }, 1000, Phaser.Easing.Linear.None, true);
+                this.add.tween(cutsceneFlag).to( { x: '+50' }, 5000, Phaser.Easing.Linear.None, true);
+                this.add.tween(intro).to( { y: '-520' }, 1000, Phaser.Easing.Linear.None, true);
             }
             if(cutsceneFlag.x == 50){
                 this.add.tween(cutsceneFlag).to( { x: '+50' }, 1000, Phaser.Easing.Linear.None, true);
