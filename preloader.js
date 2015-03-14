@@ -92,6 +92,8 @@ Game.preloader.prototype = {
     this.load.image('tutorial3','assets/tutorial3.png');
     this.load.image('tutorial4','assets/tutorial4.png');
     this.load.image('tutorial5','assets/tutorial5.png');
+
+    this.load.image('whitehouse','assets/whitehouse.png');
 	},
 
 	create: function(){
