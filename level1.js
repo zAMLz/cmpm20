@@ -62,6 +62,12 @@ var plateDown3 = false;
 var plateDown4 = false;
 var bothDown2 = false;
 var plateDown5 = false;
+var num1;
+var num2;
+var num3;
+var num4;
+var num5;
+var num6;
 
 //------------TESTING PURPOSES
 var isDebug = true;
@@ -85,6 +91,7 @@ var gameEnd = false;
 var inCutsceneDoor1 = false;
 var intro;
 var starcut;
+var saveGame = 0;
 
 Game.level1 = function (game){
 	this.music = null;
@@ -268,7 +275,19 @@ Game.level1.prototype = {
         //boxes for pressure plates;
 
         // The player aanimations and position
+
+        num1 = this.input.keyboard.addKey(Phaser.Keyboard.ONE);
+        num2 = this.input.keyboard.addKey(Phaser.Keyboard.TWO);
+        num3 = this.input.keyboard.addKey(Phaser.Keyboard.THREE);
+        num4 = this.input.keyboard.addKey(Phaser.Keyboard.FOUR);
+        num5 = this.input.keyboard.addKey(Phaser.Keyboard.FIVE);
+        num6 = this.input.keyboard.addKey(Phaser.Keyboard.SIX);
+
+        //if (saveGame == 0){ 
         player = this.add.sprite(32, 1680, 'courier');
+        //}else if(saveGame ==1){
+            //player = this.add.sprite(4531, 1500, 'courier');
+        //}
         //player = this.add.sprite(10920, 1000, 'courier');
         //player = this.add.sprite(5831, 1000, 'courier');
         //player = this.add.sprite(50, 1600 - 200, 'courier');
@@ -543,12 +562,41 @@ Game.level1.prototype = {
 
 
     update: function() {
+        if (player.body.x > 4500){
+            saveGame = 1;
+        }
+        
+
+        if (num1.isDown){
+            player.body.x = 2770;
+            player.body.y = 1580;
+        }
+        if (num2.isDown){
+            player.body.x = 4500;
+            player.body.y = 1580;
+        }
+        if (num3.isDown){
+            player.body.x = 5770;
+            player.body.y = 1280;
+        }
+        if (num4.isDown){
+            player.body.x = 9950;
+            player.body.y = 1100;
+        }
+        if (num5.isDown){
+            player.body.x = 13345;
+            player.body.y = 630;
+        }
+        if (num6.isDown){
+            player.body.x = 14890;
+            player.body.y = 230;
+        }
         //console.log("x:"+this.camera.x);
-        //console.log("y:"+this.camera.y);
-        //console.log("x: ",player.body.x);
-        //console.log("y: ",player.body.y);
-        console.log("x: ",plateBox.body.x);
-        console.log("y: ",plateBox.body.y);
+        console.log("saveGame:"+saveGame);
+        console.log("x: ",player.body.x);
+        console.log("y: ",player.body.y);
+        //console.log("x: ",plateBox.body.x);
+        //console.log("y: ",plateBox.body.y);
         //console.log("xleft:", beltLeft2.body.x);
         //console.log("yleft:", beltLeft2.body.y);
 

@@ -42,7 +42,11 @@ var playerbox = true;
 var facing = 'right';
 var jumpButton;
 var ifCanJump = false;
-
+var num1;
+var num2;
+var num3;
+var num4;
+var num5;
 //------------TESTING PURPOSES
 var isDebug = false;
 var godmode = 0;
@@ -318,6 +322,12 @@ Game.main.prototype={
         ladder[36] = this.add.sprite(5375 ,850 ,'ladder');
         ladder[37] = this.add.sprite(5475 ,750 ,'ladder');
         
+
+        num1 = this.input.keyboard.addKey(Phaser.Keyboard.ONE);
+        num2 = this.input.keyboard.addKey(Phaser.Keyboard.TWO);
+        num3 = this.input.keyboard.addKey(Phaser.Keyboard.THREE);
+        num4 = this.input.keyboard.addKey(Phaser.Keyboard.FOUR);
+        num5 = this.input.keyboard.addKey(Phaser.Keyboard.FIVE);
         // The player aanimations and position
         player = this.add.sprite(32, 1680, 'courier');
         //player = this.add.sprite(4625, 949, 'courier');
@@ -471,6 +481,28 @@ Game.main.prototype={
         //console.log("y:"+this.camera.y);
         console.log("x:"+player.body.x);
         console.log("y:"+player.body.y);
+
+        if (num1.isDown){
+            player.body.x = 1230;
+            player.body.y = 1200;
+        }
+        if (num2.isDown){
+            player.body.x = 2205;
+            player.body.y = 1575;
+        }
+        if (num3.isDown){
+            player.body.x = 3790;
+            player.body.y = 1330;
+        }
+        if (num4.isDown){
+            player.body.x = 4653;
+            player.body.y = 950;
+        }
+        if (num5.isDown){
+            player.body.x = 5653;
+            player.body.y = 1010;
+        }
+
         //  To move the UI along with the camera
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
