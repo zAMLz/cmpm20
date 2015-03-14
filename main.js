@@ -15,6 +15,7 @@ var counter = 0;
 var callStand = false;
 var gameEnd=false;
 var gameStart=true;
+var saveGame = 0;
 
 //-------------OBJECTS---------------
 var boulder;
@@ -302,6 +303,8 @@ Game.main.prototype={
         this.createKillObj(5331-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
         this.createKillObj(5331, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
 
+        this.createKillObj(1095, 1410, 'blank', playerCollisionGroup, killCollisionGroup);
+
         ladder[27] = this.add.sprite(4950 ,1075 ,'ladder');
         ladder[28] = this.add.sprite(5050 ,1175 ,'ladder');
         ladder[29] = this.add.sprite(5150 ,1075 ,'ladder');
@@ -329,7 +332,16 @@ Game.main.prototype={
         num4 = this.input.keyboard.addKey(Phaser.Keyboard.FOUR);
         num5 = this.input.keyboard.addKey(Phaser.Keyboard.FIVE);
         // The player aanimations and position
-        player = this.add.sprite(32, 1680, 'courier');
+
+
+        if (saveGame == 0){ 
+            player = this.add.sprite(32, 1680, 'courier');
+        }else if(saveGame ==1){
+            player = this.add.sprite(1230, 1200, 'courier');
+        }else if(saveGame ==2){
+            player = this.add.sprite(3730, 1320, 'courier');
+        }
+        //player = this.add.sprite(32, 1680, 'courier');
         //player = this.add.sprite(4625, 949, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
@@ -476,11 +488,19 @@ Game.main.prototype={
 
 
     update: function() {
-        console.log(gameStart);
+        //console.log(gameStart);
         //console.log("x:"+this.camera.x);
         //console.log("y:"+this.camera.y);
+        console.log("saveGame:"+saveGame);
         console.log("x:"+player.body.x);
         console.log("y:"+player.body.y);
+
+        if ( player.body.x > 1230 && player.body.x <=3730){
+            saveGame = 1;
+        }else 
+            if (player.body.x > 3730){
+                saveGame = 2;
+        }
 
         if (num1.isDown){
             player.body.x = 1230;
@@ -680,7 +700,7 @@ Game.main.prototype={
         }
         //----------------------CUTSCENEs IMAGINED...
         
-        if(gameStart){
+        if(gameStart && saveGame ==0 ){
             if(cutsceneFlag.x == 0){
                 player.animations.play('right_idle');
                 this.add.tween(cutsceneFlag).to( { x: '+50' }, 3000, Phaser.Easing.Linear.None, true);
@@ -712,6 +732,10 @@ Game.main.prototype={
                 gameStart = false;
                 this.add.tween(cutsceneFlag).to({ x: 0 }, 1, Phaser.Easing.Linear.None, true);
             }
+        }
+        if (saveGame !=0){
+            gameStart = false;
+            this.add.tween(blacker).to( { alpha: 0 }, 1, Phaser.Easing.Linear.None, true);
         }
 
         if(gameEnd){
