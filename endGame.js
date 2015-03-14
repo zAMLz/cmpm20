@@ -93,6 +93,9 @@ Game.endgame.prototype = {
 
 		blacker = this.add.sprite(0,0,'black');
         this.add.tween(blacker).to( { alpha: 0 }, 1, Phaser.Easing.Linear.None, true);
+
+        credits = this.add.sprite(0,0,'credits');
+        this.add.tween(credits).to( { alpha: 0 }, 1, Phaser.Easing.Linear.None, true);
 	},
 	update: function(){
 		if(cutsceneFlag.x == 0){
@@ -148,9 +151,13 @@ Game.endgame.prototype = {
                 //tween credits here... and extend cutsceneflag tween to make longer.
         }
         if(cutsceneFlag.x == 450){
-        	this.end();
+                this.add.tween(cutsceneFlag).to( { x: '+50' }, 5000, Phaser.Easing.Linear.None, true);
+        	this.add.tween(credits).to( { alpha: 1 }, 1000, Phaser.Easing.Linear.None, true);
         }
+        if(cutsceneFlag.x == 500){
+			this.end();
 
+        }
 	},
 	end: function(pointer){
 		//this.music.stop();
