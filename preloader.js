@@ -80,6 +80,12 @@ Game.preloader.prototype = {
 
     this.load.spritesheet('child', 'assets/world/work/othersprite/Child.png', 32, 48);
     this.load.spritesheet('president', 'assets/world/work/othersprite/president.png', 32, 48);
+
+    this.load.image('tutorial1','assets/tutorial1.png');
+    this.load.image('tutorial2','assets/tutorial2.png');
+    this.load.image('tutorial3','assets/tutorial3.png');
+    this.load.image('tutorial4','assets/tutorial4.png');
+    this.load.image('tutorial5','assets/tutorial5.png');
 	},
 
 	create: function(){
