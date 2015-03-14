@@ -26,8 +26,8 @@ Game.preloader.prototype = {
     this.load.image('sky', 'assets/sky.png');
     this.load.image('play', 'assets/UI/play.jpg');
     //also needs ogg version for firefox.
-    this.load.audio('menumusic', 'assets/audio/Steve_Combs_13_Our_Wasted_Youth.mp3');
-    this.load.audio('tutorialmusic', 'assets/audio/Steve_Combs_22_Thank_You_Remix.mp3');
+    this.load.audio('menumusic', ['assets/audio/Steve_Combs_13_Our_Wasted_Youth.mp3', 'Steve_Combs_13_Our_Wasted_Youth.ogg']);
+    this.load.audio('tutorialmusic', ['assets/audio/Steve_Combs_22_Thank_You_Remix.mp3', 'Steve_Combs_22_Thank_You_Remix.ogg']);
     this.load.image('sky', 'assets/sky.png');
     this.load.image('ground', 'assets/platform.png');
     this.load.image('star', 'assets/star.png');
