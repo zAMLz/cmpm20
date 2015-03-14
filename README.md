@@ -9,6 +9,6 @@ Update:
   Our game now has a mostly finished tutorial and level1. The terrain has been updated to the final version and their are now some puzzles in the game.  Water traps have been added and a climbing mechanic has been added.  The tutorial will explain all of the mechanics of the game.
  
 Update:
-  Our game is now finished.  
+  Our game is now finished.  You can use numbers 1-6 to skip to different checkpoints in the levels.
 Bugs:
   Restart in pause menu doesn't work so if you need to restart kill yourself.
