@@ -6,7 +6,7 @@ Game.gameover.prototype = {
 	
 	create: function(){
 		//adds music
-		this.music = this.add.audio('menumusic');
+		this.music = this.add.audio('ggmusic');
 		this.music.play();
 		this.stage.backgroundColor = '#383838';
 		//this.add.sprite(0,0,'sky');

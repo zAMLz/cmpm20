@@ -6,7 +6,7 @@ Game.tutorialgg.prototype = {
 	
 	create: function(){
 		//adds music
-		this.music = this.add.audio('menumusic');
+		this.music = this.add.audio('ggmusic');
 		this.music.play();
 		this.add.sprite(0,0,'sky');
 		gameoverText = this.add.text(405, 220, 'Game Over', { fontSize: '32px', fill: '#fff' });
