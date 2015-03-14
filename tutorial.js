@@ -11,6 +11,8 @@ var ladder;
 var pausePanel;
 var paused;
 var callStand;
+var pPlate;
+var door;
 // text boxes
 var dangerText;
 var ladderText;
@@ -30,6 +32,7 @@ var boxX;
 var boxY;
 var onGround = true;
 var playerbox = false;
+var plateDown = false;
 
 //---------------CUTSCENE-------------
 var cutsceneFlag;
@@ -121,6 +124,15 @@ Game.tutorial.prototype={
         //ladder to pass traps
         ladder = this.add.sprite(2783+100-50+3, 488-100-50, 'ladder2');
         ladder = this.add.sprite(3900,220,'ladder2');
+        //door and pPlate
+        door = this.add.sprite(1940,422, 'doorSheet');
+        door.animations.add('closed', [0,1],3,true);
+        door.animations.add('open',[2],10,true);
+        door.animations.play('closed');
+        pPlate = this.add.sprite(1860,478, 'plateSheet');
+        pPlate.animations.add('up', [5], 10, true);
+        pPlate.animations.add('down', [1], 10, true);
+        pPlate.animations.play('up');
 
         // The player aanimations and position
         player = this.add.sprite(32, this.world.height-120, 'courier');
@@ -199,12 +211,27 @@ Game.tutorial.prototype={
     },
 
     update: function() {
+        console.log(plateDown);
         console.log("x ",player.body.x)
-        console.log("y ", Box.body.y);
+        console.log("y ", player.body.y);
         //  To move the UI along with the camera 
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
+        //player pressure plate check
+        if(player.body.x>=pPlate.x&&player.body.x<=pPlate.x+32&&player.body.y>=pPlate.y&&player.body.y<=pPlate.y+28){
+            plateDown=true;
+            pPlate.animations.play('down');
+        }else{
+            plateDown=false;
+            pPlate.animations.play('up');
+        }
+        if(plateDown){
+            door.animations.play('open');
+        }
+        if(!plateDown){
+            door.animations.play('closed');
+        }
 
         if(player.body.x > 4204)
             isCutscene = true;
