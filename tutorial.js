@@ -61,8 +61,8 @@ Game.tutorial.prototype={
         this.music = this.add.audio('tutorialmusic');
         this.music.play();
     	//changes bounds of the world and add a background for the world
-    	this.world.setBounds(0,0,1400,this.world.height);
-        this.add.tileSprite(0, 0,1400,this.world.height, 'fulldome');
+    	this.world.setBounds(0,0,2400,this.world.height);
+        this.stage.backgroundColor = '#d0f4f7';
           //pause menu
         this.btnPause = this.game.add.button(675,20,'pause',this.pauseGame,this);
         this.pausePanel = new PausePanel(this.game);
@@ -85,9 +85,9 @@ Game.tutorial.prototype={
         //  (which we do) - what this does is adjust the bounds to use its own collision group.
         this.physics.p2.updateBoundsCollisionGroup();
         //text boxes
-        dangerText = this.add.text(400, 350, 'Danger!\nDon\'t touch\ndangerous things', { fontSize: '12px', fill: '#fff' });
-        ladderText = this.add.text(550, 100, 'Hold the spacebar\nto latch on\nthe ladder', {fontSize: '12px', fill: '#fff'});
-        pushText = this.add.text(100, 300, 'Some things\ncan be\npushed by\nholding the \nspacebar', { fontSize: '12px', fill: '#fff' });
+        //dangerText = this.add.text(400, 350, 'Danger!\nDon\'t touch\ndangerous things', { fontSize: '12px', fill: '#000' });
+        //ladderText = this.add.text(550, 100, 'Hold the spacebar\nto latch on\nthe ladder', {fontSize: '12px', fill: '#000'});
+        //pushText = this.add.text(100, 300, 'Some things\ncan be\npushed by\nholding the \nspacebar', { fontSize: '12px', fill: '#000' });
 
         //Create a group that will use this collision group.
 
@@ -136,12 +136,12 @@ Game.tutorial.prototype={
         star.body.collides([isJumpCollisionGroup, playerCollisionGroup]);
 
         //trap for tutorial
-        this.createKillObj(500, 490, 'blank', playerCollisionGroup, killCollisionGroup);
+        /*this.createKillObj(500, 490, 'blank', playerCollisionGroup, killCollisionGroup);
         this.createKillObj(560, 490, 'blank', playerCollisionGroup, killCollisionGroup);
         this.createKillObj(620, 490, 'blank', playerCollisionGroup, killCollisionGroup);
         this.createKillObj(680, 490, 'blank', playerCollisionGroup, killCollisionGroup);
         this.createKillObj(740, 490, 'blank', playerCollisionGroup, killCollisionGroup);
-
+    */
 
         this.createBox(200, 488.0928, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
         //sets camera to follow
