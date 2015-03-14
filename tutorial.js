@@ -27,9 +27,13 @@ var BoxCollisionGroup;
 
 //-------------Boxes------------------
 var checkCreated = 0;
+var checkCreated2 = 0;
 var Box;
+var Box2;
 var boxX;
 var boxY;
+var box2X;
+var box2Y;
 var onGround = true;
 var playerbox = false;
 var plateDown = false;
@@ -56,6 +60,19 @@ Game.tutorial.prototype={
         Box.body.setCollisionGroup(BoxCollisionGroup);
         Box.body.collides(isJumpCollisionGroup,function (){onGround = true;},this);
         Box.body.collides([playerCollisionGroup]);
+
+    },
+    createBox2: function(x, y, index, playerCollisionGroup, isJumpCollisionGroup,BoxCollisionGroup ){
+        box2X = x;
+        box2Y = y;
+        Box2 = this.add.sprite(x, y, index);
+        this.physics.p2.enableBody(Box2, false);
+        Box2.body.gravity = 500;
+        Box2.body.static = false;
+        Box2.body.fixedRotation = true;
+        Box2.body.setCollisionGroup(BoxCollisionGroup);
+        Box2.body.collides(isJumpCollisionGroup,function (){onGround = true;},this);
+        Box2.body.collides([playerCollisionGroup]);
 
     },
     createKillObj: function(x, y, index, playerCollisionGroup, killCollisionGroup){
@@ -180,8 +197,8 @@ Game.tutorial.prototype={
         this.createKillObj(3439+480, 490, 'blank', playerCollisionGroup, killCollisionGroup);
         this.createKillObj(3439+540, 490, 'blank', playerCollisionGroup, killCollisionGroup);
     
-        this.createBox(2783, 488, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
-        this.createBox(3439, 489, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+        this.createBox2(2783, 490, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+        this.createBox(3439, 490, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
         //sets camera to follow
         this.camera.follow(player);
 
@@ -211,9 +228,8 @@ Game.tutorial.prototype={
     },
 
     update: function() {
-        console.log(plateDown);
-        console.log("x ",player.body.x)
-        console.log("y ", player.body.y);
+        //console.log("x ",player.body.x)
+        //console.log("y ", Box2.body.y);
         //  To move the UI along with the camera 
         this.btnPause.x = this.camera.x+675;
         this.btnPause.y = this.camera.y+20;
@@ -351,7 +367,6 @@ Game.tutorial.prototype={
                 
             }
 
-
             if (pushButton.isDown && cursors.left.isDown) {
                 onGround = false;
                 if (checkCreated < 1){
@@ -366,6 +381,49 @@ Game.tutorial.prototype={
                 boxX = Box.body.x;
                 boxY = Box.body.y;
                 checkCreated =0;
+                playerbox =false;                   
+                }
+            }
+            //moving a Box2--------------------------
+            if (pushButton.isDown && cursors.right.isDown) {
+                onGround = false;
+                if (checkCreated2 < 1){
+                    onGround = false;
+                    Box2.body.destroy();
+                    Box2.kill();
+                    this.createBox2( box2X, box2Y, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+                    checkCreated2++;
+                }
+                while (pushButton.isUp || cursors.right.isUp){
+                Box2.body.static = true;
+                box2X = Box2.body.x;
+                box2Y = Box2.body.y;
+                checkCreated =0;
+                playerbox =false;                   
+                }
+            }else{
+                Box2.body.static = true;
+                box2X = Box2.body.x;
+                box2Y = Box2.body.y;
+                checkCreated2 =0;
+                playerbox =false;
+                
+            }
+
+            if (pushButton.isDown && cursors.left.isDown) {
+                onGround = false;
+                if (checkCreated2 < 1){
+                    onGround = false;
+                    Box2.body.destroy();
+                    Box2.kill();
+                    this.createBox2( box2X, box2Y, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+                    checkCreated2++;
+                }
+                while (pushButton.isUp || cursors.left.isUp){
+                Box2.body.static = true;
+                box2X = Box2.body.x;
+                box2Y = Box2.body.y;
+                checkCreated2 =0;
                 playerbox =false;                   
                 }
             }
