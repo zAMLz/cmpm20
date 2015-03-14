@@ -61,7 +61,7 @@ Game.tutorial.prototype={
         this.music = this.add.audio('tutorialmusic');
         this.music.play();
     	//changes bounds of the world and add a background for the world
-    	this.world.setBounds(0,0,2400,this.world.height);
+    	this.world.setBounds(0,0,4800,this.world.height);
         this.stage.backgroundColor = '#d0f4f7';
           //pause menu
         this.btnPause = this.game.add.button(675,20,'pause',this.pauseGame,this);
@@ -109,7 +109,7 @@ Game.tutorial.prototype={
         ground.body.collides([isJumpCollisionGroup, playerCollisionGroup, killCollisionGroup, winCollisionGroup, BoxCollisionGroup]);
 
         //ladder to pass traps
-        ladder = this.add.sprite(620, 220, 'ladder');
+        ladder = this.add.sprite(2783+100-50+3, 488-100-50, 'ladder2');
 
         // The player aanimations and position
         player = this.add.sprite(32, this.world.height-120, 'courier');
@@ -149,7 +149,7 @@ Game.tutorial.prototype={
         this.createKillObj(740, 490, 'blank', playerCollisionGroup, killCollisionGroup);
     */
 
-        this.createBox(200, 488.0928, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
+        this.createBox(2783, 488, 'box',playerCollisionGroup, isJumpCollisionGroup, BoxCollisionGroup);
         //sets camera to follow
         this.camera.follow(player);
 
@@ -186,7 +186,7 @@ Game.tutorial.prototype={
         this.btnPause.y = this.camera.y+20;
         this.pausePanel.x = this.camera.x+655;
 
-        if(pushButton.isDown && ((player.body.x >= 620 && player.body.x <= 620+20 && player.body.y >= 220 && player.body.y <= 220+150))){
+        if(pushButton.isDown && ((player.body.x >= 2783+100-50+3 && player.body.x <= 2783+100-50+3+20 && player.body.y >= 488-100-50 && player.body.y <= 488-100-50+150))){
             callStand = true;
             console.log("on ladder");
             player.body.data.gravityScale=0.05;
