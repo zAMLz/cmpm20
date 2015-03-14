@@ -14,6 +14,8 @@ Game.endgame.prototype = {
 	
 	create: function(){
 
+		cutsceneFlag = this.add.sprite(0,0,'blank');
+
 		this.physics.startSystem(Phaser.Physics.P2JS);
         this.physics.p2.gravity.y = 400;
         this.physics.p2.setImpactEvents(true);
@@ -70,13 +72,50 @@ Game.endgame.prototype = {
 
 		player.animations.play('right_idle_letter');
 
-		president = this.add.sprite(32+300,this.world.height-150-32,'president');
+		president = this.add.sprite(32+300,this.world.height-150-32+10,'president');
+		president.animations.add('left_idle',[4],10,true);
+		president.animations.add('right_idle',[2],10,true);
+		president.animations.add('left_idle_letter',[1],10,true);
+		president.animations.add('right_idle_letter',[0],10,true);
+
+		president.animations.play('left_idle');
 	},
 	update: function(){
+		if(cutsceneFlag.x == 0){
+                this.add.tween(cutsceneFlag).to( { x: '+50' }, 1000, Phaser.Easing.Linear.None, true);
+		}
+		if(cutsceneFlag.x == 50){
+			player.animations.play('right');
+			player.body.moveRight(200);
+            this.add.tween(cutsceneFlag).to( { x: '+50' }, 500, Phaser.Easing.Linear.None, true);
+		}
+		if(cutsceneFlag.x>50 && cutsceneFlag.x<100){
+			player.body.moveRight(200);
+		}
+		if(cutsceneFlag.x == 100){
+            this.add.tween(cutsceneFlag).to( { x: '+50' }, 1000, Phaser.Easing.Linear.None, true);
+            player.animations.play('right_idle_letter');
+        }
+        if(cutsceneFlag.x == 150){
+            this.add.tween(cutsceneFlag).to( { x: '+50' }, 1000, Phaser.Easing.Linear.None, true);
+            player.animations.play('right_idle');
+            president.animations.play('right_idle_letter');
+        }
+        if(cutsceneFlag.x == 200){
+            this.add.tween(cutsceneFlag).to( { x: '+50' }, 1000, Phaser.Easing.Linear.None, true);
+            player.animations.play('left');
+            player.body.moveLeft(200);
+        }
+        if(cutsceneFlag.x>200){
+        	player.body.moveLeft(200);
+        }
+        if(cutsceneFlag.x == 250){
+        	this.end();
+        }
 
 	},
 	end: function(pointer){
-		this.music.stop();
+		//this.music.stop();
 		this.state.start('mainmenu');
 	}
 }
