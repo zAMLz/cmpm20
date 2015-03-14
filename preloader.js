@@ -97,6 +97,9 @@ Game.preloader.prototype = {
 
     this.load.image('whitehouse','assets/whitehouse.png');
     this.load.image('credits','assets/credits.png');
+
+    this.load.image('trap','assets/trap.png');
+    this.load.image('fire','assets/fire.png');
 	},
 
 	create: function(){

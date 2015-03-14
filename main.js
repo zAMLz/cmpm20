@@ -180,21 +180,21 @@ Game.main.prototype={
         this.terraincreator('terr-null',5550,2070,playerCollisionGroup,isJumpCollisionGroup,BoxCollisionGroup,false);
 
         //Add a forsure kill player object
-        this.createKillObj(2298, 1582, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(2333, 1582, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(2298, 1582, 'trap', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(2333, 1582, 'trap', playerCollisionGroup, killCollisionGroup);
 
-        this.createKillObj(2530, 1657, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(2555, 1685, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(2530, 1657, 'trap', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(2555, 1685, 'trap', playerCollisionGroup, killCollisionGroup);
 
 
-        this.createKillObj(2638, 1770, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(2658, 1790, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(2638, 1770, 'trap', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(2658, 1790, 'trap', playerCollisionGroup, killCollisionGroup);
 		
-		this.createKillObj(2750,1824, 'blank', playerCollisionGroup, killCollisionGroup);
-		this.createKillObj(2775,1824, 'blank', playerCollisionGroup, killCollisionGroup);
+		this.createKillObj(2750,1824, 'trap', playerCollisionGroup, killCollisionGroup);
+		this.createKillObj(2775,1824, 'trap', playerCollisionGroup, killCollisionGroup);
 
-        this.createKillObj(2883, 1840, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(2913, 1840, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(2883, 1840, 'trap', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(2913, 1840, 'trap', playerCollisionGroup, killCollisionGroup);
 
         //Safe Boulder, used for jumping off the ground.
         boulder = this.add.sprite(1300,128,'boulder');
@@ -254,56 +254,56 @@ Game.main.prototype={
         this.groundcreator(4665,998,0.35,1);
         //this.groundcreator(4665,1198,0.15,12); this ground is actually printed out before the terrain so the terrain has priority layering
         this.groundcreator(0,0,0,0);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135-32, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5135, 1347, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135-32, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5135, 1347, 'fire', playerCollisionGroup, killCollisionGroup);
 
         ladder[25] = this.add.sprite(4575 , 950 ,'ladder');
         ladder[26] = this.add.sprite(4885 , 958 ,'ladder');
 
         this.groundcreator(5200,1058,0.75,1);
-        this.createKillObj(5331-32-32-32-32-32-32-32-32-10, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5331-32-32-32-32-32-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5331-32-32-32-32-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5331-32-32-32-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5331-32-32-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5331-32-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5331-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5331-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5331-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5331, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32-32-32-32-32-32-32-32-10, 1030, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32-32-32-32-32-32-32-32, 1030, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32-32-32-32-32-32-32, 1030, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32-32-32-32-32-32, 1030, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32-32-32-32-32, 1030, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32-32-32-32, 1030, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32-32-32, 1030, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32-32, 1030, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331-32, 1030, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5331, 1030, 'fire', playerCollisionGroup, killCollisionGroup);
 
-        this.createKillObj(1095, 1410, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(1095, 1410, 'fire', playerCollisionGroup, killCollisionGroup);
 
         ladder[27] = this.add.sprite(4950 ,1075 ,'ladder');
         ladder[28] = this.add.sprite(5050 ,1175 ,'ladder');
@@ -312,11 +312,11 @@ Game.main.prototype={
         ladder[31] = this.add.sprite(5350 ,1025 ,'ladder');
         
         this.groundcreator(5600,1058,0.75,1)
-        this.createKillObj(5664-32-32-32-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5664-32-32-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5664-32-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5664-32-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
-        this.createKillObj(5664-32-32, 1030, 'blank', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5664-32-32-32-32-32-32, 1030, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5664-32-32-32-32-32, 1030, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5664-32-32-32-32, 1030, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5664-32-32-32, 1030, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(5664-32-32, 1030, 'fire', playerCollisionGroup, killCollisionGroup);
 
         ladder[32] = this.add.sprite(4975 ,850 ,'ladder');
         ladder[33] = this.add.sprite(5075 ,750 ,'ladder');
