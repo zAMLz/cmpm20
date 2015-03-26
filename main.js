@@ -303,7 +303,7 @@ Game.main.prototype={
         this.createKillObj(5331-32, 1030, 'fire', playerCollisionGroup, killCollisionGroup);
         this.createKillObj(5331, 1030, 'fire', playerCollisionGroup, killCollisionGroup);
 
-        this.createKillObj(1095, 1410, 'fire', playerCollisionGroup, killCollisionGroup);
+        this.createKillObj(1095, 1410, 'trap', playerCollisionGroup, killCollisionGroup);
 
         ladder[27] = this.add.sprite(4950 ,1075 ,'ladder');
         ladder[28] = this.add.sprite(5050 ,1175 ,'ladder');

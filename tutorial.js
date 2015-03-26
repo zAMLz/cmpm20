@@ -140,7 +140,7 @@ Game.tutorial.prototype={
 
         //ladder to pass traps
         ladder = this.add.sprite(2783+100-50+3, 488-100-50, 'ladder2');
-        ladder = this.add.sprite(3900,220,'ladder2');
+        ladder = this.add.sprite(3900-10,220,'ladder2');
         //door and pPlate
         door = this.add.sprite(1940,422, 'doorSheet');
         door.animations.add('closed', [0,1],3,true);
@@ -253,7 +253,7 @@ Game.tutorial.prototype={
             isCutscene = true;
 
         if(pushButton.isDown && ((player.body.x >= 2783+100-50+3 && player.body.x <= 2783+100-50+3+20 && player.body.y >= 488-100-50 && player.body.y <= 488-100-50+150)||
-            (player.body.x >= 3900 && player.body.x <= 3900+20 && player.body.y >= 220 && player.body.y <= 220+150))) {
+            (player.body.x >= 3900-10 && player.body.x <= 3900-10+20 && player.body.y >= 220 && player.body.y <= 220+150))) {
             callStand = true;
             console.log("on ladder");
             player.body.data.gravityScale=0.05;

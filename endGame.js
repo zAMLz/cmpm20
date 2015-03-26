@@ -12,6 +12,8 @@ var blacker;
 var whitehouse;
 var terrain;
 var starcut;
+var player;
+var president;
 
 Game.endgame.prototype = {
 	
@@ -39,7 +41,7 @@ Game.endgame.prototype = {
 
         //this.add.sprite(0,0,'whitehouse');
 
-		var ground = this.add.sprite(0, this.world.height - 64-30,'ground'); //creates the sprite
+		var ground = this.add.sprite(0, this.camera.y+600 - 64-30,'ground'); //creates the sprite
         ground.scale.setTo(200,2);//set the scale
         this.physics.p2.enableBody(ground,false);    //enables physics on it
         ground.body.static = true;                  //disables gravity for itself...
@@ -56,7 +58,8 @@ Game.endgame.prototype = {
         starcut = this.add.sprite(0,150,'letter');
         this.add.tween(starcut).to( { alpha: 0 }, 1, Phaser.Easing.Linear.None, true);
 
-		player = this.add.sprite(32, this.world.height-150-32, 'courier');
+
+		player = this.add.sprite(32, this.camera.y+600-150-32, 'courier');
         player.animations.add('left', [3,4,5,11], 10, true);
         player.animations.add('right', [10,9,8,2], 10, true);
         player.animations.add('left_idle', [14], 10, true);
@@ -71,6 +74,8 @@ Game.endgame.prototype = {
         player.body.fixedRotation = true;
         player.body.collideWorldBounds = true;
 
+        //this.camera.follow(player); 
+
         //Again we need to set the player to use the player collision group.
         player.body.setCollisionGroup(playerCollisionGroup);
         player.body.collides(isJumpCollisionGroup,function (){ifCanJump = true;},this);
@@ -83,7 +88,7 @@ Game.endgame.prototype = {
 
 		player.animations.play('right_idle_letter');
 
-		president = this.add.sprite(32+300,this.world.height-150-32+10,'president');
+		president = this.add.sprite(32+300,this.camera.y+600-150-32+10,'president');
 		president.animations.add('left_idle',[4],10,true);
 		president.animations.add('right_idle',[2],10,true);
 		president.animations.add('left_idle_letter',[1],10,true);
@@ -98,6 +103,8 @@ Game.endgame.prototype = {
         this.add.tween(credits).to( { alpha: 0 }, 1, Phaser.Easing.Linear.None, true);
 	},
 	update: function(){
+        console.log('X: '+player.body.x);
+        console.log('Y: '+player.body.y);
 		if(cutsceneFlag.x == 0){
                 this.add.tween(cutsceneFlag).to( { x: '+50' }, 1000, Phaser.Easing.Linear.None, true);
 		}

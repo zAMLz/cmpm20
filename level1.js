@@ -155,7 +155,7 @@ Game.level1.prototype = {
 
         //Check the collision bounds....
         if((player.body.x >= temp.x-50 && player.body.x <= temp.x+100-50 && player.body.y >= temp.y-50 && player.body.y <= temp.y+100-50)){
-            //console.log('DEAD');
+            console.log('DEAD');
             this.endGame();   
         }
     },
@@ -784,7 +784,7 @@ Game.level1.prototype = {
         //Check the collision bounds for stationary sawblade
             if((player.body.x >= moveKillObj[2].x-50 && player.body.x <= moveKillObj[2].x+100-50 && player.body.y >= moveKillObj[2].y-50 && player.body.y <= moveKillObj[2].y+100-50) || 
                 (player.body.x >= moveKillObj[3].x-50 && player.body.x <= moveKillObj[3].x+100-50 && player.body.y >= moveKillObj[3].y-50 && player.body.y <= moveKillObj[3].y+100-50)){
-                //console.log('DEAD');
+                console.log('DEAD');
                 this.endGame();   
             }
         }
@@ -1265,7 +1265,7 @@ Game.level1.prototype = {
         plateDown5=false;
         bothDown2=false;
         bothDown=false;
-        this.state.start('endGame');
+        this.state.start('level1gg');
     },
     nextLevel: function(){
         this.music.stop();

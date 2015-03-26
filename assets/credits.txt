@@ -6,3 +6,5 @@ http://opengameart.org/content/platformer-basic-tileset-grass-and-rock
 http://opengameart.org/content/platformer-tiles-4
 http://opengameart.org/content/forest-themed-sprites
 http://opengameart.org/content/animated-fireball
+
+zaka temori - for making character sprites.
